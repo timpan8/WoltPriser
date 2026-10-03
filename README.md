@@ -44,7 +44,7 @@ Foodora har inga gemensamma rätt-ID:n med Wolt. En rätt jämförs bara när na
 
 ## Restauranger som inte finns på Wolt
 
-Foodora och Uber Eats kan också läsas för restauranger som inte finns på Wolt. En sådan avläsning saknar fältet `wolt` och sparas i `data/foodora.json` respektive `data/ubereats.json` under appens egen länk. Sidan visar dem bara när filtret **Visa restauranger som inte finns på Wolt** är på (eller när restaurangen väljs i listan, under "Inte på Wolt"). Korten märks "Inte på Wolt" och länkar till appen.
+Foodora och Uber Eats kan också läsas för restauranger som inte finns på Wolt. En sådan avläsning saknar fältet `wolt` och sparas i `data/foodora.json` respektive `data/ubereats.json` under appens egen länk. Väljaren bredvid Kök styr vilka restauranger som visas: Restauranger på Wolt (standard), Wolt + Foodora/Uber Eats, eller Bara utanför Wolt. Korten märks "Inte på Wolt" och länkar till appen.
 
 - Samma restaurang på både Foodora och Uber Eats slås ihop på namnet (utan skiljetecken, versaler och ortsord som "Stockholm"). Appen med flest rätter ger priset; den andra jämförs på samma sätt som mot Wolt.
 - Finns en restaurang med samma namn på Wolt visas den bara som Wolt-restaurang.
