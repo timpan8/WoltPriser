@@ -149,3 +149,16 @@ a.rt:hover{text-decoration:underline}
 @media(prefers-color-scheme:dark){:root:not([data-theme=light]) .opt.closed .hours.closed{background:#5a241e;color:#f6b3a9}}
 .empty-actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}.empty-actions button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 13px;font-weight:700;font-size:13px;color:var(--ink);cursor:pointer}.empty-actions button:hover{border-color:#b7c8ab}
 .age{font-size:11px;color:var(--orange);font-weight:600}
+/* Prisgraf i prishistoriken. */
+/* Färgerna är validerade (dataviz validate_palette.js, alla par, ljust och mörkt) för färgblindhet; form och streck skiljer också apparna åt. */
+#chart{--c-wolt:#009de0;--c-fd:#d70f64;--c-ue:#6b4fd8;--c-own:#b07a00}.pchart{position:relative;margin:8px 0 4px}
+.pchart svg{display:block;width:100%;height:auto;overflow:visible;touch-action:pan-y}
+.pchart .grid{stroke:var(--line);stroke-width:1}.pchart .axis{font:500 11px system-ui;fill:var(--muted)}.pchart .axis.med{font-weight:600}
+.pchart .median{stroke:var(--muted);stroke-width:1;stroke-dasharray:4 4;opacity:.7}
+.pchart .line{fill:none;stroke-width:2;stroke-linejoin:round}.pchart .line.wolt{stroke:var(--c-wolt)}.pchart .line.fd{stroke:var(--c-fd);stroke-dasharray:6 3}.pchart .line.ue{stroke:var(--c-ue);stroke-dasharray:2 3}
+.pchart .pt{stroke:var(--card);stroke-width:2}.pchart .pt.wolt{fill:var(--c-wolt)}.pchart .pt.fd{fill:var(--c-fd)}.pchart .pt.ue{fill:var(--c-ue)}.pchart .pt.own{fill:var(--card);stroke:var(--c-own);stroke-width:2.5}
+.pchart .cross{stroke:var(--muted);stroke-width:1;opacity:.6}
+.pchart .tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--card);border-radius:8px;padding:6px 9px;font-size:12px;line-height:1.35;white-space:nowrap;box-shadow:0 4px 14px #0002}
+.pchart .tip b{display:block;font-size:14px}.pchart .tip span{opacity:.85}
+.legend .dot.wolt{background:var(--c-wolt)}.legend .dot.fd{background:var(--c-fd);border-radius:2px}.legend .dot.ue{background:var(--c-ue);clip-path:polygon(50% 0,100% 100%,0 100%);border-radius:0}.legend .dot.own{background:transparent;border:2px solid var(--c-own)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) #chart{--c-wolt:#1a9fb8;--c-fd:#e0457f;--c-ue:#9a6af0;--c-own:#b8842a}}

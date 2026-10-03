@@ -170,14 +170,44 @@ function renderCart(){
    <li class="sum"><span>Delsumma</span><b>${money(sum)}</b></li>${f?`<li class="sum"><span>≈ med avgifter <small>(uppskattat, ${Math.round(f.ratio*1000)/10} % av ordinarie pris)</small></span><b>${money(f.total)}</b></li>`:''}${min?(sum<min?`<li class="warn">${money(min-sum)} kvar till minsta ordervärde ${money(min)} (annars tillkommer en avgift för liten beställning)</li>`:`<li class="ok">Över minsta ordervärde ${money(min)}</li>`):''}${other('fdp','Foodora')}${other('uep','Uber Eats')}</ul><a class="order" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">Beställ på ${esc(s.label||'Wolt')} ↗</a></section>`;}).join('');
 }
 function addToCart(r,d=1){const k=cartKey(r),c=cart.find(x=>x.key===k);if(c)c.qty+=d;else if(d>0)cart.push({key:k,qty:d});cart=cart.filter(x=>x.qty>0);store('woltpriser-cart',cart);renderCart();}
+// Prisgraf: trappsteg per app (priset gäller tills nästa avläsning ändrar det), egna köp som punkter, streckat vanligt pris,
+// prisaxel med stödlinjer och en markör med datum och pris vid hovring/tryck. Färg och form skiljer apparna åt.
+const SRC={meny:{label:'Wolt-menyn',cls:'wolt'},foodora:{label:'Foodora-menyn',cls:'fd'},ubereats:{label:'Uber Eats-menyn',cls:'ue'},kvitto:{label:'Eget köp',cls:'own'}};
+function priceChart(pts,median,when){
+ // Ritas i ungefär den bredd den visas i (dialogen är max 620 px), så att text och punkter behåller sin storlek på mobil.
+ const W=Math.round(Math.max(290,Math.min(560,innerWidth-70))),H=Math.round(W<420?200:220),L=50,R=12,T=14,B=34,prices=pts.map(p=>p.price).concat(median?[median]:[]);let low=Math.min(...prices),high=Math.max(...prices);
+ const pad=Math.max((high-low)*0.12,500);low=Math.max(0,low-pad);high=high+pad;
+ const t0=Date.parse(pts[0].date),t1=Date.parse(pts.at(-1).date),span=t1-t0||1;
+ const X=p=>L+(Date.parse(p.date)-t0)/span*(W-L-R),Y=v=>T+(1-(v-low)/(high-low))*(H-T-B),f=n=>n.toFixed(1),kr=v=>Math.round(v/100)+' kr';
+ const ticks=[0,0.5,1].map(k=>low+(high-low)*k);
+ const step=list=>list.length?'M'+list.map((p,i)=>(i?`H${f(X(p))}V${f(Y(p.price))}`:`${f(X(p))},${f(Y(p.price))}`)).join('')+(list.at(-1)!==pts.at(-1)?'':''):'';
+ const groups=['meny','foodora','ubereats'].map(k=>[k,pts.filter(p=>(p.source||'meny')===k)]).filter(([,l])=>l.length);
+ const mark=(p,i)=>{const x=f(X(p)),y=f(Y(p.price)),c=SRC[p.source]?.cls||'wolt';
+  return p.source==='foodora'?`<rect class="pt ${c}" x="${f(X(p)-4.5)}" y="${f(Y(p.price)-4.5)}" width="9" height="9" rx="2"/>`:p.source==='ubereats'?`<path class="pt ${c}" d="M${x} ${f(Y(p.price)-5.5)}l5.5 10h-11z"/>`:p.source==='kvitto'?`<circle class="pt ${c}" cx="${x}" cy="${y}" r="5"${p.estimated?' stroke-dasharray="2 2"':''}/>`:`<circle class="pt ${c}" cx="${x}" cy="${y}" r="4.5"/>`;};
+ const svg=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Prisutveckling från ${esc(money(pts[0].price))} till ${esc(money(pts.at(-1).price))}">
+  ${ticks.map(v=>`<line class="grid" x1="${L}" x2="${W-R}" y1="${f(Y(v))}" y2="${f(Y(v))}"/><text class="axis" x="${L-8}" y="${f(Y(v)+4)}" text-anchor="end">${kr(v)}</text>`).join('')}
+  ${median?`<line class="median" x1="${L}" x2="${W-R}" y1="${f(Y(median))}" y2="${f(Y(median))}"/><text class="axis med" x="${W-R}" y="${f(Y(median)-5)}" text-anchor="end">vanligt pris ${kr(median)}</text>`:''}
+  ${groups.map(([k,l])=>`<path class="line ${SRC[k].cls}" d="${step(l)}"/>`).join('')}
+  ${pts.map(mark).join('')}
+  <line class="cross" x1="0" x2="0" y1="${T}" y2="${H-B}" visibility="hidden"/>
+  <text class="axis" x="${L}" y="${H-10}">${esc(when(pts[0]))}</text><text class="axis" x="${W-R}" y="${H-10}" text-anchor="end">${esc(when(pts.at(-1)))}</text>
+  <rect class="hit" x="${L}" y="0" width="${W-L-R}" height="${H}" fill="transparent"/></svg>`;
+ const used=[...new Set(pts.map(p=>p.source||'meny'))];
+ return `<div class="pchart" data-w="${W}" data-pts='${esc(JSON.stringify(pts.map(p=>({x:X(p)/W,y:Y(p.price)/H,price:p.price,when:when(p),src:SRC[p.source||'meny']?.label||'',est:!!p.estimated}))))}'>${svg}<div class="tip" hidden></div></div>${used.length>1?`<p class="legend">${used.map(k=>`<span class="dot ${SRC[k].cls}"></span> ${SRC[k].label}${k==='kvitto'?' (pris efter rabatt)':''}`).join(' ')}</p>`:''}`;
+}
+// Hovring/tryck i prisgrafen: närmaste punkt i tid visas med datum, pris och app.
+document.addEventListener('pointermove',e=>chartHover(e));document.addEventListener('pointerdown',e=>chartHover(e));
+function chartHover(e){const box=e.target.closest?.('.pchart');for(const c of document.querySelectorAll('.pchart'))if(c!==box){c.querySelector('.tip').hidden=true;c.querySelector('.cross')?.setAttribute('visibility','hidden');}
+ if(!box)return;const r=box.querySelector('svg').getBoundingClientRect(),fx=(e.clientX-r.left)/r.width,pts=JSON.parse(box.dataset.pts);
+ const p=pts.reduce((a,b)=>Math.abs(b.x-fx)<Math.abs(a.x-fx)?b:a),tip=box.querySelector('.tip'),cross=box.querySelector('.cross'),W=Number(box.dataset.w);
+ cross.setAttribute('x1',p.x*W);cross.setAttribute('x2',p.x*W);cross.setAttribute('visibility','visible');
+ tip.hidden=false;tip.innerHTML=`<b>${esc(money(p.price))}</b>${p.est?' (uppskattat)':''}<span>${esc(p.when)} · ${esc(p.src)}</span>`;
+ const left=Math.min(Math.max(p.x*r.width-tip.offsetWidth/2,0),r.width-tip.offsetWidth);tip.style.left=left+'px';tip.style.top=Math.max(p.y*r.height-tip.offsetHeight-12,0)+'px';}
 function showHistory(r){$('#historyTitle').textContent=r.item.name;$('#historyRestaurant').textContent=r.s.name;
  const pts=[...r.stats.points.map(p=>({...p,source:r.s.platform||'meny'})),...receiptPoints(receipts,r.s.name,r.item.id,r.item.name),...foodoraPoints(r.item.fd,$('#fdPro').checked),...foodoraPoints(r.item.ue,false,'ubereats')].sort((a,b)=>a.date.localeCompare(b.date));
  const day=d=>new Date(d).toLocaleDateString('sv-SE',{timeZone:'Europe/Stockholm',month:'short',day:'numeric'}),when=p=>p.source==='kvitto'?day(p.date):fmt(p.date);
  if(pts.length<2)$('#chart').innerHTML='<p class="notice">Första priset är sparat. När nästa avläsning är klar visas utvecklingen här.</p>';
- else {const prices=pts.map(p=>p.price),low=Math.min(...prices),high=Math.max(...prices),range=high-low||100,t0=Date.parse(pts[0].date),span=Date.parse(pts.at(-1).date)-t0||1;
-  const x=p=>(25+(Date.parse(p.date)-t0)/span*490).toFixed(1),y=p=>(145-(p.price-low)/range*115).toFixed(1);
-  const dot=p=>p.source==='foodora'?`<rect x="${(x(p)-4).toFixed(1)}" y="${(y(p)-4).toFixed(1)}" width="8" height="8" rx="1.5" fill="#d70f64"/>`:p.source==='ubereats'?`<path d="M${x(p)} ${(y(p)-5).toFixed(1)}l5 9h-10z" fill="#06c167"/>`:p.source==='kvitto'?`<circle cx="${x(p)}" cy="${y(p)}" r="4.5" fill="#fff" stroke="#ae5b32" stroke-width="2"${p.estimated?' stroke-dasharray="2 2"':''}/>`:`<circle cx="${x(p)}" cy="${y(p)}" r="4" fill="#376849"/>`;
-  $('#chart').innerHTML=`<svg viewBox="0 0 540 190" role="img" aria-label="Prisutveckling, från ${esc(money(prices[0]))} till ${esc(money(prices.at(-1)))}"><line x1="25" y1="155" x2="515" y2="155" stroke="#dfe5db"/><polyline points="${pts.filter(p=>p.source==='foodora').map(p=>x(p)+','+y(p)).join(' ')}" fill="none" stroke="#d70f64" stroke-width="2" stroke-opacity=".45" stroke-dasharray="4 3"/><polyline points="${pts.filter(p=>p.source==='ubereats').map(p=>x(p)+','+y(p)).join(' ')}" fill="none" stroke="#06c167" stroke-width="2" stroke-opacity=".45" stroke-dasharray="2 3"/><polyline points="${pts.filter(p=>p.source!=='foodora'&&p.source!=='ubereats').map(p=>x(p)+','+y(p)).join(' ')}" fill="none" stroke="#376849" stroke-width="2" stroke-opacity=".45"/>${pts.map(dot).join('')}<text x="25" y="183" font-size="11" fill="#68746d">${esc(when(pts[0]))}</text><text x="515" y="183" text-anchor="end" font-size="11" fill="#68746d">${esc(when(pts.at(-1)))}</text></svg>${pts.some(p=>p.source!=='meny')?`<p class="legend">${pts.some(p=>p.source==='meny')?'<span class="dot menu"></span> Wolt-menyn':''}${pts.some(p=>p.source==='kvitto')?' <span class="dot receipt"></span> Eget köp (pris efter rabatt)':''}${pts.some(p=>p.source==='foodora')?' <span class="dot fd"></span> Foodora-menyn':''}${pts.some(p=>p.source==='ubereats')?' <span class="dot ue"></span> Uber Eats-menyn':''}</p>`:''}`;}
+ else $('#chart').innerHTML=priceChart(pts,r.stats.median,when);
  const src=p=>p.source==='foodora'?(p.from?'Foodora (från-pris)':'Foodora'):p.source==='ubereats'?'Uber Eats':p.source==='kvitto'?(p.estimated?'Eget köp, uppskattat':'Eget köp'):'Wolt';
  $('#historyRows').innerHTML=`<table><thead><tr><th>Datum</th><th>Pris</th><th>Källa</th></tr></thead><tbody>${[...pts].reverse().map(p=>`<tr><td>${esc(when(p))}</td><td>${money(p.price)}</td><td>${src(p)}</td></tr>`).join('')}</tbody></table><p>Jämförelse med ${r.stats.days} tidigare dagar. ${r.stats.days<7?'Minst 7 tidigare dagar krävs för märkningen ”ovanligt lågt”.':''} Egna köp visar vad rätten kostade efter rabatt, utan avgifter och tillval, och räknas inte in i märkningarna.</p>`;$('#historyDialog').showModal();
 }

@@ -77,6 +77,10 @@ Jämförelsen fungerar som för Foodora. Om inget namn är exakt detsamma görs 
 
 
 Jämförelsepriser från Foodora och Uber Eats som är äldre än ett dygn får ett datum (*pris från 3 okt.*), både på Wolt-korten och på restauranger som bara finns i de apparna. Är de äldre än en vecka används de inte i jämförelsen (filtret Billigare på räknar inte med dem). Uber Eats läses i webbläsaren när GitHub blockeras och kan därför bli gammalt.
+## Prisgraf
+
+Prishistoriken (↗ Historik på ett kort) visar en graf: Wolt-, Foodora- och Uber Eats-priset som trappsteg (priset gäller tills nästa avläsning ändrar det), egna köp som ringar och en streckad linje för vanligt pris. Prisaxeln har stödlinjer, och hovring eller tryck i grafen visar datum, pris och app för närmaste punkt. Färgerna är kontrollerade för färgblindhet i ljust och mörkt läge (Wolt blå, Foodora rosa, Uber Eats lila, egna köp guld), och apparna skiljs dessutom åt med form (cirkel, kvadrat, triangel) och streckning. Tabellen under grafen visar samma punkter.
+
 ## Egna köp
 
 `data/receipts.json` innehåller priser från egna Wolt-kvitton och visas som egna punkter i prishistoriken. Kvittona läses bara när användaren ber om det, med `scripts/extract-receipt.js` på en öppen kvittosida. Det som sparas är restaurang, datum (utan klockslag), Wolt-rätt-ID, rättens namn och pris. Ordernummer, adress, betalsätt och totalsummor sparas inte. Avgifter sparas bara som summa per order i `data/fees.json` (se Avgifter nedan). Endast levererade ordrar tas med.
