@@ -44,13 +44,17 @@ const ue=process.env.SCRAPE_UBEREATS==='0'?{ok:[],failed:[],links:null,searched:
 
 let saved=null,ueSaved=false;
 if(ok.length&&!args['dry-run']){saved=await saveSnapshots(root,{snapshots:ok.map(r=>r.snapshot)},{addVenues:false});
- if(discovered)await fs.writeFile(new URL('../data/discovered.json',import.meta.url),JSON.stringify({updated:new Date().toISOString(),venues:discovered},null,1)+'\n');}
+ if(discovered)await fs.writeFile(new URL('../data/discovered.json',import.meta.url),JSON.stringify({updated:new Date().toISOString(),venues:discovered},null,1)+'\n');
+ // Betyg för alla lästa restauranger (även dina, som inte alltid finns i restauranglistan). Gamla betyg behålls.
+ const rfile=new URL('../data/ratings.json',import.meta.url),ratings=JSON.parse(await fs.readFile(rfile,'utf8').catch(()=>'{}'));
+ for(const r of ok)if(r.rating!=null)ratings[r.snapshot.url]=r.rating;for(const v of discovered||[])if(v.rating!=null)ratings[v.url]=v.rating;
+ await fs.writeFile(rfile,JSON.stringify(ratings,null,1)+'\n');}
 if(ue.ok.length&&!args['dry-run']){await saveCompare(root,UBEREATS,ue.ok.map(r=>r.snapshot));ueSaved=true;}
 if(ue.searched&&!args['dry-run']){await saveUberEatsLinks(root,ue.links);ueSaved=true;}
 const deals=saved?unusualDeals(saved.history,new Set(ok.map(r=>r.snapshot.url))):[];
 
 const lines=[`### Prisavläsning ${new Date().toLocaleString('sv-SE',{timeZone:'Europe/Stockholm'})}${args['dry-run']?' (provkörning, inget sparat)':''}`,
- `${ok.length} av ${venues.length} restauranger lästa, ${ok.reduce((n,r)=>n+r.snapshot.items.length,0)} rätter.`];
+ `${ok.length} av ${venues.length} restauranger lästa, ${ok.reduce((n,r)=>n+r.snapshot.items.length,0)} rätter, betyg för ${ok.filter(r=>r.rating!=null).length}.`];
 const cap=(list,n=25)=>list.length>n?[...list.slice(0,n),`- … och ${list.length-n} till`]:list;
 if(failed.length)lines.push('','**Misslyckades (gamla data behålls):**',...cap(failed.map(f=>`- ${f.venue.name}: ${f.error}`)));
 if(ue.blocked)lines.push('',`**Uber Eats blockerar läsningen härifrån** (${ue.blocked}). ${ue.ok.length} restauranger hann läsas. Gamla Uber Eats-priser behålls; använd webbläsarreserven (AUTOMATION.md, Uber Eats i webbläsaren).`);
