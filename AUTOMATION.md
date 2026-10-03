@@ -16,6 +16,20 @@ Manuell körning: Actions → Prisavläsning → Run workflow (läser av direkt)
 
 Inställningar (Settings → Secrets and variables → Actions → Variables): `WOLT_LAT` och `WOLT_LON` för din leveransadress. De styr både vilka restauranger som läses och vilka kampanjer som gäller; utan dem används Årsta (postnummer 120 53). Ange ungefärliga koordinater (till exempel kvartersnivå); variablerna är inte publika.
 
+## Google-betyg (valfritt, egen nyckel)
+
+Med hemligheten `GOOGLE_PLACES_KEY` hämtar avläsningen restaurangernas betyg på Google (`lib/sources/google.mjs`) och sparar dem i `data/google.json`. Sidan visar dem som *Google ★ 4,3 (812)* med länk till Google Maps, i jämförelsen och i restaurangvyn. Utan nyckel hoppas steget över.
+
+1. Gå till <https://console.cloud.google.com/>, skapa ett projekt (t.ex. *WoltPriser*) och lägg in ett betalkort under **Billing**. Det krävs även för gratiskvoten.
+2. **APIs & Services → Library**: sök på *Places API (New)* och klicka **Enable**.
+3. **APIs & Services → Credentials → Create credentials → API key**. Öppna nyckeln och välj under **API restrictions** *Restrict key* → *Places API (New)*. Under **Application restrictions** väljer du *None*, eftersom nyckeln bara används från GitHub Actions och aldrig hamnar på sidan.
+4. Rekommenderas: **Billing → Budgets & alerts**, en budget på t.ex. 10 kr som mejlar dig om något oväntat drar pengar. Under **APIs & Services → Places API (New) → Quotas** kan du dessutom sätta ett tak per dag, t.ex. 100 anrop.
+5. I GitHub: **Settings → Secrets and variables → Actions → Secrets → New repository secret**, namn `GOOGLE_PLACES_KEY`, värdet är nyckeln.
+
+Första gången söks varje restaurang upp på Google med namn och adress från Wolts restauranglista (`data/discovered.json`). Träffen måste ha samma namn och ligga inom 1 km från Wolts position. Finns restaurangen inte i listan, krävs samma namn inom 8 km från leveransadressen. Plats-id:t sparas och betyget uppdateras därefter med ett direktanrop högst en gång i veckan. Restauranger som inte hittas provas igen efter 30 dagar. Högst 60 anrop per körning (`GOOGLE_LIMIT`). Med cirka 100 restauranger blir det runt 450 anrop i månaden, vilket ryms i Googles gratiskvot. Fel på nyckeln (HTTP 400/403) stoppar Google-steget men aldrig prisavläsningen, och syns i körningens sammanfattning.
+
+Googles villkor för Places API tillåter i princip inte att betyg lagras, bara plats-id:t. Att spara dem är ditt val, och Google skulle i värsta fall kunna stänga av nyckeln.
+
 ## Lokalt
 
 ```

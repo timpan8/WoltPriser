@@ -9,6 +9,8 @@ import {scrapeAll,scrapeUberEats,isDue,unusualDeals,scrapeList,DEFAULT_POS} from
 import {defaultSource} from '../lib/sources/index.mjs';
 import {UBEREATS} from '../lib/foodora.mjs';
 import {money} from '../lib/prices.mjs';
+import {updateGoogle} from '../lib/sources/google.mjs';
+import {placeFromSearch,slugFromUrl} from '../lib/sources/wolt.mjs';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
 const args=Object.fromEntries(process.argv.slice(2).map(a=>{const [k,v]=a.replace(/^--/,'').split('=');return [k,v??true];}));
@@ -53,6 +55,14 @@ if(ok.length&&!args['dry-run']){saved=await saveSnapshots(root,{snapshots:ok.map
  const ifile=new URL('../data/venueinfo.json',import.meta.url),vinfo=JSON.parse(await fs.readFile(ifile,'utf8').catch(()=>'{}'));
  for(const r of ok)if(r.hours||r.minOrder)vinfo[r.snapshot.url]={...vinfo[r.snapshot.url],...(r.hours?{hours:r.hours}:{}),...(r.minOrder?{minOrder:r.minOrder}:{})};
  await fs.writeFile(ifile,JSON.stringify(vinfo)+'\n');}
+// Google-betyg (data/google.json) när GOOGLE_PLACES_KEY finns; i provkörningen bara ett par restauranger och inget sparas.
+let google=null;const listed=new Map((discovered||[]).map(v=>[v.url,v]));
+const places=ok.map(r=>{const d=listed.get(r.snapshot.url);return {url:r.snapshot.url,name:r.venue.name,address:r.place?.address||d?.address,pos:r.place?.pos||d?.pos};});
+if(process.env.GOOGLE_PLACES_KEY&&ok.length){const gfile=new URL('../data/google.json',import.meta.url),store=args['dry-run']?{}:JSON.parse(await fs.readFile(gfile,'utf8').catch(()=>'{}'));
+ // Utan position (inte i restauranglistan just nu) och utan känt Google-id: adressen ur Wolts sökning.
+ for(const p of places)if(!p.pos&&!store[p.url]?.id)Object.assign(p,await placeFromSearch(slugFromUrl(p.url),p.name,{lat,lon}));
+ google=await updateGoogle({venues:places,store,key:process.env.GOOGLE_PLACES_KEY,center:{lat,lon},limit:args['dry-run']?3:Number(process.env.GOOGLE_LIMIT||60)});
+ if(!args['dry-run']&&google.fetched)await fs.writeFile(gfile,JSON.stringify(google.store,null,1)+'\n');}
 if(ue.ok.length&&!args['dry-run']){await saveCompare(root,UBEREATS,ue.ok.map(r=>r.snapshot));ueSaved=true;}
 if(ue.searched&&!args['dry-run']){await saveUberEatsLinks(root,ue.links);ueSaved=true;}
 const deals=saved?unusualDeals(saved.history,new Set(ok.map(r=>r.snapshot.url))):[];
@@ -62,6 +72,11 @@ const lines=[`### Prisavläsning ${new Date().toLocaleString('sv-SE',{timeZone:'
 // Diagnostik i provkörningen: hur svaret ser ut när öppettider inte hittas.
 if(args['dry-run']){const d=ok.find(r=>r.debug?.length);if(d)lines.push('',`Tidsnycklar i Wolts svar (${d.venue.name}): `+d.debug.join(' · '));}
 if(args['dry-run']){const hm=m=>`${String(Math.floor(m/60)%24).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`;for(const r of ok.filter(r=>r.hours||r.minOrder).slice(0,3))lines.push(`- ${r.venue.name}: ${Object.entries(r.hours||{}).map(([d,rs])=>d+' '+rs.map(([a,b])=>hm(a)+'–'+hm(b)).join(', ')).join(' · ')}${r.minOrder?` · minsta order ${money(r.minOrder)}`:''}`);}
+const gl=()=>Object.entries(google.store).filter(([u,g])=>g.rating!=null&&ok.some(r=>r.snapshot.url===u)).slice(0,3).map(([u,g])=>`${ok.find(r=>r.snapshot.url===u).venue.name} ★ ${g.rating} (${g.count})`).join(', ');
+if(google)lines.push('',`Google-betyg: hämtade ${google.fetched} av ${google.due} som behövde uppdateras, hittade ${google.found}${google.found?' (t.ex. '+gl()+')':''}.${google.errors.length?' Fel: '+google.errors.slice(0,3).join('; '):''}`);
+else if(!process.env.GOOGLE_PLACES_KEY)lines.push('','Google-betyg: ingen GOOGLE_PLACES_KEY, hoppar över.');
+if(args['dry-run']&&!google)for(const p of places)if(!p.pos)Object.assign(p,await placeFromSearch(slugFromUrl(p.url),p.name,{lat,lon}));
+if(args['dry-run'])lines.push(`Adress och position för Google-sökningen: ${places.filter(p=>p.pos).length} av ${places.length}${places.find(p=>p.address)?` (t.ex. ${places.find(p=>p.address).name}, ${places.find(p=>p.address).address})`:''}.`);
 const cap=(list,n=25)=>list.length>n?[...list.slice(0,n),`- … och ${list.length-n} till`]:list;
 if(failed.length)lines.push('','**Misslyckades (gamla data behålls):**',...cap(failed.map(f=>`- ${f.venue.name}: ${f.error}`)));
 if(ue.blocked)lines.push('',`**Uber Eats blockerar läsningen härifrån** (${ue.blocked}). ${ue.ok.length} restauranger hann läsas. Gamla Uber Eats-priser behålls; använd webbläsarreserven (AUTOMATION.md, Uber Eats i webbläsaren).`);

@@ -173,3 +173,30 @@ test('opening hours and minimum order are read from several Wolt formats',async(
  // Wolts riktiga format (delivery_specs.delivery_times): sekunder efter midnatt, nattöppet stängs på nästa dags lista.
  const real=venueInfo({venue_raw:{delivery_specs:{order_minimum_no_surcharge:12000,delivery_times:{monday:[{type:'open',value:39600},{type:'close',value:77400}],friday:[{type:'open',value:64800}],saturday:[{type:'close',value:7200},{type:'open',value:43200},{type:'close',value:86400}]}}}});
  assert.deepEqual(real.hours,{mon:[[660,1290]],fri:[[1080,1560]],sat:[[720,1440]]});assert.equal(real.minOrder,12000);});
+
+test('Google rating: search near the Wolt address once, then refresh by place id weekly; misses wait a month',async()=>{
+ const {updateGoogle,pickPlace}=await import('../lib/sources/google.mjs');const {venuePlace}=await import('../lib/sources/wolt.mjs');
+ assert.deepEqual(venuePlace({venue:{address:'Årsta torg 5',location:{coordinates:[18.05,59.3]}}}),{address:'Årsta torg 5',pos:{lat:59.3,lon:18.05}});
+ assert.deepEqual(venuePlace({results:[{location:{lat:59.31,lon:18.06}}]}).pos,{lat:59.31,lon:18.06});
+ const {parseVenueList}=await import('../lib/sources/wolt.mjs');
+ assert.deepEqual(parseVenueList({sections:[{items:[{venue:{slug:'ellora',name:'Ellora',rating:{score:8},address:'Årsta torg 5',location:[18.05,59.3]}}]}]})[0],{name:'Ellora',url:'https://wolt.com/sv/swe/stockholm/restaurant/ellora',rating:8,tags:[],estimate:null,address:'Årsta torg 5',pos:{lat:59.3,lon:18.05}});
+ const {placeFromSearch}=await import('../lib/sources/wolt.mjs');
+ const search=async()=>new Response(JSON.stringify({sections:[{items:[{venue:{slug:'other',address:'X 1',location:[18,59]}},{venue:{slug:'ellora',address:'Årsta torg 5',location:[18.05,59.3]}}]}]}),{status:200});
+ assert.deepEqual(await placeFromSearch('ellora','Ellora',{fetchImpl:search}),{address:'Årsta torg 5',pos:{lat:59.3,lon:18.05}});
+ assert.deepEqual(await placeFromSearch('ellora','Ellora',{fetchImpl:async()=>new Response('',{status:500})}),{});
+ const near={id:'A',displayName:{text:'Restaurang Ellora'},rating:4.4,userRatingCount:812,googleMapsUri:'https://maps.google.com/?cid=1',location:{latitude:59.3001,longitude:18.0501}};
+ const far={...near,id:'B',location:{latitude:59.4,longitude:18.2}},other={...near,id:'C',displayName:{text:'Pizzeria Roma'}};
+ assert.equal(pickPlace({name:'Ellora',pos:{lat:59.3,lon:18.05}},[other,far,near])?.id,'A');
+ assert.equal(pickPlace({name:'Ellora',pos:{lat:59.3,lon:18.05}},[far,other]),null);
+ const calls=[];const fetchImpl=async(url,init)=>{calls.push({url,init});const body=url.endsWith(':searchText')?{places:/Ellora/.test(init.body)?[far,near]:[]}:{...near,rating:4.5,userRatingCount:820};return new Response(JSON.stringify(body),{status:200});};
+ const venues=[{url:'w/ellora',name:'Ellora',address:'Årsta torg 5',pos:{lat:59.3,lon:18.05}},{url:'w/x',name:'Okänd',pos:{lat:59.3,lon:18.05}}];
+ const t0=Date.parse('2026-10-04T14:00:00Z');
+ let r=await updateGoogle({venues,key:'k',fetchImpl,now:t0});
+ assert.deepEqual(r.store['w/ellora'],{id:'A',rating:4.4,count:812,maps:'https://maps.google.com/?cid=1',at:'2026-10-04T14:00:00.000Z'});
+ assert.equal(r.store['w/x'].miss,true);assert.equal(r.found,1);assert.equal(calls.length,2);
+ assert.equal(calls[0].init.headers['x-goog-api-key'],'k');assert.match(JSON.parse(calls[0].init.body).textQuery,/Ellora, Årsta torg 5/);
+ calls.length=0;r=await updateGoogle({venues,store:r.store,key:'k',fetchImpl,now:t0+3*86400000});assert.equal(calls.length,0);
+ r=await updateGoogle({venues,store:r.store,key:'k',fetchImpl,now:t0+8*86400000});
+ assert.equal(calls.length,1);assert.match(calls[0].url,/\/places\/A$/);assert.equal(r.store['w/ellora'].rating,4.5);
+ const denied=await updateGoogle({venues,key:'bad',fetchImpl:async()=>new Response('{}',{status:403}),now:t0});
+ assert.equal(denied.fetched,0);assert.equal(denied.errors.length,1);assert.match(denied.errors[0],/HTTP 403/);});
