@@ -78,3 +78,5 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
 .sub span{font-size:17px;line-height:1}.sub small{font:600 11px system-ui;color:var(--muted)}.sub:hover{border-color:var(--green)}
 .sub.active{background:var(--ink);border-color:var(--ink);color:#fff}.sub.active small{color:#cfdcd2}
 @media(max-width:540px){.subcats{flex-wrap:nowrap;overflow-x:auto;margin:0 -16px 12px;padding:0 16px 2px;scrollbar-width:none}.subcats::-webkit-scrollbar{display:none}.sub{flex:0 0 auto}}
+/* Restauranger som inte finns på Wolt (Foodora/Uber Eats). */
+.via{display:inline-block;font-size:10px;font-weight:700;color:#7a4a12;background:#fbefd9;border-radius:999px;padding:1px 7px;margin-left:4px;vertical-align:1px}.chip.ot input{accent-color:#b06a1d}.price-row .from{font-size:12px;color:var(--muted);margin-right:-5px}

@@ -50,6 +50,10 @@ Samma rutin är också manuell reserv om API:t ändras eller blockeras. Importer
 7. Kör `npm test`. Spara bara de nya prisfilerna (`data/member.json`, `data/images.json` och vid Foodora `data/foodora.json`; som reserv även `data/history.json` och `data/venues.json`) i en commit och push till main i timpan8/WoltPriser. Verifiera GitHub Pages-körningen; en push ensam bevisar inte publicering. Alla insamlingsfel ska anges tydligt. Om ingen giltig meny kunde läsas: gör ingen data-commit.
 8. Stäng bara de tillfälliga restaurang- och importflikar som skapades för körningen. Låt användarens flikar vara kvar. Var tyst vid normala lyckade uppdateringar; meddela bara ovanligt låga priser enligt minst 7 tidigare mätdagar, fel som hindrar uppdateringen eller behov av användaråtgärd.
 
+## Restauranger som inte finns på Wolt (manuellt)
+
+Görs vid behov, inte i den dagliga rutinen. Öppna Foodoras lista över restauranger som levererar till Årsta, jämför namnen med `data/venues.json` och `data/discovered.json` och läs bara de som inte finns på Wolt med `scripts/extract-foodora.js` (en flik, en restaurang i taget). Lägg inte till `wolt`. Spara resultaten som `{ "foodora": [...] }` och kör `node scripts/import-compare.mjs <fil>`. Samma regler som ovan: läs aldrig adress, varukorg, konto eller kakor, och avbryt vid robotkontroll eller blockering (försök inte runt den).
+
 ## Uber Eats i webbläsaren (reserv)
 
 Uber Eats blockerar i dag anrop från GitHubs nätverk (HTTP 403, provkörning 2026-10-03). Då avbryter den dagliga körningen Uber Eats efter första blockeringen och sammanfattningen visar "Uber Eats blockerar läsningen härifrån". Så länge det står där läses Uber Eats i stället här, i samma Codex-rutin som Dina priser, efter steg 6. En gång i veckan räcker.
