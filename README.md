@@ -52,7 +52,7 @@ Uber Eats läses för alla restauranger som läses på Wolt, både dina och de s
 
 Menyn hämtas från Uber Eats öppna webb-API (`getStoreV1`, samma anrop som ubereats.com gör utan inloggning): rättens namn, kategori, pris och överstruket ordinarie pris. Slutsålda rätter tas inte med. Priserna sparas i `data/ubereats.json`, i samma format som Foodora. Uber One-priser syns bara för inloggade och kommer inte med. Tom meny, eller mer än 30 % färre rätter än förra gången, räknas som fel och gamla priser behålls. `SCRAPE_UBEREATS=0` stänger av Uber Eats i körningen.
 
-Om Uber Eats blockerar GitHub kan samma läsning göras i din webbläsare (se `AUTOMATION.md`, Uber Eats i webbläsaren). Valet av butik och rimlighetskontrollen är desamma.
+Uber Eats blockerar i dag anrop från GitHubs nätverk (HTTP 403). Den dagliga körningen slutar då efter första försöket, och samma läsning görs i stället i din webbläsare (se `AUTOMATION.md`, Uber Eats i webbläsaren). Valet av butik och rimlighetskontrollen är desamma.
 
 Jämförelsen fungerar som för Foodora. Om inget namn är exakt detsamma görs ett andra försök där text inom parentes och ordet "pizza" tas bort ("Chicken Madras (Stark)", "Capricciosa Pizza"). Det andra försöket gäller bara när träffen är entydig och priset ligger mellan hälften och det dubbla. Då visar kortet Uber Eats-namnet inom citattecken, så att du ser vad som jämförs. Det andra försöket gäller också Foodora.
 

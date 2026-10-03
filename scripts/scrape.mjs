@@ -53,7 +53,8 @@ const lines=[`### Prisavläsning ${new Date().toLocaleString('sv-SE',{timeZone:'
  `${ok.length} av ${venues.length} restauranger lästa, ${ok.reduce((n,r)=>n+r.snapshot.items.length,0)} rätter.`];
 const cap=(list,n=25)=>list.length>n?[...list.slice(0,n),`- … och ${list.length-n} till`]:list;
 if(failed.length)lines.push('','**Misslyckades (gamla data behålls):**',...cap(failed.map(f=>`- ${f.venue.name}: ${f.error}`)));
-if(ue.ok.length||ue.failed.length||ue.searched)lines.push('',`Uber Eats: ${ue.ok.length} av ${ue.ok.length+ue.failed.length} restauranger lästa, ${ue.ok.reduce((n,r)=>n+r.snapshot.items.length,0)} rätter. Sökte ${ue.searched} restauranger utan länk, hittade ${ue.found}.`,...cap(ue.failed.map(f=>`- ${f.venue.name}: ${f.error}`)));
+if(ue.blocked)lines.push('',`**Uber Eats blockerar läsningen härifrån** (${ue.blocked}). ${ue.ok.length} restauranger hann läsas. Gamla Uber Eats-priser behålls; använd webbläsarreserven (AUTOMATION.md, Uber Eats i webbläsaren).`);
+else if(ue.ok.length||ue.failed.length||ue.searched)lines.push('',`Uber Eats: ${ue.ok.length} av ${ue.ok.length+ue.failed.length} restauranger lästa, ${ue.ok.reduce((n,r)=>n+r.snapshot.items.length,0)} rätter. Sökte ${ue.searched} restauranger utan länk, hittade ${ue.found}.`,...cap(ue.failed.map(f=>`- ${f.venue.name}: ${f.error}`)));
 const warned=ok.filter(r=>r.warnings.length);if(warned.length)lines.push('','**Varningar:**',...cap(warned.map(r=>`- ${r.venue.name}: ${r.warnings.join(', ')}`)));
 if(deals.length)lines.push('','**Ovanligt billigt:**',...cap(deals.map(d=>`- ${d.name} hos ${d.venue}: ${money(d.price)} (−${d.discount} % mot median ${money(d.median)})`)));
 console.log('\n'+lines.join('\n'));await summary(lines.join('\n'));

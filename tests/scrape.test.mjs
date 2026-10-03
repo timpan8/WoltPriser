@@ -134,8 +134,10 @@ test('scrapeUberEats searches unlinked venues, remembers misses and respects the
  calls.length=0;const next=await scrapeUberEats({venues,store:null,links:r.links,fetchImpl,now,pause:async()=>{}});
  assert.deepEqual(calls,['Tredje']);assert.equal(next.ok.length,1);
  const later=await scrapeUberEats({venues,store:null,links:next.links,fetchImpl,now:'2026-11-01T12:00:00Z',pause:async()=>{}});assert.equal(later.searched,2);
- const blocked=await scrapeUberEats({venues:venues.slice(0,1),store:null,fetchImpl:async()=>new Response('<html>',{status:200}),now,pause:async()=>{}});
- assert.equal(blocked.failed[0].search,true);assert.equal(blocked.links.links[w('bk')],undefined);});
+ let hits=0;const blocked=await scrapeUberEats({venues,store:null,fetchImpl:async()=>{hits++;return new Response('denied',{status:403});},now,pause:async()=>{}});
+ assert.match(blocked.blocked,/HTTP 403/);assert.equal(blocked.failed.length,0);assert.ok(hits<=2,'stops after the block');assert.equal(blocked.links.links[w('bk')],undefined);
+ const parse=await scrapeUberEats({venues:venues.slice(0,1),store:null,fetchImpl:fakeFetch({'/getSearchFeedV1':{status:'failure'}}),now,pause:async()=>{}});
+ assert.equal(parse.blocked,null);assert.equal(parse.failed[0].search,true);});
 test('browser fallback: extract-ubereats.js output is imported like the cloud reading',async()=>{
  const fn=eval(readFileSync(new URL('../scripts/extract-ubereats.js',import.meta.url),'utf8').replace(/^\/\/.*\n/gm,''));
  const real=globalThis.fetch,realTimeout=globalThis.setTimeout;
