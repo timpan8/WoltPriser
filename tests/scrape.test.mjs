@@ -168,4 +168,5 @@ test('opening hours and minimum order are read from several Wolt formats',async(
  const a=venueInfo({venue:{opening_times:{monday:[{type:'open',value:ms(10)},{type:'close',value:ms(22)}],sunday:[{type:'open',value:ms(12)},{type:'close',value:ms(1)}]},delivery_specs:{order_minimum_no_surcharge:15000}}});
  assert.deepEqual(a.hours,{mon:[[600,1320]],sun:[[720,1500]]});assert.equal(a.minOrder,15000);
  const b=venueInfo({delivery_times:{tuesday:[{open:'11:00',close:'21:30'}]},opening_times:{tuesday:[{open:'10:00',close:'22:00'}]}});assert.deepEqual(b.hours,{tue:[[660,1290]]});
- assert.deepEqual(venueInfo({x:1}),{hours:null,minOrder:null});assert.deepEqual(venueInfo(null),{hours:null,minOrder:null});});
+ assert.deepEqual(venueInfo({x:1}),{hours:null,minOrder:null,sample:null});assert.equal(venueInfo(null).hours,null);
+ const odd=venueInfo({opening_times:{monday:[{weird:1}]}});assert.equal(odd.hours,null);assert.match(odd.sample,/opening_times\.monday=\[\{"weird":1\}\]/);});
