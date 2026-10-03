@@ -87,6 +87,8 @@ function showHistory(r){$('#historyTitle').textContent=r.item.name;$('#historyRe
  $('#historyRows').innerHTML=`<table><thead><tr><th>Datum</th><th>Pris</th><th>Källa</th></tr></thead><tbody>${[...pts].reverse().map(p=>`<tr><td>${esc(when(p))}</td><td>${money(p.price)}</td><td>${src(p)}</td></tr>`).join('')}</tbody></table><p>Jämförelse med ${r.stats.days} tidigare dagar. ${r.stats.days<7?'Minst 7 tidigare dagar krävs för märkningen ”ovanligt lågt”.':''} Egna köp visar vad rätten kostade efter rabatt, utan avgifter och tillval, och räknas inte in i märkningarna.</p>`;$('#historyDialog').showModal();
 }
 $('#closeDialog').onclick=()=>$('#historyDialog').close();$('#closeDish').onclick=()=>$('#dishDialog').close();$('#more').onclick=()=>{limit+=24;render();};
+// Fler rätter laddas automatiskt när man närmar sig slutet av listan; knappen finns kvar som reserv.
+if('IntersectionObserver' in window){let busy=false;const io=new IntersectionObserver(es=>{if(!es.some(e=>e.isIntersecting)||busy||$('#more').hidden)return;busy=true;requestAnimationFrame(()=>{limit+=24;render();busy=false;const r=$('#more').getBoundingClientRect();if(!$('#more').hidden&&r.top<innerHeight+800){io.unobserve($('#more'));io.observe($('#more'));}});},{rootMargin:'0px 0px 800px 0px'});io.observe($('#more'));}
 // Filter: maxpris med reglage (högsta läget = inget tak), snabbval, valfritt pris med avgifter. Valen sparas i webbläsaren.
 const NO_LIMIT=305,DEFAULTS={search:'',restaurant:'',cuisine:'',onlyMine:false,budget:NO_LIMIT,sort:'deals',size:'all',withFees:false,noFish:true,plus:true,onlyDeals:false},KEY='woltpriser-filter';
 const maxPrice=()=>{const v=Number($('#budget').value);return v>=NO_LIMIT?Infinity:v*100;},cmp=r=>$('#withFees').checked&&r.fees?r.fees.total:r.price;
