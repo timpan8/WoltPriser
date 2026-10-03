@@ -33,6 +33,19 @@ test('offers are ranked: unusually cheap, then campaign, then new lowest',()=>{c
 test('own purchases count order days and the usual price, also when Wolt changed the dish ID',()=>{const store={prices:[{venue:'V',date:'2026-09-01',id:'old',name:'Tikka Masala',price:14000},{venue:'V',date:'2026-09-10',id:'new',name:'Tikka Masala',price:12000},{venue:'V',date:'2026-09-10',id:'new',name:'Tikka Masala',price:12000},{venue:'V',date:'2026-09-20',id:'new',name:'Tikka Masala',price:13000},{venue:'Annan',date:'2026-09-20',id:'new',name:'Tikka Masala',price:1}]};
  assert.deepEqual(purchases(store,'V','new','tikka masala'),{times:3,usual:12500,last:{date:'2026-09-20',price:13000}});
  assert.equal(purchases(store,'V','x','Pizza'),null);assert.equal(receiptPoints(store,'V','new','Tikka Masala').length,4);assert.equal(receiptPoints(store,'V','new').length,3);});
+import {tokens,dishIndex,dishGroups,inGroup,matchKind,similarity,THRESHOLD} from '../lib/dishes.mjs';
+const menuNames=['Chicken Tikka Butter Masala','Lamm Tikka Butter Masala','Paneer Butter Masala','Chicken Sambal Masala','Naan','Garlic Naan','Margherita','Pizza Margherita','Lasagne al Forno','Halloumi Sticks','Mozzarella Sticks','Nacho De Luxe','Kyckling Tikka Masala'];
+const idf=dishIndex(menuNames),sim=(a,b)=>similarity(idf,tokens(a),tokens(b));
+test('similar dishes match across restaurants but not across proteins',()=>{
+ assert.ok(sim('Tikka Masala Chicken','Chicken Tikka Butter Masala')>=THRESHOLD);assert.ok(sim('Chicken Tikka Butter Masala','Kyckling Tikka Masala')>=THRESHOLD);
+ assert.equal(sim('Chicken Tikka Butter Masala','Lamm Tikka Butter Masala'),0);assert.equal(sim('Chicken Tikka Butter Masala','Paneer Butter Masala'),0);
+ assert.ok(sim('Margherita inkl. dryck','Pizza Margherita')>=THRESHOLD);assert.ok(sim('Lasagne Al Forno','Lasagne al Forno')>=THRESHOLD);assert.ok(sim('Nacho De Luxe Super Grande','Nacho De Luxe')>=THRESHOLD);
+ assert.ok(sim('Halloumi Sticks','Mozzarella Sticks')<THRESHOLD);assert.ok(sim('Naan','Garlic Naan')<THRESHOLD);});
+test('purchases of the same dish at different restaurants form one group',()=>{const p=(venue,date,id,name,price)=>({venue,date,id,name,price});
+ const gs=dishGroups([p('Ellora','2026-09-01','a','Chicken Tikka Butter Masala',14000),p('Ellora','2026-09-05','a','Chicken Tikka Butter Masala',14000),p('Muskot','2026-09-07','m','Tikka Masala Chicken',12000),p('Ellora','2026-09-07','n','Naan',4000)],idf);
+ assert.equal(gs.length,2);assert.deepEqual([gs[0].title,gs[0].times,gs[0].usual,gs[0].venues],['Chicken Tikka Butter Masala',3,14000,['Ellora','Muskot']]);
+ const g=gs[0],item=(id,name)=>({id,name});assert.ok(inGroup(g,idf,'Annan','x'&&item('x','Kyckling Tikka Masala'),tokens('Kyckling Tikka Masala')));assert.ok(!inGroup(g,idf,'Ellora',item('l','Lamm Tikka Butter Masala'),tokens('Lamm Tikka Butter Masala')));assert.ok(inGroup(g,idf,'Muskot',item('m','Helt annat namn'),tokens('Helt annat namn')));});
+test('a smaller variant of a bought dish is marked as variant, not compared with the usual price',()=>{const g=dishGroups([{venue:'T',date:'2026-09-01',id:'n',name:'Nacho De Luxe Super Grande',price:17500}],idf)[0],kind=n=>matchKind(g,idf,'T',{id:'x',name:n},tokens(n));assert.equal(kind('Nacho De Luxe'),'variant');assert.equal(kind('nacho de luxe super grande'),'exact');assert.equal(kind('Margherita'),null);});
 import {cleanImage,mergeImages,imageFor,validateBatch} from '../lib/prices.mjs';
 const img='https://imageproxy.wolt.com/menu/menu-images/shared/abc_pizza.jpg';
 test('image links are kept only for Wolt image server over https, without size parameters',()=>{assert.equal(cleanImage(img+'?w=600'),img);assert.equal(cleanImage(''),'');for(const bad of ['http://imageproxy.wolt.com/x.jpg','https://evil.example/x.jpg','https://imageproxy.wolt.com.evil.example/x.jpg','javascript:alert(1)','https://user@imageproxy.wolt.com/x.jpg'])assert.throws(()=>cleanImage(bad));
