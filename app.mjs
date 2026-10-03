@@ -4,7 +4,7 @@ import {tokens,dishIndex,dishGroups,matchKind} from './lib/dishes.mjs';
 import {feeModel,withFees} from './lib/fees.mjs';
 import {foodoraMenu,matchFoodora,foodoraPrice,foodoraPoints} from './lib/foodora.mjs';
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let history=[],latest=[],rows=[],receipts=null,images=null,fees=null,rowCache={},mineUrls=new Set(),meta=new Map(),foodora=null,ubereats=null,groups=[],dishes=[],limit=24,also=new Map();const fmt=s=>new Date(s).toLocaleString('sv-SE',{timeZone:'Europe/Stockholm',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+let history=[],latest=[],rows=[],receipts=null,images=null,fees=null,rowCache={},mineUrls=new Set(),meta=new Map(),foodora=null,ubereats=null,groups=[],dishes=[],limit=24,also=new Map(),lastQ='';const fmt=s=>new Date(s).toLocaleString('sv-SE',{timeZone:'Europe/Stockholm',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
 const TABS=[['mina','Mina rätter'],...COURSES],tab=()=>{const h=location.hash.slice(1);return TABS.some(([k])=>k===h)?h:groups.length?'mina':'mat';};
 const dupKey=r=>[r.item.name.toLocaleLowerCase('sv').replace(/[®™]/g,'').replace(/\s+/g,' ').trim(),r.price,r.item.originalPrice,r.deal.level].join('|');
 const belowUsual=r=>r.bought&&r.price<r.bought.usual?r.bought.usual-r.price:0;
@@ -30,7 +30,7 @@ function card(r){const idx=rows.indexOf(r),sale=r.price<r.item.originalPrice,st=
  const bought=b?`<div class="bought"><span>Köpt ${b.times} ${b.times===1?'gång':'gånger'}</span> · ${b.times===1?'du betalade':'du brukar betala'} ${money(b.usual)}${mine?` <b>· ${money(mine)} billigare nu</b>`:''}</div>`:'';
  return `<article class="card${d.level?' lvl'+d.level:''}">${thumb(imageFor(images,r.s.url,r.item.id))}<div class="card-top">${tag}${save}</div><h3>${esc(r.item.name)}</h3><div class="venue">${esc(r.s.name)}${meta.get(r.s.url)?.rating?`<span class="rating"> ★ ${String(meta.get(r.s.url).rating).replace('.',',')}</span>`:''}<span> · ${esc(r.item.category||'Meny')}</span></div>${(o=>o?.length?`<details class="also"><summary>Samma pris hos ${o.length} ${o.length===1?'restaurang':'restauranger'} till</summary><p>${[...new Set(o.map(x=>x.s.name))].map(esc).join(' · ')}</p></details>`:'')(also.get(r))}<p class="description">${esc(r.item.description)}</p><div class="price-row"><span class="price">${money(r.price)}</span>${sale?`<del>${money(r.item.originalPrice)}</del>`:''}${r.item.ml?`<span class="perl">${money(Math.round(cmp(r)/r.item.ml*1000))}/l</span>`:''}</div>${totalLine(r)}${fdLine(r)}${usual}${bought}${r.item.woltPlus&&$('#plus').checked?'<div class="membership">Priset kräver Wolt+</div>':''}${change?`<div class="change${st.change<0?' down':''}">${esc(change)}</div>`:''}<div class="card-bottom"><button class="history-button" data-index="${idx}">↗ Prishistorik</button><a class="order" href="${esc(r.s.url)}" target="_blank" rel="noopener noreferrer">Visa på Wolt ↗</a></div></article>`;}
 function render(){
- const plus=$('#plus').checked,q=$('#search').value.trim().toLocaleLowerCase('sv'),restaurant=$('#restaurant').value,budget=maxPrice(),current=tab();
+ const plus=$('#plus').checked,q=$('#search').value.trim().toLocaleLowerCase('sv'),restaurant=$('#restaurant').value,budget=maxPrice();let current=tab();
  // Raderna beror bara på Wolt+- och foodora pro-valet; de byggs en gång per kombination och återanvänds vid filtrering.
  const rowKey=plus+'|'+$('#fdPro').checked;if(rowCache.key!==rowKey){rowCache.key=rowKey;
  rows=latest.flatMap(s=>s.items.filter(i=>i.available).map(item=>{const price=effectivePrice(item,plus),stats=item.stats[plus]??=analyze(item.timeline,item,plus,s.observedAt);return {s,item,price,stats,course:item.course,bought:item.bought,deal:deal(item,price,stats),fees:withFees(fees,s.name,price,item.originalPrice),fdp:foodoraPrice(item.fd,$('#fdPro').checked),uep:foodoraPrice(item.ue,false)};}));
@@ -40,8 +40,17 @@ function render(){
  const offer=r=>r.deal.level||belowUsual(r),common=r=>(!restaurant||r.s.url===restaurant)&&(!onlyMine||mineUrls.has(r.s.url))&&(!cuisine||meta.get(r.s.url)?.tags?.includes(cuisine))&&(!q||r.item.text.includes(q))&&(!$('#onlyDeals').checked||offer(r))&&(!$('#fdCheaper').checked||$('#fdCheaper').parentElement.hidden||(r.fdp!==null&&r.fdp<r.price))&&(!$('#ueCheaper').checked||$('#ueCheaper').parentElement.hidden||(r.uep!==null&&r.uep<r.price));
  const noFish=$('#noFish').checked,pre=rows.filter(r=>common(r)&&(!noFish||!r.item.fish)),base=pre.filter(r=>cmp(r)<=budget),inTab=k=>k==='mina'?dishes:base.filter(r=>r.course===k);
  dishes=groups.map(g=>{const m=rows.filter(r=>g.members.has(r.item)&&(!restaurant||r.s.url===restaurant)).sort((a,b)=>(a.fees?.total??a.price)-(b.fees?.total??b.price)||a.price-b.price);return {g,m,best:m[0]};}).filter(d=>(!q||(d.g.title+' '+d.m.map(r=>r.item.name+' '+r.s.name).join(' ')).toLocaleLowerCase('sv').includes(q))&&(!$('#onlyDeals').checked||dishOffer(d))&&(!restaurant||d.best));
- const uniq=l=>new Set(l.map(dupKey)).size;
+ const uniq=l=>new Set(l.map(dupKey)).size,label=k=>TABS.find(t=>t[0]===k)[1];
+ // Sökning gäller alla flikar: har en annan flik minst fem gånger så många träffar i rättens eller restaurangens namn när sökordet ändras, visas den fliken.
+ const nameHit=r=>(r.item.name+' '+r.s.name).toLocaleLowerCase('sv').includes(q);
+ let moved=null;
+ if(q&&q!==lastQ&&current!=='mina'){const named=k=>uniq(inTab(k).filter(nameHit)),cur=named(current),best=COURSES.map(([k])=>[k,named(k)]).sort((a,b)=>b[1]-a[1])[0];if(best[1]&&best[0]!==current&&best[1]>=Math.max(1,cur*5)){moved=current;current=best[0];window.history.replaceState(null,'','#'+current);}}
+ lastQ=q;
+ const others=q?TABS.filter(([k])=>k!==current).map(([k,l])=>[k,l,k==='mina'?dishes.length:uniq(inTab(k))]).filter(x=>x[2]):[];
+ $('#searchNote').innerHTML=q?(moved?`Flest träffar under ${esc(label(current))}. `:'')+(others.length?`Träffar även i ${others.map(([k,l,n])=>`<a href="#${k}">${esc(l)} (${n})</a>`).join(' · ')}`:''):'';
+ $('#searchNote').hidden=!$('#searchNote').innerHTML;
  $('#tabs').innerHTML=TABS.map(([k,label])=>{const all=inTab(k),list=k==='mina'?all:{length:uniq(all)},deals=k==='mina'?all.filter(dishOffer).length:uniq(all.filter(r=>r.deal.level));return `<a href="#${k}" class="tab${k===current?' active':''}${k==='mina'?' mine':''}"${k===current?' aria-current="page"':''}><span>${label}</span><small>${deals?`<b>${deals} ${deals===1?'erbjudande':'erbjudanden'}</b>`:`${list.length} rätter`}</small></a>`;}).join('');
+ {const t=$('#tabs'),a=t.querySelector('.active');if(a&&(a.offsetLeft<t.scrollLeft||a.offsetLeft+a.offsetWidth>t.scrollLeft+t.clientWidth))t.scrollLeft=a.offsetLeft-16;}
  const isDrink=current==='dryck',size=$('input[name=size]:checked')?.value||'all';$('#drinkRow').hidden=!isDrink;$('#literSort').hidden=!isDrink;
  let mode=$('input[name=sort]:checked').value;if(mode==='liter'&&!isDrink)mode='deals';const isMine=current==='mina';$('#mineNote').hidden=!isMine;$('#pricebox').classList.toggle('off',isMine);
  syncFilters(pre.filter(r=>r.course===current),budget);
@@ -53,8 +62,10 @@ function render(){
  const sorted=inTab(current).filter(r=>!isDrink||inSize(r));
  // Vid lika: dina restauranger först, sedan högst betyg (avgör vilken restaurang som visas när dubbletter slås ihop).
  const tie=(a,b)=>Number(mineUrls.has(b.s.url))-Number(mineUrls.has(a.s.url))||(meta.get(b.s.url)?.rating??0)-(meta.get(a.s.url)?.rating??0);
- const byDeal=(a,b)=>b.deal.level-a.deal.level||b.deal.pct-a.deal.pct||b.deal.save-a.deal.save||a.price-b.price||tie(a,b),perL=r=>r.item.ml?cmp(r)/r.item.ml:Infinity;
+ const byDeal=(a,b)=>b.deal.level-a.deal.level||b.deal.save-a.deal.save||b.deal.pct-a.deal.pct||a.price-b.price||tie(a,b),perL=r=>r.item.ml?cmp(r)/r.item.ml:Infinity;
  sorted.sort(mode==='name'?(a,b)=>a.s.name.localeCompare(b.s.name,'sv')||cmp(a)-cmp(b):mode==='price'?(a,b)=>cmp(a)-cmp(b)||tie(a,b):mode==='liter'?(a,b)=>perL(a)-perL(b)||cmp(a)-cmp(b)||tie(a,b):byDeal);
+ // Vid sökning: träffar i rättens eller restaurangens namn före träffar i beskrivningen (erbjudandena behåller sin plats först).
+ if(q)sorted.sort((a,b)=>(mode==='deals'?Number(!a.deal.level)-Number(!b.deal.level):0)||Number(!nameHit(a))-Number(!nameHit(b)));
  // Samma rätt till samma pris hos flera restauranger (t.ex. kedjor) visas som ett kort.
  also=new Map();const first=new Map(),selected=[];
  for(const r of sorted){const k=dupKey(r),f=first.get(k);if(f){also.get(f).push(r);continue;}first.set(k,r);also.set(r,[]);selected.push(r);}
@@ -76,6 +87,8 @@ function showHistory(r){$('#historyTitle').textContent=r.item.name;$('#historyRe
  $('#historyRows').innerHTML=`<table><thead><tr><th>Datum</th><th>Pris</th><th>Källa</th></tr></thead><tbody>${[...pts].reverse().map(p=>`<tr><td>${esc(when(p))}</td><td>${money(p.price)}</td><td>${src(p)}</td></tr>`).join('')}</tbody></table><p>Jämförelse med ${r.stats.days} tidigare dagar. ${r.stats.days<7?'Minst 7 tidigare dagar krävs för märkningen ”ovanligt lågt”.':''} Egna köp visar vad rätten kostade efter rabatt, utan avgifter och tillval, och räknas inte in i märkningarna.</p>`;$('#historyDialog').showModal();
 }
 $('#closeDialog').onclick=()=>$('#historyDialog').close();$('#closeDish').onclick=()=>$('#dishDialog').close();$('#more').onclick=()=>{limit+=24;render();};
+// Fler rätter laddas automatiskt när man närmar sig slutet av listan; knappen finns kvar som reserv.
+if('IntersectionObserver' in window){let busy=false;const io=new IntersectionObserver(es=>{if(!es.some(e=>e.isIntersecting)||busy||$('#more').hidden)return;busy=true;requestAnimationFrame(()=>{limit+=24;render();busy=false;const r=$('#more').getBoundingClientRect();if(!$('#more').hidden&&r.top<innerHeight+800){io.unobserve($('#more'));io.observe($('#more'));}});},{rootMargin:'0px 0px 800px 0px'});io.observe($('#more'));}
 // Filter: maxpris med reglage (högsta läget = inget tak), snabbval, valfritt pris med avgifter. Valen sparas i webbläsaren.
 const NO_LIMIT=305,DEFAULTS={search:'',restaurant:'',cuisine:'',onlyMine:false,budget:NO_LIMIT,sort:'deals',size:'all',withFees:false,noFish:true,plus:true,onlyDeals:false},KEY='woltpriser-filter';
 const maxPrice=()=>{const v=Number($('#budget').value);return v>=NO_LIMIT?Infinity:v*100;},cmp=r=>$('#withFees').checked&&r.fees?r.fees.total:r.price;
@@ -88,12 +101,15 @@ function syncFilters(list,budget){
  const step=1000,lo=5000,hi=30000,bins=Array.from({length:(hi-lo)/step+1},()=>0);
  for(const r of list){const p=cmp(r);bins[p>=hi?bins.length-1:Math.max(0,Math.floor((p-lo)/step))]++;}
  const top=Math.max(1,...bins);$('#histo').innerHTML=bins.map((n,i)=>`<i style="height:${n?Math.max(6,n/top*100):0}%"${lo+i*step<=Math.min(budget,hi)?' class="in"':''}></i>`).join('');
+ const changed=Object.keys(DEFAULTS).filter(k=>!['search','budget','sort'].includes(k)&&f[k]!==DEFAULTS[k]).length+['fdCheaper','fdPro','ueCheaper'].filter(k=>$('#'+k).checked&&!$('#'+k).parentElement.hidden).length;
+ $('#filterSummary').textContent=[budget===Infinity?'':`Max ${f.budget} kr`,{price:'Lägst pris',name:'Restaurang',liter:'Literpris'}[f.sort]||'',changed?`${changed} ${changed===1?'val':'val'}`:''].filter(Boolean).join(' · ')||'Bästa erbjudanden först';
  $('#clearSearch').hidden=!f.search;$('#resetFilters').hidden=JSON.stringify(f)===JSON.stringify(DEFAULTS);
  try{localStorage.setItem(KEY,JSON.stringify({...f,search:''}));}catch{}
 }
 $('.filterpanel').addEventListener('input',()=>{limit=24;render();});
 $('.filterpanel').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
  if(b.dataset.max)$('#budget').value=b.dataset.max;else if(b.id==='clearSearch'){$('#search').value='';$('#search').focus();}else if(b.id==='resetFilters')writeFilters(DEFAULTS);else return;limit=24;render();});
+$('#filterToggle').addEventListener('click',()=>{const open=$('.filterpanel').classList.toggle('open');$('#filterToggle').setAttribute('aria-expanded',open);});
 addEventListener('hashchange',()=>{limit=24;render();scrollTo({top:$('#tabs').offsetTop-8,behavior:'smooth'});});
 let venueList,discovered;try{[receipts,images,fees,foodora,venueList,discovered,ubereats]=await Promise.all(['receipts','images','fees','foodora','venues','discovered','ubereats'].map(n=>fetch(`./data/${n}.json`,{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null)));fees=feeModel(fees);for(const [sel,st] of [['.chip.fd',foodora],['.chip.ue',ubereats]])for(const c of document.querySelectorAll(sel)){c.hidden=!Object.keys(st?.venues||{}).length;}const response=await fetch('./data/history.json',{cache:'no-store'});if(!response.ok)throw Error('Prisdata kunde inte hämtas');history=normalizeHistory(await response.json());if(!history.readings?.length)throw Error('Ingen avläsning har importerats ännu.');latest=latestSnapshots(history);for(const s of latest)for(const [store,key] of [[foodora,'fd'],[ubereats,'ue']]){const m=foodoraMenu(store,s.url);if(m)for(const item of s.items){const f=matchFoodora(m,item);if(f)item[key]={...f,venue:m.url};}}for(const s of latest)for(const item of s.items){item.stats={true:analyze(item.timeline,item,true,s.observedAt)};item.course=course(item);item.ml=item.course==='dryck'?volumeMl(item.name):null;item.bought=purchases(receipts,s.name,item.id,item.name);item.tokens=tokens(item.name);item.text=(item.name+' '+item.description+' '+s.name).toLocaleLowerCase('sv');item.fish=seafood(item);}
  const idf=dishIndex(latest.flatMap(s=>s.items.map(i=>i.name)));groups=dishGroups(receipts?.prices||[],idf).filter(g=>g.times>=2);for(const g of groups){g.members=new Map();for(const s of latest)for(const i of s.items){const k=matchKind(g,idf,s.name,i,i.tokens);if(k)g.members.set(i,k);}}

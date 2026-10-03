@@ -45,7 +45,9 @@ test('menu categories are sorted into tabs',()=>{const c=(category,name='Rätt')
 test('offers are ranked: unusually cheap, then campaign, then new lowest',()=>{const s={unusual:false,discount:null,median:null,lowest:false,change:null,last:null};
  assert.deepEqual(deal(item,10000,{...s,unusual:true,discount:33,median:15000}),{level:3,label:'Ovanligt billigt',pct:33,save:5000});
  assert.equal(deal(item,10000,s).level,2);assert.equal(deal(item,10000,s).pct,50);
- const full={...item,price:20000};assert.equal(deal(full,20000,{...s,lowest:true,last:21000}).level,1);assert.equal(deal(full,20000,{...s,change:-500}).label,'Sänkt pris');assert.equal(deal(full,20000,s).level,0);});
+ const full={...item,price:20000};assert.equal(deal(full,20000,{...s,lowest:true,last:21000}).level,1);assert.equal(deal(full,20000,{...s,change:-500}).label,'Sänkt pris');assert.equal(deal(full,20000,s).level,0);
+ const tiny={...item,price:400,originalPrice:800};assert.equal(deal(tiny,400,s).level,0);assert.equal(deal(tiny,400,{...s,unusual:true,discount:50,median:800}).level,0);
+ assert.equal(deal(item,19900,s).level,0);assert.equal(deal(full,20000,{...s,change:-100}).level,0);assert.equal(deal(full,20000,{...s,lowest:true,last:20100}).level,0);});
 test('own purchases count order days and the usual price, also when Wolt changed the dish ID',()=>{const store={prices:[{venue:'V',date:'2026-09-01',id:'old',name:'Tikka Masala',price:14000},{venue:'V',date:'2026-09-10',id:'new',name:'Tikka Masala',price:12000},{venue:'V',date:'2026-09-10',id:'new',name:'Tikka Masala',price:12000},{venue:'V',date:'2026-09-20',id:'new',name:'Tikka Masala',price:13000},{venue:'Annan',date:'2026-09-20',id:'new',name:'Tikka Masala',price:1}]};
  assert.deepEqual(purchases(store,'V','new','tikka masala'),{times:3,usual:12500,last:{date:'2026-09-20',price:13000}});
  assert.equal(purchases(store,'V','x','Pizza'),null);assert.equal(receiptPoints(store,'V','new','Tikka Masala').length,4);assert.equal(receiptPoints(store,'V','new').length,3);});
