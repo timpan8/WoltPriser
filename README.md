@@ -24,6 +24,8 @@ Belopp lagras som heltal i ören och tidpunkter i UTC. Historiken identifierar r
 
 Priset är vad rätten kostade efter rabatt, utan tillval och avgifter. Wolt visar rabatten som en summa för hela ordern. Om den är en jämn procentsats av en enda rätt eller av hela ordern räknas priset exakt; annars fördelas rabatten proportionellt och priset märks som uppskattat. Kvittopunkter matchas mot menyn med restaurangnamn och Wolt-rätt-ID, och räknas inte in i märkningarna nedan. Kvitton importeras via samma importformulär som menyer, med `{ "receipts": [...] }`.
 
+Fliken **Mina rätter** visar rätter som köpts minst två gånger, oavsett prisgräns och fiskfilter. Erbjudanden och rätter som just nu kostar mindre än medianen av vad du har betalat visas först. Alla kort visar hur många gånger rätten köpts och vad du brukar betala. Ett kvitto kopplas till en rätt med Wolt-rätt-ID, eller med exakt samma namn hos samma restaurang om Wolt har bytt ID.
+
 ## Prisjämförelse
 
 - Kampanj: aktuellt pris under det ordinarie pris som Wolt visar. Detta är inte bevis på ett historiskt fynd.
