@@ -34,8 +34,8 @@ jobs:
           if [ -f data/fees.json ]; then cp data/fees.json _site/data/; fi
           cp data/venues.json _site/data/
           if [ -f data/discovered.json ]; then cp data/discovered.json _site/data/; fi
-          if [ -f data/foodora.json ]; then cp data/foodora.json _site/data/; fi
-          if [ -f data/ubereats.json ]; then cp data/ubereats.json _site/data/; fi
+          # Restauranger utanför Wolt i egna filer som sidan hämtar bara när de visas.
+          node scripts/split-compare.mjs _site/data foodora ubereats
           if [ -f data/ratings.json ]; then cp data/ratings.json _site/data/; fi
           if [ -f data/google.json ]; then cp data/google.json _site/data/; fi
           if [ -f data/venueinfo.json ]; then cp data/venueinfo.json _site/data/; fi
