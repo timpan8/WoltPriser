@@ -11,7 +11,7 @@ Arbetsflödet `Prisavläsning` (`.github/workflows/scrape.yml`) körs 14:07 och 
 5. Ändrade prisfiler committas till main och `pages.yml` startas (en push från GitHub Actions startar inte andra arbetsflöden av sig själv).
 6. Körningens sammanfattning visar antal lästa restauranger, fel, varningar (t.ex. inga bilder, eller Wolt+-priser som saknas eftersom skrapan inte är inloggad) och ovanligt låga priser (minst 7 tidigare mätdagar). Om ingen meny kunde läsas misslyckas körningen och GitHub mejlar.
 
-Manuell körning: Actions → Prisavläsning → Run workflow (läser av direkt). Pull requests som ändrar insamlingen gör en provkörning mot tre restauranger utan att spara.
+Manuell körning: Actions → Prisavläsning → Run workflow (läser av direkt). Pull requests som ändrar insamlingen gör en provkörning mot tre av dina restauranger och två upptäckta, utan att spara.
 
 Inställningar (Settings → Secrets and variables → Actions → Variables): `WOLT_LAT` och `WOLT_LON` för din leveransadress. De styr både vilka restauranger som läses och vilka kampanjer som gäller; utan dem används Skanstull. Ange ungefärliga koordinater (till exempel kvartersnivå); variablerna är inte publika.
 

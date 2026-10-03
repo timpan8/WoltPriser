@@ -23,12 +23,13 @@ let venues=await loadVenues(root);
 // Misslyckas den läses bara dina restauranger, och förra listan i data/discovered.json behålls.
 let discovered=null;
 if(process.env.SCRAPE_DISCOVER!=='0'&&!args.only){
- try{discovered=await defaultSource.discover({lat,lon});console.log(`Hittade ${discovered.length} restauranger som levererar till positionen.`);}
+ try{discovered=await defaultSource.discover({lat,lon});console.log(`Hittade ${discovered.length} restauranger som levererar till positionen, t.ex. ${discovered.slice(0,3).map(v=>`${v.name} (${[v.rating!=null?'★ '+v.rating:'',...v.tags].filter(Boolean).join(', ')||'utan betyg/kök'})`).join('; ')}.`);}
  catch(e){console.log(`Kunde inte hämta restauranglistan (${e.message}); läser bara dina restauranger.`);}
  venues=scrapeList(venues,discovered||[]);
 }
 if(args.only)venues=venues.filter(v=>(v.name+' '+(v.url||'')).toLocaleLowerCase('sv').includes(String(args.only).toLocaleLowerCase('sv')));
-if(args.limit)venues=venues.slice(0,Number(args.limit));
+// --limit=N läser de N första av dina; --discovered=M lägger till M upptäckta (för provkörningar).
+if(args.limit){const own=venues.filter(v=>!v.discovered).slice(0,Number(args.limit)),extra=args.discovered?venues.filter(v=>v.discovered).slice(0,Number(args.discovered)):[];venues=[...own,...extra];}
 if(!venues.length){console.error('Inga restauranger att läsa.');process.exit(1);}
 
 console.log(`Läser ${venues.length} restauranger…`);

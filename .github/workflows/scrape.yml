@@ -29,7 +29,7 @@ jobs:
       # På pull requests: provkörning mot Wolt från GitHubs nätverk, inget sparas.
       - name: Provkörning
         if: github.event_name == 'pull_request'
-        run: node scripts/scrape.mjs --dry-run --limit=3
+        run: node scripts/scrape.mjs --dry-run --limit=3 --discovered=2
       - name: Läs av menyer
         id: scrape
         if: github.event_name != 'pull_request'
