@@ -4,7 +4,7 @@ En svensk, mobilanpassad översikt över menypriser från utvalda restauranger p
 
 ## Användning
 
-`npm start` visar sidan på http://127.0.0.1:4173. Inga npm-beroenden behövs. `npm test` testar prislogiken och importen.
+`npm start` visar sidan på https://timpan8.github.io/WoltPriser/. Inga npm-beroenden behövs. `npm test` testar prislogiken och importen.
 
 Standardfilter: under 160 kr, fisk/skaldjur döljs när de nämns i menytext, drycker och tillbehör döljs med textbaserade regler. Wolt+ kan slås av och på. Filter är hjälpmedel, inte en allergikontroll. Tillgänglighet på rättnivå är inte ett löfte om att restaurangen kan leverera just nu.
 
