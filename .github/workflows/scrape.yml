@@ -6,7 +6,7 @@ on:
     - cron: '7 14,15 * * *'
   workflow_dispatch: # manuell körning läser av direkt
   pull_request:
-    paths: ['lib/sources/**', 'lib/scrape.mjs', 'scripts/scrape.mjs', '.github/workflows/scrape.yml']
+    paths: ['lib/sources/**', 'lib/scrape.mjs', 'lib/foodora.mjs', 'scripts/scrape.mjs', '.github/workflows/scrape.yml']
 permissions:
   contents: write
   actions: write
@@ -26,10 +26,10 @@ jobs:
         with:
           node-version: '24'
       - run: npm test
-      # På pull requests: provkörning mot Wolt från GitHubs nätverk, inget sparas.
+      # På pull requests: provkörning mot Wolt och Uber Eats från GitHubs nätverk, inget sparas; fel stoppar PR:en.
       - name: Provkörning
         if: github.event_name == 'pull_request'
-        run: node scripts/scrape.mjs --dry-run --limit=3 --discovered=2
+        run: node scripts/scrape.mjs --dry-run --limit=3 --discovered=2 --strict
       - name: Läs av menyer
         id: scrape
         if: github.event_name != 'pull_request'
@@ -43,6 +43,8 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/history.json data/images.json data/venues.json
           if [ -f data/discovered.json ]; then git add data/discovered.json; fi
+          if [ -f data/ubereats.json ]; then git add data/ubereats.json; fi
+          if [ -f data/ubereats-links.json ]; then git add data/ubereats-links.json; fi
           if git diff --cached --quiet; then echo "Inga ändringar."; exit 0; fi
           git commit -m "Prisavläsning $(TZ=Europe/Stockholm date '+%Y-%m-%d %H:%M')"
           git pull --rebase origin main

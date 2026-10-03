@@ -14,7 +14,7 @@ Insamlingen sker automatiskt med `scripts/scrape.mjs` (se `AUTOMATION.md`). Skri
 
 Begränsningar: Wolt+-kampanjer visas bara för inloggade medlemmar och kommer därför inte med i den automatiska insamlingen. De kommer i stället från dina egna priser (se nedan). Rätter som Wolt döljer när de är slut kan saknas i en avläsning och markeras då som borta tills de kommer tillbaka.
 
-Plattformar läggs till som källor i `lib/sources/` (Wolt nu; Foodora och Uber Eats kan läggas till med samma format). Den gamla webbläsarläsningen (`scripts/extract-menu.js` + importformuläret) finns kvar som manuell reserv.
+Wolt är huvudkällan (`lib/sources/wolt.mjs`). Uber Eats läses automatiskt i samma körning som jämförelsepriser (`lib/sources/ubereats.mjs`, se Uber Eats nedan). Foodora skyddas av bot-skyddet PerimeterX och läses därför bara i en vanlig webbläsare. Den gamla webbläsarläsningen (`scripts/extract-menu.js` + importformuläret) finns kvar som manuell reserv.
 
 Rätter som tidigare hade ett Wolt+-pris men nu läses med fullpris räknas upp som varning i körningens sammanfattning, så att det syns om Wolt+-rabatter saknas och inte bara ser ut som prishöjningar.
 
@@ -41,6 +41,20 @@ Skrapan (`lib/sources/wolt.mjs`) och den manuella läsningen (`scripts/extract-m
 Samma restauranger läses också på Foodora, så att korten kan visa om rätten är billigare där. `data/venues.json` har fältet `foodora` med restaurangens Foodora-länk; den fylls bara i när restaurangen går att identifiera entydigt (samma namn och område, eller samma meny och priser). `scripts/extract-foodora.js` läser en öppen Foodora-sida på samma skrivskyddade sätt som menyskriptet: rättens namn, kategori, pris, överstruket ordinarie pris, om priset visas som "från" och pris under PRO-DEALS (foodora pro). Importformuläret tar emot `{ "foodora": [...] }` där varje avläsning har `url` (Foodora), `wolt` (Wolt-länken) och `items`. Priserna sparas i `data/foodora.json` som en ändringslogg per rätt.
 
 Foodora har inga gemensamma rätt-ID:n med Wolt. En rätt jämförs bara när namnet är exakt detsamma (utan skiljetecken och versaler); flera rätter med samma namn avgörs av kategorin, annars jämförs de inte. "Från"-priser är grundpriset innan obligatoriska val och märks på kortet. Jämförelsen gäller menypriset: leverans, serviceavgift och medlemskap skiljer sig mellan tjänsterna. Foodora-priser visas i prishistoriken men räknas inte in i märkningarna.
+
+## Uber Eats
+
+Uber Eats läses för alla restauranger som läses på Wolt, både dina och de som levererar till positionen. Länken till Uber Eats-butiken hittas så här:
+
+- Fältet `ubereats` i `data/venues.json` går alltid först (länkar som du lagt in för hand).
+- Annars söks restaurangen upp på Uber Eats med namnet från Wolt, med leveransadressen satt till samma position som Wolt-läsningen. Butiken godtas bara om namnet stämmer (utan text inom parentes, ortsuffix efter " - " och ord som "restaurang") och butiken ligger högst 8 km från positionen. Om Uber Eats-namnet har ett extra ord, till exempel en ort, krävs minst två ord i namnet och högst 3 km. Finns flera godtagbara butiker väljs den närmaste.
+- Träffar och missar sparas i `data/ubereats-links.json`. En restaurang utan träff söks igen efter 14 dagar. Högst 80 sökningar görs per körning (`UBEREATS_SEARCH_LIMIT`), så de första dagarna fylls listan på successivt.
+
+Menyn hämtas från Uber Eats öppna webb-API (`getStoreV1`, samma anrop som ubereats.com gör utan inloggning): rättens namn, kategori, pris och överstruket ordinarie pris. Slutsålda rätter tas inte med. Priserna sparas i `data/ubereats.json`, i samma format som Foodora. Uber One-priser syns bara för inloggade och kommer inte med. Tom meny, eller mer än 30 % färre rätter än förra gången, räknas som fel och gamla priser behålls. `SCRAPE_UBEREATS=0` stänger av Uber Eats i körningen.
+
+Uber Eats blockerar i dag anrop från GitHubs nätverk (HTTP 403). Den dagliga körningen slutar då efter första försöket, och samma läsning görs i stället i din webbläsare (se `AUTOMATION.md`, Uber Eats i webbläsaren). Valet av butik och rimlighetskontrollen är desamma.
+
+Jämförelsen fungerar som för Foodora. Om inget namn är exakt detsamma görs ett andra försök där text inom parentes och ordet "pizza" tas bort ("Chicken Madras (Stark)", "Capricciosa Pizza"). Det andra försöket gäller bara när träffen är entydig och priset ligger mellan hälften och det dubbla. Då visar kortet Uber Eats-namnet inom citattecken, så att du ser vad som jämförs. Det andra försöket gäller också Foodora.
 
 ## Egna köp
 

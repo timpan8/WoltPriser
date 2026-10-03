@@ -16,6 +16,8 @@ if ($LASTEXITCODE) { throw 'Ingen meny kunde läsas; inget sparat.' }
 
 git add data/history.json data/images.json data/venues.json
 if (Test-Path data/discovered.json) { git add data/discovered.json }
+if (Test-Path data/ubereats.json) { git add data/ubereats.json }
+if (Test-Path data/ubereats-links.json) { git add data/ubereats-links.json }
 git diff --cached --quiet
 if ($LASTEXITCODE -eq 0) { Write-Host 'Inga ändringar att spara.'; exit 0 }
 git commit -m "Prisavläsning $(Get-Date -Format 'yyyy-MM-dd HH:mm') (lokal)"

@@ -8,10 +8,11 @@ Arbetsflödet `Prisavläsning` (`.github/workflows/scrape.yml`) körs 14:07 och 
 2. `node scripts/scrape.mjs --if-due` hämtar listan över alla restauranger som levererar till positionen (`discoverWolt`, sparas i `data/discovered.json`), lägger till dina restauranger från `data/venues.json` och hämtar varje meny via `lib/sources/wolt.mjs`, två restauranger åt gången med paus mellan anropen. Med flera hundra restauranger tar det 10–15 minuter. `SCRAPE_DISCOVER=0` läser bara dina restauranger. Restauranger utan `url` söks upp med exakt namn; utan entydig träff hoppas de över och rapporteras.
 3. Rimlighetskontroll per restaurang: tom meny, eller mer än 30 % färre rätter än förra avläsningen, ger ett nytt försök efter 5 s och annars fel. Om kampanjerna inte går att läsa räknas restaurangen som misslyckad, så att ett rabatterat pris aldrig sparas som ordinarie. Misslyckade restauranger behåller sina gamla data. Inga priser uppskattas.
 4. Lyckade avläsningar sparas med samma kod som importformuläret (`lib/store.mjs`): `history.json`, `images.json` och `venues.json`.
+   Därefter läses Uber Eats för samma restauranger (`lib/sources/ubereats.mjs`), två åt gången, med samma rimlighetskontroll. Restauranger utan känd Uber Eats-länk söks upp med namnet (högst 80 per körning, se `README.md`, Uber Eats). Priserna sparas i `data/ubereats.json` och länkarna i `data/ubereats-links.json`. Fel på Uber Eats stoppar inte Wolt-avläsningen. Blockerar Uber Eats (HTTP 403) avbryts Uber Eats-delen direkt; se Uber Eats i webbläsaren nedan.
 5. Ändrade prisfiler committas till main och `pages.yml` startas (en push från GitHub Actions startar inte andra arbetsflöden av sig själv).
 6. Körningens sammanfattning visar antal lästa restauranger, fel, varningar (t.ex. inga bilder, eller Wolt+-priser som saknas eftersom skrapan inte är inloggad) och ovanligt låga priser (minst 7 tidigare mätdagar). Om ingen meny kunde läsas misslyckas körningen och GitHub mejlar.
 
-Manuell körning: Actions → Prisavläsning → Run workflow (läser av direkt). Pull requests som ändrar insamlingen gör en provkörning mot tre av dina restauranger och två upptäckta, utan att spara.
+Manuell körning: Actions → Prisavläsning → Run workflow (läser av direkt). Pull requests som ändrar insamlingen gör en provkörning mot tre av dina restauranger och två upptäckta, på Wolt och Uber Eats (med sökning för de som saknar länk), utan att spara. Med `--strict` blir PR:en röd om någon restaurang misslyckas.
 
 Inställningar (Settings → Secrets and variables → Actions → Variables): `WOLT_LAT` och `WOLT_LON` för din leveransadress. De styr både vilka restauranger som läses och vilka kampanjer som gäller; utan dem används Årsta (postnummer 120 53). Ange ungefärliga koordinater (till exempel kvartersnivå); variablerna är inte publika.
 
@@ -48,6 +49,16 @@ Samma rutin är också manuell reserv om API:t ändras eller blockeras. Importer
 6. Foodora: för varje restaurang i `data/venues.json` som har fältet `foodora`, öppna länken (högst tre flikar samtidigt), vänta på menykorten (`[data-testid="menu-product"]`) och kör den skrivskyddade funktionen i `scripts/extract-foodora.js`. Lägg till `wolt` (restaurangens Wolt-länk) i varje resultat och importera alla med `JSON.stringify({foodora: collected})` i samma formulär. Läs aldrig adress, varukorg eller konto. Om en sida inte går att läsa: rapportera restaurangen och behåll gamla Foodora-priser.
 7. Kör `npm test`. Spara bara de nya prisfilerna (`data/member.json`, `data/images.json` och vid Foodora `data/foodora.json`; som reserv även `data/history.json` och `data/venues.json`) i en commit och push till main i timpan8/WoltPriser. Verifiera GitHub Pages-körningen; en push ensam bevisar inte publicering. Alla insamlingsfel ska anges tydligt. Om ingen giltig meny kunde läsas: gör ingen data-commit.
 8. Stäng bara de tillfälliga restaurang- och importflikar som skapades för körningen. Låt användarens flikar vara kvar. Var tyst vid normala lyckade uppdateringar; meddela bara ovanligt låga priser enligt minst 7 tidigare mätdagar, fel som hindrar uppdateringen eller behov av användaråtgärd.
+
+## Uber Eats i webbläsaren (reserv)
+
+Uber Eats blockerar i dag anrop från GitHubs nätverk (HTTP 403, provkörning 2026-10-03). Då avbryter den dagliga körningen Uber Eats efter första blockeringen och sammanfattningen visar "Uber Eats blockerar läsningen härifrån". Så länge det står där läses Uber Eats i stället här, i samma Codex-rutin som Dina priser, efter steg 6. En gång i veckan räcker.
+
+1. Kör `node scripts/ubereats-targets.mjs` i repot. Utskriften är en JSON-lista med restauranger (Wolt-länk, namn och känd Uber Eats-länk).
+2. Öppna en tillfällig flik med `https://www.ubereats.com/se` i den inloggade webbläsaren. Kontrollera bara att leveransadressen som visas är Årsta; ändra den inte och läs den inte i övrigt. Om sidan visar inloggning eller robotkontroll: rapportera det och avbryt.
+3. Kör den skrivskyddade funktionen i `scripts/extract-ubereats.js` med `tab.playwright.evaluate`, med listan som argument, i batcher om högst 40 restauranger. Samla resultaten i en JavaScript-array i webbläsarverktygets session. Skriv bara antal och fel till chatten.
+4. Importera i importformuläret (som i steg 5) med `JSON.stringify({ubereatsStores: collected})`, en batch i taget om formuläret blir för stort. Kvittensen visar antal sparade och misslyckade restauranger.
+5. Spara `data/ubereats.json` och `data/ubereats-links.json` i samma commit som övriga prisfiler (steg 7).
 
 Kvitton läses bara när användaren uttryckligen ber om det (se `README.md`, Egna köp).
 

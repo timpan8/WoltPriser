@@ -74,3 +74,82 @@ test('discovered restaurants do not become yours in venues.json, but name-only e
  assert.deepEqual(mergeVenues([{name:'test'}],h,{addNew:false}),[{name:'Test',url}]);assert.equal(mergeVenues([{name:'test'}],h).length,2);});
 test('a daily reading of hundreds of restaurants can be saved in one go',()=>{const many=Array.from({length:600},(_,k)=>({...snap,url:url+'-'+k,observedAt:'2026-10-02T14:20:00.000Z'}));
  const h=mergeHistory(emptyHistory(),{snapshots:many});assert.equal(h.readings.length,600);const again=mergeHistory(h,{snapshots:many.map(s=>({...s,observedAt:'2026-10-03T14:20:00.000Z'}))});assert.equal(again.readings.length,1200);});
+
+// Uber Eats ---------------------------------------------------------------------------------------
+import {mapUberEats,storeUuid,storeUrl,struckPrice,fetchUberEats,nameKey,sameName,pickStore,parseStoreList} from '../lib/sources/ubereats.mjs';
+import {scrapeUberEats,ingestUberEats} from '../lib/scrape.mjs';
+import {readFileSync} from 'node:fs';
+import {mergeFoodora,foodoraMenu,matchFoodora,UBEREATS} from '../lib/foodora.mjs';
+const ueUrl='https://www.ubereats.com/se/store/burger-king-arsta/yl7fgcXeSFaVG-AwkndQfg';
+const tag=(p,o)=>({text:`${p},00 kr`,accessibilityText:o?`${p},00 kr, discounted from ${o},00 kr`:`${p},00 kr`,textFormat:o?`<span><span style="color:#05944F">${p},00 kr </span><span style="text-decoration:line-through;color:#757575;baseline-shift:0px">${o},00 kr</span></span>`:`<span>${p},00 kr</span>`});
+const ci=(uuid,title,price,orig,extra={})=>({uuid,title,price:price*100,priceTagline:tag(price,orig),isSoldOut:false,isAvailable:true,...extra});
+const ueStore={title:'Burger King Årsta',catalogSectionsMap:{s:[
+ {type:'HORIZONTAL_GRID',payload:{standardItemsPayload:{title:{text:'Utvalda objekt'},catalogItems:[ci('w1','Whopper Cheese Meal',124,155)]}}},
+ {type:'VERTICAL_GRID',payload:{standardItemsPayload:{title:{text:'FLAME-GRILLED MENYER'},catalogItems:[ci('w1','Whopper Cheese Meal',124,155),ci('w2','Whopper Meal',145),ci('w3','Big King',69,null,{isSoldOut:true})]}}}]}};
+test('Uber Eats store links round-trip to the store uuid',()=>{assert.equal(storeUuid(ueUrl),'ca5edf81-c5de-4856-951b-e0309277507e');assert.equal(storeUrl('burger-king-arsta','ca5edf81-c5de-4856-951b-e0309277507e'),ueUrl);assert.match(storeUrl('muskot-kok-&-bar','18a38c0e-875f-5c31-945a-d38f54895ef5'),/muskot-kok-%26-bar\//);});
+test('Uber Eats menu: real category wins, struck price is the original, sold out is skipped',()=>{
+ const s=mapUberEats({store:ueStore,url:ueUrl,wolt:url,name:' BK ',now});
+ assert.deepEqual(s.items.map(i=>[i.id,i.category,i.price,i.originalPrice]),[['w1','FLAME-GRILLED MENYER',12400,15500],['w2','FLAME-GRILLED MENYER',14500,14500]]);
+ assert.equal(struckPrice(tag(99)),null);assert.equal(mergeFoodora(null,{ubereats:[s]},UBEREATS).venues[url].items.w1.log[0][1],12400);});
+test('Uber Eats links are validated like Foodora links',()=>{const s=mapUberEats({store:ueStore,url:'https://evil.example/se/store/x/yl7fgcXeSFaVG-AwkndQfg',wolt:url,name:'BK',now});assert.throws(()=>mergeFoodora(null,{ubereats:[s]},UBEREATS),/Uber Eats-länk/);});
+test('scrapeUberEats reads linked venues, rejects big drops and keeps going',async()=>{
+ const store=mergeFoodora(null,{ubereats:[{...mapUberEats({store:ueStore,url:ueUrl,wolt:url,name:'BK',now:'2026-10-02T14:00:00Z'}),items:Array.from({length:10},(_,k)=>({id:'x'+k,name:'R'+k,category:'',price:100,originalPrice:100,proPrice:null,from:false}))}]},UBEREATS);
+ const fetchImpl=fakeFetch({'/getStoreV1':(u,init)=>JSON.parse(init.body).storeUuid.startsWith('ca5e')?{status:'success',data:ueStore}:new Response('x',{status:404})});
+ const other='https://wolt.com/sv/swe/stockholm/restaurant/other';
+ const r=await scrapeUberEats({venues:[{name:'BK',url,ubereats:ueUrl},{name:'Annan',url:other,ubereats:'https://www.ubereats.com/se/store/x/AAAAAAAAAAAAAAAAAAAAAA'},{name:'Utan',url:other}],store,fetchImpl,now,searchLimit:0,pause:async()=>{}});
+ assert.equal(r.ok.length,0);assert.deepEqual(r.failed.map(f=>f.venue.name+': '+f.error.slice(0,10)),['BK: bara 2 rät','Annan: HTTP 404 f']);
+ const fresh=await scrapeUberEats({venues:[{name:'BK',url,ubereats:ueUrl}],store:null,fetchImpl,now,pause:async()=>{}});assert.equal(fresh.ok[0].snapshot.items.length,2);});
+test('venues keep their Foodora and Uber Eats links when readings are merged',()=>{const v=mergeVenues([{name:'Test',url,foodora:'https://www.foodora.se/restaurant/ab12/x',ubereats:ueUrl}],mergeHistory(emptyHistory(),{snapshots:[snap]}));assert.equal(v[0].ubereats,ueUrl);assert.equal(v[0].foodora,'https://www.foodora.se/restaurant/ab12/x');});
+test('second-pass name match: parentheses and the word pizza, only unique and with a sane price',()=>{
+ const items=[['a','Chicken Madras (Stark)',18900],['b','Capricciosa Pizza',15500],['c','Naan (1 st)',3200],['d','Naan (2 st)',5500],['e','Lassi',99000]].map(([id,name,price])=>({id,name,category:'',price,originalPrice:price,proPrice:null,from:false}));
+ const m=foodoraMenu(mergeFoodora(null,{ubereats:[{url:ueUrl,wolt:url,name:'X',observedAt:now,items}]},UBEREATS),url);
+ const hit=matchFoodora(m,{name:'Chicken Madras',price:19500});assert.equal(hit.id,'a');assert.equal(hit.similar,true);
+ assert.equal(matchFoodora(m,{name:'Capricciosa',price:16500}).id,'b');assert.equal(matchFoodora(m,{name:'Naan',price:4000}),null);assert.equal(matchFoodora(m,{name:'Lassi (mango)',price:4000}),null);
+ assert.equal(matchFoodora(m,{name:'Chicken Madras (Stark)',price:1}).similar,undefined);});
+test('a bot-check page instead of JSON gives a clear error',async()=>{await assert.rejects(fetchUberEats({name:'BK',url,ubereats:ueUrl},{fetchImpl:async()=>new Response('<html>challenge</html>',{status:200})}),/kontrollsida/);});
+
+// Uber Eats för alla restauranger: sökning på namn, val av butik nära positionen, länkar som sparas.
+const U1='ca5edf81-c5de-4856-951b-e0309277507e',U2='11111111-2222-4333-8444-555555555555',U3='99999999-2222-4333-8444-555555555555';
+const near={latitude:59.30,longitude:18.05},far={latitude:59.85,longitude:17.64};// Årsta resp. Uppsala
+const ueData={[U1]:{...ueStore,uuid:U1,slug:'burger-king-arsta',title:'Burger King',location:near},[U2]:{...ueStore,uuid:U2,slug:'burger-king-uppsala',title:'Burger King',location:far},[U3]:{...ueStore,uuid:U3,slug:'bk-cafe',title:'Kafé Annat',location:near}};
+const searchFeed={feedItems:[{type:'REGULAR_STORE',store:{storeUuid:U2,title:{text:'Burger King'}}},{store:{storeUuid:U1,title:{text:'Burger King'}}},{store:{storeUuid:U3,title:{text:'Kafé Annat'}}}]};
+test('Uber Eats names match across apps, but not loosely',()=>{
+ assert.equal(nameKey('Restaurang Ellora - Södermalm'),'ellora');assert.equal(sameName('Café Älvan','Cafe Alvan (Årsta)'),2);
+ assert.equal(sameName('Piatto Fresco','Piatto Fresco Årstaberg'),1);assert.equal(sameName('Max','Max Medborgarplatsen'),0);assert.equal(sameName('Sushi Bar','Sushi Yama'),0);
+ assert.deepEqual(parseStoreList(searchFeed).map(s=>s.uuid),[U2,U1,U3]);});
+test('pickStore takes the nearest store with the same name and never one far away',()=>{
+ const pos={lat:59.299,lon:18.052};
+ assert.equal(pickStore({name:'Burger King',stores:[ueData[U2],ueData[U1]],...pos}).uuid,U1);
+ assert.equal(pickStore({name:'Burger King',stores:[ueData[U2]],...pos}),null);
+ assert.equal(pickStore({name:'Burger King Medborgarplatsen',stores:[{...ueData[U1],location:far}],...pos}),null);
+ assert.equal(pickStore({name:'Burger',stores:[ueData[U1]],...pos}),null);});
+test('scrapeUberEats searches unlinked venues, remembers misses and respects the search limit',async()=>{
+ const calls=[];const fetchImpl=fakeFetch({'/getSearchFeedV1':(u,init)=>{calls.push(JSON.parse(init.body).userQuery);assert.match(init.headers.cookie,/^uev2\.loc=/);return {status:'success',data:JSON.parse(init.body).userQuery==='Burger King'?searchFeed:{feedItems:[]}};},
+  '/getStoreV1':(u,init)=>({status:'success',data:ueData[JSON.parse(init.body).storeUuid]})});
+ const w=n=>`https://wolt.com/sv/swe/stockholm/restaurant/${n}`,venues=[{name:'Burger King',url:w('bk')},{name:'Okänd',url:w('okand')},{name:'Tredje',url:w('tredje')}];
+ const r=await scrapeUberEats({venues,store:null,fetchImpl,now,searchLimit:2,pause:async()=>{}});
+ assert.deepEqual(calls,['Burger King','Okänd']);assert.equal(r.searched,2);assert.equal(r.found,1);assert.equal(r.ok.length,1);
+ assert.equal(r.ok[0].snapshot.wolt,w('bk'));assert.equal(r.links.links[w('bk')].ubereats,storeUrl('burger-king-arsta',U1));assert.equal(r.links.links[w('okand')].ubereats,null);assert.equal(r.links.links[w('tredje')],undefined);
+ assert.equal(mergeFoodora(null,{ubereats:r.ok.map(x=>x.snapshot)},UBEREATS).venues[w('bk')].name,'Burger King');
+ calls.length=0;const next=await scrapeUberEats({venues,store:null,links:r.links,fetchImpl,now,pause:async()=>{}});
+ assert.deepEqual(calls,['Tredje']);assert.equal(next.ok.length,1);
+ const later=await scrapeUberEats({venues,store:null,links:next.links,fetchImpl,now:'2026-11-01T12:00:00Z',pause:async()=>{}});assert.equal(later.searched,2);
+ let hits=0;const blocked=await scrapeUberEats({venues,store:null,fetchImpl:async()=>{hits++;return new Response('denied',{status:403});},now,pause:async()=>{}});
+ assert.match(blocked.blocked,/HTTP 403/);assert.equal(blocked.failed.length,0);assert.ok(hits<=2,'stops after the block');assert.equal(blocked.links.links[w('bk')],undefined);
+ const parse=await scrapeUberEats({venues:venues.slice(0,1),store:null,fetchImpl:fakeFetch({'/getSearchFeedV1':{status:'failure'}}),now,pause:async()=>{}});
+ assert.equal(parse.blocked,null);assert.equal(parse.failed[0].search,true);});
+test('browser fallback: extract-ubereats.js output is imported like the cloud reading',async()=>{
+ const fn=eval(readFileSync(new URL('../scripts/extract-ubereats.js',import.meta.url),'utf8').replace(/^\/\/.*\n/gm,''));
+ const real=globalThis.fetch,realTimeout=globalThis.setTimeout;
+ globalThis.fetch=async(p,init)=>{const b=JSON.parse(init.body);return new Response(JSON.stringify(p.includes('getSearchFeedV1')?{status:'success',data:searchFeed}:ueData[b.storeUuid]?{status:'success',data:{...ueData[b.storeUuid],extra:'x'.repeat(50)}}:{status:'failure'}));};
+ globalThis.setTimeout=f=>realTimeout(f,0);
+ try{
+  const w=n=>`https://wolt.com/sv/swe/stockholm/restaurant/${n}`;
+  const out=await fn([{wolt:w('bk'),name:'Burger King',ubereats:null},{wolt:w('max'),name:'Max',ubereats:storeUrl('x','00000000-0000-4000-8000-000000000000')},{wolt:w('kafe'),name:'Kafé Annat',ubereats:storeUrl('bk-cafe',U3)}]);
+  assert.equal(out[0].stores.length,3);assert.equal(out[0].stores[0].extra,undefined);assert.match(out[1].error,/utan data/);
+  const r=ingestUberEats(out,{store:null,now});
+  assert.deepEqual(r.ok.map(x=>x.venue.name),['Burger King','Kafé Annat']);assert.equal(r.failed.length,1);
+  assert.equal(r.links.links[w('bk')].ubereats,storeUrl('burger-king-arsta',U1));assert.equal(r.links.links[w('kafe')],undefined);
+  const cloud=mapUberEats({store:ueData[U1],url:storeUrl('burger-king-arsta',U1),wolt:w('bk'),name:'Burger King',now});
+  assert.deepEqual(r.ok[0].snapshot.items,cloud.items);
+ }finally{globalThis.fetch=real;globalThis.setTimeout=realTimeout;}});
