@@ -3,7 +3,8 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {emptyHistory} from '../lib/prices.mjs';
-import {saveSnapshots} from '../lib/store.mjs';
+import {saveSnapshots,saveMember,loadHistory,loadMember} from '../lib/store.mjs';
+import {effectiveHistory} from '../lib/member.mjs';
 import {mergeReceipts,emptyReceipts} from '../lib/receipts.mjs';
 import {mergeFoodora,emptyFoodora} from '../lib/foodora.mjs';
 const root=fileURLToPath(new URL('../',import.meta.url));const port=Number(process.env.WOLT_PORT||4173);
@@ -26,11 +27,14 @@ http.createServer(async(req,res)=>{try{
    if(batch&&Array.isArray(batch.receipts)){const rfile=path.join(root,'data/receipts.json');let store=emptyReceipts();try{store=JSON.parse(await fs.readFile(rfile,'utf8'));}catch{}
     store=mergeReceipts(store,batch);await fs.writeFile(rfile+'.tmp',JSON.stringify(store,null,1));await fs.rename(rfile+'.tmp',rfile);
     res.setHeader('Content-Type',types['.html']);res.end('<!doctype html><meta charset="utf-8"><h1>Kvitton sparade</h1><p>'+store.prices.length+' kvittopriser totalt.</p><a href="/">Öppna WoltPriser</a>');return;}
+   if(batch&&batch.mine===true){const {member}=await saveMember(root,batch);res.setHeader('Content-Type',types['.html']);res.end('<!doctype html><meta charset="utf-8"><h1>Dina priser sparade</h1><p>'+member.readings.length+' egna avläsningar i member.json.</p><a href="/">Öppna WoltPriser</a>');return;}
    const {history,venues}=await saveSnapshots(root,batch);
    res.setHeader('Content-Type',types['.html']);res.end('<!doctype html><meta charset="utf-8"><h1>Avläsningen sparad</h1><p>'+history.readings.length+' menyavläsningar från '+venues.filter(v=>v.url).length+' restauranger.</p><a href="/">Öppna WoltPriser</a>');
   }finally{importing=false;}return;
  }
  if(req.method!=='GET'){res.writeHead(405);res.end();return;}
+ // Lokalt visas samma historik som på GitHub Pages: grunddata med dina priser ovanpå.
+ if(url.pathname==='/data/history.json'){res.setHeader('Content-Type',types['.json']);res.end(JSON.stringify(effectiveHistory(await loadHistory(root),await loadMember(root))));return;}
  const relative=decodeURIComponent(url.pathname==='/'?'index.html':url.pathname.slice(1));
  if(relative.split('/').some(p=>p.startsWith('.')||p==='scripts')||relative.includes('\\'))throw Error('Ej tillåten sökväg');
  const target=path.resolve(root,relative);if(!target.startsWith(root))throw Error('Ej tillåten sökväg');
