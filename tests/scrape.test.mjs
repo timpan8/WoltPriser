@@ -169,4 +169,7 @@ test('opening hours and minimum order are read from several Wolt formats',async(
  assert.deepEqual(a.hours,{mon:[[600,1320]],sun:[[720,1500]]});assert.equal(a.minOrder,15000);
  const b=venueInfo({delivery_times:{tuesday:[{open:'11:00',close:'21:30'}]},opening_times:{tuesday:[{open:'10:00',close:'22:00'}]}});assert.deepEqual(b.hours,{tue:[[660,1290]]});
  assert.deepEqual(venueInfo({x:1}),{hours:null,minOrder:null,sample:null});assert.equal(venueInfo(null).hours,null);
- const odd=venueInfo({opening_times:{monday:[{weird:1}]}});assert.equal(odd.hours,null);assert.match(odd.sample,/opening_times\.monday=\[\{"weird":1\}\]/);});
+ const odd=venueInfo({opening_times:{monday:[{weird:1}]}});assert.equal(odd.hours,null);assert.match(odd.sample,/opening_times\.monday=\[\{"weird":1\}\]/);
+ // Wolts riktiga format (delivery_specs.delivery_times): sekunder efter midnatt, nattöppet stängs på nästa dags lista.
+ const real=venueInfo({venue_raw:{delivery_specs:{order_minimum_no_surcharge:12000,delivery_times:{monday:[{type:'open',value:39600},{type:'close',value:77400}],friday:[{type:'open',value:64800}],saturday:[{type:'close',value:7200},{type:'open',value:43200},{type:'close',value:86400}]}}}});
+ assert.deepEqual(real.hours,{mon:[[660,1290]],fri:[[1080,1560]],sat:[[720,1440]]});assert.equal(real.minOrder,12000);});
