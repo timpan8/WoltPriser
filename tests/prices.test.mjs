@@ -54,3 +54,9 @@ test('a new image link is not a change in the price log',()=>{const a={...snap('
 test('image store keeps the latest image per restaurant and dish, also for out-of-order imports',()=>{const newer={...snap('12'),items:[{...item,image:img.replace('abc','new')}]},older={...snap('10'),items:[{...item,image:img}]};
  let st=mergeImages(null,validateBatch({snapshots:[newer]}));st=mergeImages(st,validateBatch({snapshots:[older]}));assert.equal(imageFor(st,url,'a'),img.replace('abc','new'));
  st=mergeImages(st,validateBatch({snapshots:[{...snap('13'),items:[{...item,image:''}]}]}));assert.equal(imageFor(st,url,'a'),img.replace('abc','new'));assert.equal(imageFor(st,url,'saknas'),'');});
+import {feeModel,withFees} from '../lib/fees.mjs';
+test('fees are estimated from own receipts as a share of the ordinary price',()=>{const o=(venue,date,list,fees)=>({venue,date,list,fees});
+ const m=feeModel({orders:[o('A','2026-07-01',20000,1000),o('A','2026-09-01',20000,1600),o('B','2026-09-02',10000,800),o('C','2026-09-03',18900,10345)]});
+ assert.equal(m.venues.has('C'),false);assert.equal(m.venues.get('A').n,2);
+ assert.deepEqual(withFees(m,'B',7000,10000),{fee:800,total:7800,ratio:0.08,orders:1});
+ assert.equal(withFees(m,'Ny restaurang',10000,10000).fee,Math.round(10000*m.all));assert.equal(withFees(null,'B',1,1),null);assert.equal(feeModel({orders:[]}),null);});

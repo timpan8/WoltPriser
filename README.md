@@ -24,11 +24,17 @@ Belopp lagras som heltal i ören och tidpunkter i UTC. Historiken identifierar r
 
 ## Egna köp
 
-`data/receipts.json` innehåller priser från egna Wolt-kvitton och visas som egna punkter i prishistoriken. Kvittona läses bara när användaren ber om det, med `scripts/extract-receipt.js` på en öppen kvittosida. Det som sparas är restaurang, datum (utan klockslag), Wolt-rätt-ID, rättens namn och pris. Ordernummer, adress, betalsätt, avgifter och totalsummor sparas inte. Endast levererade ordrar tas med.
+`data/receipts.json` innehåller priser från egna Wolt-kvitton och visas som egna punkter i prishistoriken. Kvittona läses bara när användaren ber om det, med `scripts/extract-receipt.js` på en öppen kvittosida. Det som sparas är restaurang, datum (utan klockslag), Wolt-rätt-ID, rättens namn och pris. Ordernummer, adress, betalsätt och totalsummor sparas inte. Avgifter sparas bara som summa per order i `data/fees.json` (se Avgifter nedan). Endast levererade ordrar tas med.
 
 Priset är vad rätten kostade efter rabatt, utan tillval och avgifter. Wolt visar rabatten som en summa för hela ordern. Om den är en jämn procentsats av en enda rätt eller av hela ordern räknas priset exakt; annars fördelas rabatten proportionellt och priset märks som uppskattat. Kvittopunkter matchas mot menyn med restaurangnamn och Wolt-rätt-ID, och räknas inte in i märkningarna nedan. Kvitton importeras via samma importformulär som menyer, med `{ "receipts": [...] }`.
 
 Fliken **Mina rätter** visar dina favoriträtter, alltså rätter du köpt minst två gånger, som rätter och inte som en viss restaurangs rätt. Köp med liknande namn från olika restauranger räknas som samma rätt, till exempel "Chicken Tikka Butter Masala" och "Tikka Masala Chicken". Varje kort visar var rätten är billigast just nu bland alla bevakade restauranger. Tryck för att jämföra alla alternativ. Matchningen (`lib/dishes.mjs`) väger rättens ord efter hur ovanliga de är på menyerna och kräver samma protein. Kortare namn, till exempel en mindre storlek, visas som annan variant och jämförs inte med vad du brukar betala. Prisgräns och fiskfilter gäller inte i fliken. Alla vanliga kort visar också hur många gånger rätten köpts och vad du brukar betala.
+
+## Avgifter
+
+Korten visar både menypriset och en uppskattning av vad rätten kostar med avgifter, om den beställs ensam. Wolts serviceavgift är 10 % av rätternas *ordinarie* pris, även när rätten har kampanjpris. Leveransen har kostat 0 kr med Wolt+, och Wolt+ drar av en del av serviceavgiften. `data/fees.json` har en rad per egen order: restaurang, datum, rätternas ordinarie pris och betalda avgifter (öre). Raderna kommer från Wolts kvittomejl: totalbelopp minus rabatt och Wolt+-rabatt, minus rätternas pris i `data/receipts.json`. Ordrar med rabattkod eller uppskattade rättpriser tas inte med.
+
+`lib/fees.mjs` räknar avgiften som andel av ordinarie pris: medianen av de tre senaste ordrarna hos restaurangen, annars medianen av de tio senaste ordrarna totalt. Andelar över 30 % räknas inte, eftersom de tyder på ofullständiga kvitton. Tillägg för liten beställning, tillfälligt höjd leveransavgift och delade avgifter vid flera rätter ingår inte. I Mina rätter väljs det billigaste alternativet med avgifterna inräknade.
 
 ## Prisjämförelse
 
