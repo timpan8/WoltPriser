@@ -1,0 +1,50 @@
+name: Prisavläsning
+# Läser menyerna en gång per dag efter kl. 16 svensk tid. GitHubs schema är i UTC, därför två tider
+# (14:07 och 15:07 UTC); scriptets --if-due ser till att bara den första efter 16:00 lokal tid läser av.
+on:
+  schedule:
+    - cron: '7 14,15 * * *'
+  workflow_dispatch: # manuell körning läser av direkt
+  pull_request:
+    paths: ['lib/sources/**', 'lib/scrape.mjs', 'scripts/scrape.mjs', '.github/workflows/scrape.yml']
+permissions:
+  contents: write
+  actions: write
+concurrency:
+  group: scrape
+  cancel-in-progress: false
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      WOLT_LAT: ${{ vars.WOLT_LAT }}
+      WOLT_LON: ${{ vars.WOLT_LON }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm test
+      # På pull requests: provkörning mot Wolt från GitHubs nätverk, inget sparas.
+      - name: Provkörning
+        if: github.event_name == 'pull_request'
+        run: node scripts/scrape.mjs --dry-run --limit=3
+      - name: Läs av menyer
+        id: scrape
+        if: github.event_name != 'pull_request'
+        run: node scripts/scrape.mjs ${{ github.event_name == 'schedule' && '--if-due' || '' }}
+      - name: Spara och publicera
+        if: steps.scrape.outputs.saved == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/history.json data/images.json data/venues.json
+          if git diff --cached --quiet; then echo "Inga ändringar."; exit 0; fi
+          git commit -m "Prisavläsning $(TZ=Europe/Stockholm date '+%Y-%m-%d %H:%M')"
+          git pull --rebase origin main
+          git push origin HEAD:main
+          # Push med GITHUB_TOKEN startar inte andra arbetsflöden; publicera sidan uttryckligen.
+          gh workflow run pages.yml --ref main

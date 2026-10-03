@@ -10,7 +10,13 @@ Rätterna delas in i flikarna Mat, Frukost, Fika & dessert, Dryck och Smått & t
 
 ## Insamling
 
-Den första insamlingen görs i den vanliga inloggade webbläsaren med Codex webbläsarverktyg. Tre restaurangflikar laddas parallellt och återanvänds. `scripts/extract-menu.js` läser menykortens DOM i ett anrop per restaurang. Inga dolda API:er, cookies, orderdetaljer eller leveransadresser samlas in. Alla laddade menykort inkluderas, även dyrare rätter och sådant som senare filtreras bort i gränssnittet. Anpassade tillval och obligatoriska val inne i varje rätt är inte prissatta i version 1.
+Insamlingen sker automatiskt med `scripts/scrape.mjs` (se `AUTOMATION.md`). Skriptet hämtar varje restaurangs meny från Wolts öppna JSON-API, samma anrop som wolt.com gör för en besökare som inte är inloggad: `consumer-assortment` ger rätter, kategorier, ordinarie priser, bilder och tillgänglighet, och venue-`dynamic` ger restaurangens aktiva kampanjer. Kampanjpriset räknas fram ur kampanjens regel (t.ex. 30 % på utvalda rätter); vid införandet gav det samma priser, kategorier och texter som DOM-avläsningarna. Ingen inloggning, inga cookies, orderdetaljer eller adresser används; positionen för kampanjer anges med `WOLT_LAT`/`WOLT_LON` (standard: Skanstull). Alla rätter i menyn inkluderas, även dyrare rätter och sådant som senare filtreras bort i gränssnittet. Anpassade tillval och obligatoriska val inne i varje rätt är inte prissatta.
+
+Begränsningar: Wolt+-kampanjer visas bara för inloggade medlemmar och kommer därför inte med i den automatiska insamlingen (priset utan Wolt+ blir ändå rätt). Rätter som Wolt döljer när de är slut kan saknas i en avläsning och markeras då som borta tills de kommer tillbaka.
+
+Plattformar läggs till som källor i `lib/sources/` (Wolt nu; Foodora och Uber Eats kan läggas till med samma format). Den gamla webbläsarläsningen (`scripts/extract-menu.js` + importformuläret) finns kvar som manuell reserv.
+
+Rätter som tidigare hade ett Wolt+-pris men nu läses med fullpris räknas upp som varning i körningens sammanfattning, så att det syns om Wolt+-rabatter saknas och inte bara ser ut som prishöjningar.
 
 Restauranglistan finns i `data/venues.json`. En restaurang kan läggas till med bara namn; insamlingen söker då upp den på Wolt och importen fyller i länken. Importformuläret (se `AUTOMATION.md`) tar emot `{ "snapshots": [...] }` via webbläsaren. Det validerar och sparar menydata lokalt i `data/history.json`. Samma restaurang och tidpunkt importeras endast en gång. Ett fel eller en tom meny får aldrig ersätta gamla data eller bli pris 0.
 
@@ -20,7 +26,7 @@ Belopp lagras som heltal i ören och tidpunkter i UTC. Historiken identifierar r
 
 ## Bilder
 
-`scripts/extract-menu.js` sparar rättens bildlänk i fältet `image` (Wolts `src` utan storleksparametrar). Bara https-länkar på `imageproxy.wolt.com` godkänns. Bilderna kopieras inte till repot; sidan visar dem direkt från Wolt i liten storlek (`?w=300`, `?w=600` för skärmar med hög upplösning). Senaste bild per restaurang och rätt-ID sparas i `data/images.json`, som importen uppdaterar. Bildlänken ingår inte i ändringsloggen i `data/history.json`, så en ny bild räknas inte som en ändring av rätten. Rätter utan bild, eller där bilden inte laddar, får en neutral platshållare.
+Skrapan (`lib/sources/wolt.mjs`) och den manuella läsningen (`scripts/extract-menu.js`) sparar rättens bildlänk i fältet `image`, utan storleksparametrar. Bara https-länkar på `imageproxy.wolt.com` godkänns. Bilderna kopieras inte till repot; sidan visar dem direkt från Wolt i liten storlek (`?w=300`, `?w=600` för skärmar med hög upplösning). Senaste bild per restaurang och rätt-ID sparas i `data/images.json`, som importen uppdaterar. Bildlänken ingår inte i ändringsloggen i `data/history.json`, så en ny bild räknas inte som en ändring av rätten. Rätter utan bild, eller där bilden inte laddar, får en neutral platshållare.
 
 ## Egna köp
 
@@ -46,4 +52,4 @@ Korten visar både menypriset och en uppskattning av vad rätten kostar med avgi
 
 ## Publicering och automation
 
-Push till main kör tester och publicerar den statiska sidan med GitHub Pages. Vid publiceringen får `style.css`, `app.mjs` och modulerna i `lib/` en versionsparameter per commit (`?v=`). Webbläsaren kan därför inte blanda filer från olika versioner ur cachen. Går skriptet ändå inte att köra visas en uppmaning att ladda om. GitHub hämtar inte Wolt-menyer i denna version. Prisinsamlingen schemaläggs separat i Codex och kräver att datorn, appen och den anslutna inloggade webbläsaren är tillgängliga. Se `AUTOMATION.md`. Publicerade JSON-filer innehåller endast menydetaljer och avläsningstider.
+Push till main kör tester och publicerar den statiska sidan med GitHub Pages. Vid publiceringen får `style.css`, `app.mjs` och modulerna i `lib/` en versionsparameter per commit (`?v=`). Webbläsaren kan därför inte blanda filer från olika versioner ur cachen. Går skriptet ändå inte att köra visas en uppmaning att ladda om. Arbetsflödet `Prisavläsning` (`.github/workflows/scrape.yml`) läser av menyerna varje dag efter kl. 16 svensk tid, sparar de nya prisfilerna i en commit och startar publiceringen. Om ingen meny kunde läsas misslyckas körningen och GitHub skickar ett mejl; enstaka restauranger som misslyckas listas i körningens sammanfattning och behåller sina gamla data. `scripts/scrape-local.ps1` gör samma sak från en egen dator om GitHub skulle blockeras. Se `AUTOMATION.md`. Publicerade JSON-filer innehåller endast menydetaljer och avläsningstider.
