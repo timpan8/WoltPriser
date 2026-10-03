@@ -46,4 +46,4 @@ Korten visar både menypriset och en uppskattning av vad rätten kostar med avgi
 
 ## Publicering och automation
 
-Push till main kör tester och publicerar den statiska sidan med GitHub Pages. GitHub hämtar inte Wolt-menyer i denna version. Prisinsamlingen schemaläggs separat i Codex och kräver att datorn, appen och den anslutna inloggade webbläsaren är tillgängliga. Se `AUTOMATION.md`. Publicerade JSON-filer innehåller endast menydetaljer och avläsningstider.
+Push till main kör tester och publicerar den statiska sidan med GitHub Pages. Vid publiceringen får `style.css`, `app.mjs` och modulerna i `lib/` en versionsparameter per commit (`?v=`). Webbläsaren kan därför inte blanda filer från olika versioner ur cachen. Går skriptet ändå inte att köra visas en uppmaning att ladda om. GitHub hämtar inte Wolt-menyer i denna version. Prisinsamlingen schemaläggs separat i Codex och kräver att datorn, appen och den anslutna inloggade webbläsaren är tillgängliga. Se `AUTOMATION.md`. Publicerade JSON-filer innehåller endast menydetaljer och avläsningstider.

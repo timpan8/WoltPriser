@@ -60,3 +60,4 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
 .filterpanel .chips{margin:0;justify-content:flex-end}.reset{border:0;background:none;color:var(--orange);font-size:12px;font-weight:700;padding:7px 4px}.reset[hidden]{display:none}
 @media(max-width:860px){.filterrow,.filterrow.bottom{grid-template-columns:1fr}.filterpanel .chips{justify-content:flex-start}}
 @media(max-width:540px){.filterpanel{padding:12px;border-radius:14px;gap:10px;margin:0 0 14px}.seg{display:flex}.seg label{flex:1}.seg span{text-align:center;padding:8px 6px}.filterpanel .chips{flex-wrap:nowrap;overflow-x:auto;margin:0 -12px;padding:0 12px 2px}.histo{height:28px}}
+.notice button{margin-left:8px;border:0;background:var(--ink);color:#fff;border-radius:8px;padding:6px 12px;font-size:12px}
