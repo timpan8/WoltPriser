@@ -3,10 +3,11 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {emptyHistory} from '../lib/prices.mjs';
-import {saveSnapshots,saveMember,loadHistory,loadMember} from '../lib/store.mjs';
+import {saveSnapshots,saveMember,loadHistory,loadMember,loadCompare,saveCompare,loadUberEatsLinks,saveUberEatsLinks} from '../lib/store.mjs';
+import {ingestUberEats,DEFAULT_POS} from '../lib/scrape.mjs';
 import {effectiveHistory} from '../lib/member.mjs';
 import {mergeReceipts,emptyReceipts} from '../lib/receipts.mjs';
-import {mergeFoodora,emptyFoodora} from '../lib/foodora.mjs';
+import {mergeFoodora,emptyFoodora,UBEREATS} from '../lib/foodora.mjs';
 const root=fileURLToPath(new URL('../',import.meta.url));const port=Number(process.env.WOLT_PORT||4173);
 const types={'.html':'text/html; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8'};
 await fs.mkdir(path.join(root,'data'),{recursive:true});
@@ -24,6 +25,12 @@ http.createServer(async(req,res)=>{try{
    if(batch&&Array.isArray(batch.foodora)){const ffile=path.join(root,'data/foodora.json');let store=emptyFoodora();try{store=JSON.parse(await fs.readFile(ffile,'utf8'));}catch{}
     store=mergeFoodora(store,batch);await fs.writeFile(ffile+'.tmp',JSON.stringify(store));await fs.rename(ffile+'.tmp',ffile);
     res.setHeader('Content-Type',types['.html']);res.end('<!doctype html><meta charset="utf-8"><h1>Foodora-priser sparade</h1><p>'+Object.keys(store.venues).length+' restauranger med Foodora-priser.</p><a href="/">Öppna WoltPriser</a>');return;}
+   // Uber Eats från din webbläsare (scripts/extract-ubereats.js), reserv om GitHub blockeras.
+   if(batch&&Array.isArray(batch.ubereatsStores)){const lat=Number(process.env.WOLT_LAT||DEFAULT_POS.lat),lon=Number(process.env.WOLT_LON||DEFAULT_POS.lon);
+    const r=ingestUberEats(batch.ubereatsStores,{store:await loadCompare(root,UBEREATS),links:await loadUberEatsLinks(root),lat,lon});
+    if(r.ok.length)await saveCompare(root,UBEREATS,r.ok.map(x=>x.snapshot));await saveUberEatsLinks(root,r.links);
+    const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+    res.setHeader('Content-Type',types['.html']);res.end('<!doctype html><meta charset="utf-8"><h1>Uber Eats-priser sparade</h1><p>'+r.ok.length+' restauranger sparade, '+r.failed.length+' misslyckades.</p><ul>'+r.failed.map(f=>'<li>'+esc(f.venue.name)+': '+esc(f.error)+'</li>').join('')+'</ul><a href="/">Öppna WoltPriser</a>');return;}
    if(batch&&Array.isArray(batch.receipts)){const rfile=path.join(root,'data/receipts.json');let store=emptyReceipts();try{store=JSON.parse(await fs.readFile(rfile,'utf8'));}catch{}
     store=mergeReceipts(store,batch);await fs.writeFile(rfile+'.tmp',JSON.stringify(store,null,1));await fs.rename(rfile+'.tmp',rfile);
     res.setHeader('Content-Type',types['.html']);res.end('<!doctype html><meta charset="utf-8"><h1>Kvitton sparade</h1><p>'+store.prices.length+' kvittopriser totalt.</p><a href="/">Öppna WoltPriser</a>');return;}
