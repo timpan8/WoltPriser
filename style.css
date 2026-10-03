@@ -138,3 +138,12 @@ a.rt:hover{text-decoration:underline}
 .venue .rt,.opt-rates .rt{margin-left:4px}.opt-rates .rt{margin-left:0}.opt-rates{gap:4px 6px}
 @media(prefers-color-scheme:dark){:root:not([data-theme=light]) .rt.r4{background:#1f4a2a;color:#a8e3b2}:root:not([data-theme=light]) .rt.r3{background:#2d4220;color:#cfe8a9}:root:not([data-theme=light]) .rt.r2{background:#4a3a14;color:#f3d38a}:root:not([data-theme=light]) .rt.r1{background:#4d221d;color:#f6b3a9}}
 .key .rt{margin-right:2px}
+/* Stängd just nu: rödtonat kort, gråare bild och tydlig Stängt-etikett. */
+.card.closed{background:linear-gradient(#fbecea,#fbecea) padding-box;border-color:#ecb7b0}
+.card.closed .thumb{filter:grayscale(.7) opacity(.75)}
+.card.closed .hours.closed{display:inline-block;background:#f6cfc9;color:#9b2318;padding:1px 7px;border-radius:6px;font-weight:800}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .card.closed{background:#2a1a18;border-color:#6b3029}:root:not([data-theme=light]) .card.closed .hours.closed{background:#5a241e;color:#f6b3a9}}
+.opt.closed{background:#fbecea;margin:0 -10px;padding-left:10px;padding-right:10px;border-radius:10px}.opt.closed .opt-img{filter:grayscale(.7) opacity(.75)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .opt.closed{background:#2a1a18}}
+.opt-main .hours{display:inline-block;margin:2px 0 0}.opt.closed .hours.closed{background:#f6cfc9;color:#9b2318;padding:1px 7px;border-radius:6px;font-weight:800}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .opt.closed .hours.closed{background:#5a241e;color:#f6b3a9}}
