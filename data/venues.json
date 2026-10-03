@@ -1,23 +1,28 @@
 [
   {
     "name": "Restaurang Ellora",
-    "url": "https://wolt.com/sv/swe/stockholm/restaurant/restaurang-ellora"
+    "url": "https://wolt.com/sv/swe/stockholm/restaurant/restaurang-ellora",
+    "foodora": "https://www.foodora.se/restaurant/s5ed/restaurang-ellora"
   },
   {
     "name": "Piatto Fresco Årstaberg",
-    "url": "https://wolt.com/sv/swe/stockholm/restaurant/piatto-fresco-rstaberg"
+    "url": "https://wolt.com/sv/swe/stockholm/restaurant/piatto-fresco-rstaberg",
+    "foodora": "https://www.foodora.se/restaurant/tlbg/piatto-fresco-arstaberg"
   },
   {
     "name": "Galinas Pizza Teatern",
-    "url": "https://wolt.com/sv/swe/stockholm/restaurant/galinas-pizza"
+    "url": "https://wolt.com/sv/swe/stockholm/restaurant/galinas-pizza",
+    "foodora": "https://www.foodora.se/restaurant/z0wa/galinas-pizza-z0wa"
   },
   {
     "name": "MAX Stockholm - Medborgarplatsen",
-    "url": "https://wolt.com/sv/swe/stockholm/restaurant/max-hamburgare-medborgarplatsen"
+    "url": "https://wolt.com/sv/swe/stockholm/restaurant/max-hamburgare-medborgarplatsen",
+    "foodora": "https://www.foodora.se/restaurant/s0gl/max-stockholm-medborgarplatsen"
   },
   {
     "name": "Burger King Årsta",
-    "url": "https://wolt.com/sv/swe/stockholm/restaurant/burger-king-rsta"
+    "url": "https://wolt.com/sv/swe/stockholm/restaurant/burger-king-rsta",
+    "foodora": "https://www.foodora.se/restaurant/s9cx/burger-king-stockholm-arsta"
   },
   {
     "name": "Zoro Kolgrill Turkisk Resturang",
@@ -25,15 +30,18 @@
   },
   {
     "name": "Joe & The Juice Götgatan",
-    "url": "https://wolt.com/sv/swe/stockholm/restaurant/joe-the-juice-gtgatan"
+    "url": "https://wolt.com/sv/swe/stockholm/restaurant/joe-the-juice-gtgatan",
+    "foodora": "https://www.foodora.se/restaurant/s3dr/joe-and-the-juice-gotgatan"
   },
   {
     "name": "Pazzi Södermalm",
-    "url": "https://wolt.com/sv/swe/stockholm/restaurant/pazzi-sdermalm"
+    "url": "https://wolt.com/sv/swe/stockholm/restaurant/pazzi-sdermalm",
+    "foodora": "https://www.foodora.se/restaurant/v2tf/pazzi-soder"
   },
   {
     "name": "SubCulture Årsta",
-    "url": "https://wolt.com/sv/swe/stockholm/restaurant/subculture-rsta"
+    "url": "https://wolt.com/sv/swe/stockholm/restaurant/subculture-rsta",
+    "foodora": "https://www.foodora.se/restaurant/ychw/subculture-arsta"
   },
   {
     "name": "Meno Male Söder",
@@ -41,15 +49,18 @@
   },
   {
     "name": "Deli Italia Årsta",
-    "url": "https://wolt.com/sv/swe/stockholm/restaurant/deli-italia-arsta"
+    "url": "https://wolt.com/sv/swe/stockholm/restaurant/deli-italia-arsta",
+    "foodora": "https://www.foodora.se/restaurant/s0ic/deli-italia-arsta"
   },
   {
     "name": "Taco Bar Sickla",
-    "url": "https://wolt.com/sv/swe/stockholm/restaurant/taco-bar-sickla"
+    "url": "https://wolt.com/sv/swe/stockholm/restaurant/taco-bar-sickla",
+    "foodora": "https://www.foodora.se/restaurant/s2le/taco-bar-sickla"
   },
   {
     "name": "Caffè Nero Götgatan",
-    "url": "https://wolt.com/sv/swe/stockholm/restaurant/caff-nero-gtgatan-deal"
+    "url": "https://wolt.com/sv/swe/stockholm/restaurant/caff-nero-gtgatan-deal",
+    "foodora": "https://www.foodora.se/restaurant/ejfl/caffe-nero-gotgatan"
   },
   {
     "name": "Bread & Buns Stora Essingen",
@@ -57,15 +68,18 @@
   },
   {
     "name": "Shaka Shaka Skanstull",
-    "url": "https://wolt.com/sv/swe/stockholm/restaurant/shaka-shaka-skanstull"
+    "url": "https://wolt.com/sv/swe/stockholm/restaurant/shaka-shaka-skanstull",
+    "foodora": "https://www.foodora.se/restaurant/s0fb/shaka-shaka-skanstull"
   },
   {
     "name": "Shaka Shaka Hornstull",
-    "url": "https://wolt.com/sv/swe/stockholm/restaurant/shaka-shaka-hornstull"
+    "url": "https://wolt.com/sv/swe/stockholm/restaurant/shaka-shaka-hornstull",
+    "foodora": "https://www.foodora.se/restaurant/s0iq/shaka-shaka-hornstull"
   },
   {
     "name": "Il Forno Italiano Liljeholmstorget",
-    "url": "https://wolt.com/sv/swe/stockholm/restaurant/il-forno"
+    "url": "https://wolt.com/sv/swe/stockholm/restaurant/il-forno",
+    "foodora": "https://www.foodora.se/restaurant/v6ip/restaurang-il-forno-italiano"
   },
   {
     "name": "El Birria Express",
