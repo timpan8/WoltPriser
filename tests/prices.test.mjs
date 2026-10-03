@@ -101,4 +101,9 @@ test('quick filters: name decides, menu category only for cuisines',async()=>{
  assert.deepEqual(f('Chicken Tikka Butter Masala','Kampanj!'),['indiskt','kyckling']);assert.ok(f('Picasso','Pizzor').includes('pizza'));
  assert.deepEqual(f('Filét-o-Fish®','Kyckling, Fisk & Vego'),['fisk']);assert.ok(!f('Double Gourmet Grill Bacon & Cheese Meal','GOURMET MENYER').includes('grill'));
  assert.deepEqual(f('Coca-Cola 33 cl','Dryck','dryck'),['lask']);assert.deepEqual(f('Ramlösa Citrus 33cl','Dryck','dryck'),['vatten']);
- assert.deepEqual(f('Lökringar','TILLBEHÖR & DIP','smatt'),['ost']);assert.deepEqual(f('Vitlökssås 10 cl','Sås','smatt'),['saser']);assert.deepEqual(f('Pizza','x','mina'),[]);});
+ assert.deepEqual(f('Lökringar','TILLBEHÖR & DIP','smatt'),['ost']);assert.deepEqual(f('Vitlökssås 10 cl','Sås','smatt'),['saser']);assert.deepEqual(f('Pizza','x','mina'),[]);
+ assert.ok(!f('Röd Curry','Thairätter').includes('indiskt'));assert.ok(!f('Dal mare','Pasta').includes('indiskt'));assert.ok(!f('Grilled Chicken Parmesan','KYCKLING').includes('grill'));
+ assert.ok(!f('Veggie Strips Meal','Veggie').includes('kyckling'));assert.ok(!f('Scampitallrik','Tallrikar').includes('kebab'));assert.ok(!f('Bolognese','Italienska Pizzor').includes('pasta'));
+ assert.deepEqual(f('Classico Bryggkaffe','Varm dryck','dryck'),['kaffe']);assert.deepEqual(f('Vattenmelonslemonad','Kall dryck','dryck'),['juice']);assert.deepEqual(f('Capri-Sun Monster 200 ml','Dryck','dryck'),[]);
+ assert.deepEqual(f('Garlic Dip','Dips','smatt'),['saser']);assert.deepEqual(f('Fries & Dip','Sides','smatt'),['pommes']);assert.deepEqual(f('Äppelklyftor','Tillbehör','smatt'),[]);
+ assert.deepEqual(f("Ben & Jerry's Cookie Dough 465 ml",'Glass','fika'),['glass']);assert.deepEqual(f('Morotskaka','Bakverk','fika'),['kakor']);});
