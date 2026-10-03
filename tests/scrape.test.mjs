@@ -153,3 +153,5 @@ test('browser fallback: extract-ubereats.js output is imported like the cloud re
   const cloud=mapUberEats({store:ueData[U1],url:storeUrl('burger-king-arsta',U1),wolt:w('bk'),name:'Burger King',now});
   assert.deepEqual(r.ok[0].snapshot.items,cloud.items);
  }finally{globalThis.fetch=real;globalThis.setTimeout=realTimeout;}});
+test('venue rating is read tolerantly from the venue response',async()=>{const {venueRating}=await import('../lib/sources/wolt.mjs');
+ assert.equal(venueRating({venue_raw:{name:'X',rating:{rating:4,score:8.6,volume:200}}}),8.6);assert.equal(venueRating({venue:{rating:{score:0}}}),null);assert.equal(venueRating({}),null);assert.equal(venueRating(null),null);});
