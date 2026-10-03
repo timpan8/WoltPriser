@@ -2,7 +2,8 @@ import http from 'node:http';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {mergeHistory,emptyHistory,validateBatch,mergeImages,emptyImages,mergeVenues} from '../lib/prices.mjs';
+import {emptyHistory} from '../lib/prices.mjs';
+import {saveSnapshots} from '../lib/store.mjs';
 import {mergeReceipts,emptyReceipts} from '../lib/receipts.mjs';
 const root=fileURLToPath(new URL('../',import.meta.url));const port=Number(process.env.WOLT_PORT||4173);
 const types={'.html':'text/html; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8'};
@@ -21,11 +22,7 @@ http.createServer(async(req,res)=>{try{
    if(batch&&Array.isArray(batch.receipts)){const rfile=path.join(root,'data/receipts.json');let store=emptyReceipts();try{store=JSON.parse(await fs.readFile(rfile,'utf8'));}catch{}
     store=mergeReceipts(store,batch);await fs.writeFile(rfile+'.tmp',JSON.stringify(store,null,1));await fs.rename(rfile+'.tmp',rfile);
     res.setHeader('Content-Type',types['.html']);res.end('<!doctype html><meta charset="utf-8"><h1>Kvitton sparade</h1><p>'+store.prices.length+' kvittopriser totalt.</p><a href="/">Öppna WoltPriser</a>');return;}
-   const file=path.join(root,'data/history.json');const history=mergeHistory(JSON.parse(await fs.readFile(file,'utf8')),batch);
-   await fs.writeFile(file+'.tmp',JSON.stringify(history));await fs.rename(file+'.tmp',file);
-   const ifile=path.join(root,'data/images.json');let images=emptyImages();try{images=JSON.parse(await fs.readFile(ifile,'utf8'));}catch{}
-   images=mergeImages(images,validateBatch(batch));await fs.writeFile(ifile+'.tmp',JSON.stringify(images));await fs.rename(ifile+'.tmp',ifile);
-   const venuesFile=path.join(root,'data/venues.json');let known=[];try{known=JSON.parse(await fs.readFile(venuesFile,'utf8'));}catch{}const venues=mergeVenues(known,history);await fs.writeFile(venuesFile,JSON.stringify(venues,null,2)+'\n');
+   const {history,venues}=await saveSnapshots(root,batch);
    res.setHeader('Content-Type',types['.html']);res.end('<!doctype html><meta charset="utf-8"><h1>Avläsningen sparad</h1><p>'+history.readings.length+' menyavläsningar från '+venues.filter(v=>v.url).length+' restauranger.</p><a href="/">Öppna WoltPriser</a>');
   }finally{importing=false;}return;
  }
