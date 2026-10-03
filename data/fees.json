@@ -1,0 +1,173 @@
+{
+ "version": 1,
+ "orders": [
+  {
+   "venue": "Meno Male Söder",
+   "date": "2026-06-29",
+   "list": 18000,
+   "fees": 900
+  },
+  {
+   "venue": "Shaka Shaka Hornstull",
+   "date": "2026-07-03",
+   "list": 14900,
+   "fees": 745
+  },
+  {
+   "venue": "Restaurang Ellora",
+   "date": "2026-07-04",
+   "list": 23600,
+   "fees": 1888
+  },
+  {
+   "venue": "Bröd & Salt Skanstull",
+   "date": "2026-07-05",
+   "list": 14900,
+   "fees": 1192
+  },
+  {
+   "venue": "MAX Stockholm - Medborgarplatsen",
+   "date": "2026-07-08",
+   "list": 15500,
+   "fees": 775
+  },
+  {
+   "venue": "Restaurang Ellora",
+   "date": "2026-07-10",
+   "list": 23600,
+   "fees": 1888
+  },
+  {
+   "venue": "Taco Bar Sickla",
+   "date": "2026-07-11",
+   "list": 17500,
+   "fees": 1400
+  },
+  {
+   "venue": "Caffè Nero Götgatan",
+   "date": "2026-07-12",
+   "list": 22300,
+   "fees": 1784
+  },
+  {
+   "venue": "Taco Bar Sickla",
+   "date": "2026-07-19",
+   "list": 17500,
+   "fees": 1400
+  },
+  {
+   "venue": "Galinas Pizza Teatern",
+   "date": "2026-07-20",
+   "list": 17900,
+   "fees": 1432
+  },
+  {
+   "venue": "Gordo Foodtruck Rågsved",
+   "date": "2026-07-20",
+   "list": 18900,
+   "fees": 10345
+  },
+  {
+   "venue": "Burger King Årsta",
+   "date": "2026-07-21",
+   "list": 20900,
+   "fees": 1672
+  },
+  {
+   "venue": "MAX Stockholm - Medborgarplatsen",
+   "date": "2026-07-22",
+   "list": 22200,
+   "fees": 1776
+  },
+  {
+   "venue": "Deli Italia Årsta",
+   "date": "2026-07-26",
+   "list": 21400,
+   "fees": 1712
+  },
+  {
+   "venue": "Shaka Shaka Skanstull",
+   "date": "2026-07-28",
+   "list": 14900,
+   "fees": 745
+  },
+  {
+   "venue": "SubCulture Årsta",
+   "date": "2026-07-28",
+   "list": 31600,
+   "fees": 2844
+  },
+  {
+   "venue": "Deli Italia Årsta",
+   "date": "2026-07-29",
+   "list": 20900,
+   "fees": 1672
+  },
+  {
+   "venue": "Restaurang Ellora",
+   "date": "2026-08-22",
+   "list": 20100,
+   "fees": 1608
+  },
+  {
+   "venue": "Restaurang Ellora",
+   "date": "2026-08-24",
+   "list": 20100,
+   "fees": 1608
+  },
+  {
+   "venue": "Bread & Buns Stora Essingen",
+   "date": "2026-08-26",
+   "list": 18700,
+   "fees": 1496
+  },
+  {
+   "venue": "Restaurang Ellora",
+   "date": "2026-08-28",
+   "list": 20100,
+   "fees": 1608
+  },
+  {
+   "venue": "Restaurang Ellora",
+   "date": "2026-09-06",
+   "list": 20100,
+   "fees": 1608
+  },
+  {
+   "venue": "Bread & Buns Stora Essingen",
+   "date": "2026-09-07",
+   "list": 23800,
+   "fees": 1904
+  },
+  {
+   "venue": "Restaurang Ellora",
+   "date": "2026-09-14",
+   "list": 20100,
+   "fees": 1608
+  },
+  {
+   "venue": "Zoro Kolgrill Turkisk Resturang",
+   "date": "2026-09-19",
+   "list": 19900,
+   "fees": 1592
+  },
+  {
+   "venue": "Restaurang Ellora",
+   "date": "2026-09-21",
+   "list": 20100,
+   "fees": 1608
+  },
+  {
+   "venue": "Restaurang Ellora",
+   "date": "2026-09-26",
+   "list": 20100,
+   "fees": 1608
+  },
+  {
+   "venue": "Restaurang Ellora",
+   "date": "2026-10-02",
+   "list": 20100,
+   "fees": 1608
+  }
+ ]
+}
