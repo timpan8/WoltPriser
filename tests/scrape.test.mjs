@@ -91,6 +91,10 @@ test('Uber Eats menu: real category wins, struck price is the original, sold out
  const s=mapUberEats({store:ueStore,url:ueUrl,wolt:url,name:' BK ',now});
  assert.deepEqual(s.items.map(i=>[i.id,i.category,i.price,i.originalPrice]),[['w1','FLAME-GRILLED MENYER',12400,15500],['w2','FLAME-GRILLED MENYER',14500,14500]]);
  assert.equal(struckPrice(tag(99)),null);assert.equal(mergeFoodora(null,{ubereats:[s]},UBEREATS).venues[url].items.w1.log[0][1],12400);});
+test('Uber Eats restaurants that are not on Wolt need a known link and are stored under it',()=>{
+ const r=ingestUberEats([{name:'Utan länk',stores:[ueStore],observedAt:now},{name:'BK',ubereats:ueUrl,stores:[ueStore],observedAt:now}],{store:null,now});
+ assert.deepEqual(r.failed.map(f=>f.error),['Uber Eats-länk saknas.']);assert.equal(r.ok.length,1);assert.deepEqual(Object.keys(r.links.links),[]);
+ assert.deepEqual(Object.keys(mergeFoodora(null,{ubereats:r.ok.map(x=>x.snapshot)},UBEREATS).venues),[ueUrl]);});
 test('Uber Eats links are validated like Foodora links',()=>{const s=mapUberEats({store:ueStore,url:'https://evil.example/se/store/x/yl7fgcXeSFaVG-AwkndQfg',wolt:url,name:'BK',now});assert.throws(()=>mergeFoodora(null,{ubereats:[s]},UBEREATS),/Uber Eats-länk/);});
 test('scrapeUberEats reads linked venues, rejects big drops and keeps going',async()=>{
  const store=mergeFoodora(null,{ubereats:[{...mapUberEats({store:ueStore,url:ueUrl,wolt:url,name:'BK',now:'2026-10-02T14:00:00Z'}),items:Array.from({length:10},(_,k)=>({id:'x'+k,name:'R'+k,category:'',price:100,originalPrice:100,proPrice:null,from:false}))}]},UBEREATS);
