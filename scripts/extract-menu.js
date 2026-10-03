@@ -10,7 +10,10 @@
   const discount=c.querySelector('[data-test-id="horizontal-item-card-discounted-price"]'),original=c.querySelector('[data-test-id="horizontal-item-card-original-price"]'),normal=c.querySelector('[aria-label^="Pris "]');
   const price=money(text(discount||normal));if(price===null)continue;
   let category='';for(let p=c.parentElement;p&&p.tagName!=='MAIN';p=p.parentElement){const title=p.querySelector('h2');if(title){category=text(title);break;}}
-  const row={id,name,description,category,price,originalPrice:money(text(original))||price,woltPlus:!!c.querySelector('[data-test-id="WoltPlusDiscountBadge"]'),offer:text(c.querySelector('[data-test-id="WoltPlusDiscountBadge"], [data-test-id="ItemDiscountBadge"]')),available:!/Inte tillgänglig/.test(text(c))};
+  // Bild: src (eller första srcset-adressen) utan storleksparametrar; bara Wolts bildserver godtas.
+  const img=c.querySelector('img[data-test-id="horizontal-item-card-image"]')||c.querySelector('img');let image='';
+  try{const u=new URL(img?.getAttribute('src')||(img?.getAttribute('srcset')||'').trim().split(/[\s,]+/)[0]||'',location.href);if(u.protocol==='https:'&&u.host==='imageproxy.wolt.com')image=u.origin+u.pathname;}catch{}
+  const row={id,name,description,category,image,price,originalPrice:money(text(original))||price,woltPlus:!!c.querySelector('[data-test-id="WoltPlusDiscountBadge"]'),offer:text(c.querySelector('[data-test-id="WoltPlusDiscountBadge"], [data-test-id="ItemDiscountBadge"]')),available:!/Inte tillgänglig/.test(text(c))};
   if(!seen.has(id)||!['Populärt','Nyligen köpta varor'].includes(category))seen.set(id,row);
  }
  return {observedAt:new Date().toISOString(),name:text(document.querySelector('h1')),url:location.href.split('?')[0],items:[...seen.values()]};
