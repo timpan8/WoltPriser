@@ -12,7 +12,7 @@ Standardfilter: under 160 kr, fisk/skaldjur döljs när de nämns i menytext, dr
 
 Den första insamlingen görs i den vanliga inloggade webbläsaren med Codex webbläsarverktyg. Tre restaurangflikar laddas parallellt och återanvänds. `scripts/extract-menu.js` läser menykortens DOM i ett anrop per restaurang. Inga dolda API:er, cookies, orderdetaljer eller leveransadresser samlas in. Alla laddade menykort inkluderas, även dyrare rätter och sådant som senare filtreras bort i gränssnittet. Anpassade tillval och obligatoriska val inne i varje rätt är inte prissatta i version 1.
 
-Restauranglistan finns i `data/venues.json`. Importformuläret (se `AUTOMATION.md`) tar emot `{ "snapshots": [...] }` via webbläsaren. Det validerar och sparar menydata lokalt i `data/history.json`. Samma restaurang och tidpunkt importeras endast en gång. Ett fel eller en tom meny får aldrig ersätta gamla data eller bli pris 0.
+Restauranglistan finns i `data/venues.json`. En restaurang kan läggas till med bara namn; insamlingen söker då upp den på Wolt och importen fyller i länken. Importformuläret (se `AUTOMATION.md`) tar emot `{ "snapshots": [...] }` via webbläsaren. Det validerar och sparar menydata lokalt i `data/history.json`. Samma restaurang och tidpunkt importeras endast en gång. Ett fel eller en tom meny får aldrig ersätta gamla data eller bli pris 0.
 
 Belopp lagras som heltal i ören och tidpunkter i UTC. Historiken identifierar rätter med restauranglänk + Wolt-rätt-ID. När Wolt skapar ett nytt ID får rätten ny historik. Dubbletter mellan Populärt och menyn tas bort, medan olika ID:n behålls. Varje sparad avläsning bevaras.
 
