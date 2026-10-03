@@ -1,5 +1,42 @@
 # Återkommande avläsning
 
+## Automatiskt (GitHub Actions)
+
+Arbetsflödet `Prisavläsning` (`.github/workflows/scrape.yml`) körs 14:07 och 15:07 UTC. `--if-due` gör att bara den första körningen efter kl. 16 svensk tid läser av, så schemat fungerar både sommar- och vintertid och tål att GitHub startar sent.
+
+1. `npm test`.
+2. `node scripts/scrape.mjs --if-due` läser `data/venues.json` och hämtar varje meny via `lib/sources/wolt.mjs`, två restauranger åt gången med paus mellan anropen. Restauranger utan `url` söks upp med exakt namn; utan entydig träff hoppas de över och rapporteras.
+3. Rimlighetskontroll per restaurang: tom meny, eller mer än 30 % färre rätter än förra avläsningen, ger ett nytt försök efter 5 s och annars fel. Om kampanjerna inte går att läsa räknas restaurangen som misslyckad, så att ett rabatterat pris aldrig sparas som ordinarie. Misslyckade restauranger behåller sina gamla data. Inga priser uppskattas.
+4. Lyckade avläsningar sparas med samma kod som importformuläret (`lib/store.mjs`): `history.json`, `images.json` och `venues.json`.
+5. Ändrade prisfiler committas till main och `pages.yml` startas (en push från GitHub Actions startar inte andra arbetsflöden av sig själv).
+6. Körningens sammanfattning visar antal lästa restauranger, fel, varningar (t.ex. inga bilder, eller Wolt+-priser som saknas eftersom skrapan inte är inloggad) och ovanligt låga priser (minst 7 tidigare mätdagar). Om ingen meny kunde läsas misslyckas körningen och GitHub mejlar.
+
+Manuell körning: Actions → Prisavläsning → Run workflow (läser av direkt). Pull requests som ändrar insamlingen gör en provkörning mot tre restauranger utan att spara.
+
+Inställningar (Settings → Secrets and variables → Actions → Variables, valfria): `WOLT_LAT` och `WOLT_LON` för leveransadressen som kampanjer kontrolleras mot.
+
+## Lokalt
+
+```
+npm run scrape -- --dry-run            # provkörning, sparar inget
+npm run scrape -- --only=ellora        # en restaurang
+npm run scrape                         # läs av och spara i data/
+```
+
+Lokal reserv om GitHub blockeras: `scripts/scrape-local.ps1` hämtar senaste main, läser av och pushar. Schemalägg i Windows:
+
+```powershell
+$a = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument '-NoProfile -ExecutionPolicy Bypass -File "C:\src\WoltPriser\scripts\scrape-local.ps1" -IfDue'
+$t = New-ScheduledTaskTrigger -Daily -At 16:15
+Register-ScheduledTask -TaskName 'WoltPriser' -Action $a -Trigger $t -Settings (New-ScheduledTaskSettingsSet -StartWhenAvailable)
+```
+
+Med `-IfDue` gör den lokala körningen inget om GitHub redan har läst av i dag.
+
+## Manuell reserv (webbläsare, Codex)
+
+Används om API:t ändras eller blockeras. Den automatiska insamlingen och den här rutinen ska inte schemaläggas samtidigt: när `Prisavläsning` körs i GitHub Actions ska Codex-schemat (tidigare varje dag kl. 16:00) vara avstängt. Rutinen läser menyn från en öppen restaurangsida i den inloggade webbläsaren och ger därför även Wolt+-priser.
+
 1. Arbeta i detta repo. Läs `data/venues.json`, `scripts/extract-menu.js` och detta dokument. Kontrollera att inga andra ändringar pågår. Hämta ändringar med fast-forward om checkout är ren.
 2. Använd det godkända webbläsarverktyget och den inloggade Wolt-webbläsaren. Högst tre nya restaurangflikar samtidigt. Återanvänd dem i batcher. Ladda flikarna parallellt, gör sedan läsningen parallellt med `Promise.allSettled`. Inspektera och rapportera varje fel.
    Restauranger i `data/venues.json` som saknar `url` har lagts till med namn från kvitton. Sök upp dem med Wolts sökfält i samma webbläsare och öppna träffen vars namn stämmer exakt (skiftläge spelar ingen roll). Läs menyn som vanligt; importen kopplar restaurangens länk till namnet. Om ingen entydig träff finns eller restaurangen inte levererar till adressen: hoppa över den och rapportera det.
@@ -10,4 +47,6 @@
 7. Kör `npm test`. Spara bara de nya prisfilerna i en commit och push till main i timpan8/WoltPriser. Verifiera GitHub Pages-körningen; en push ensam bevisar inte publicering. Alla insamlingsfel ska anges tydligt. Om ingen giltig meny kunde läsas: gör ingen data-commit.
 8. Stäng bara de tillfälliga restaurang- och importflikar som skapades för körningen. Låt användarens flikar vara kvar. Var tyst vid normala lyckade uppdateringar; meddela bara ovanligt låga priser enligt minst 7 tidigare mätdagar, fel som hindrar uppdateringen eller behov av användaråtgärd.
 
-Planerat standardschema: varje dag kl. 16:00 Europe/Stockholm. Automationens faktiska status hanteras i Codex, inte i detta dokument. GitHub Pages visar senaste sparade avläsning och varnar när den senaste är äldre än 30 timmar.
+Kvitton läses bara när användaren uttryckligen ber om det (se `README.md`, Egna köp).
+
+GitHub Pages visar senaste sparade avläsning och varnar när den är äldre än 30 timmar.
