@@ -148,3 +148,4 @@ a.rt:hover{text-decoration:underline}
 .opt-main .hours{display:inline-block;margin:2px 0 0}.opt.closed .hours.closed{background:#f6cfc9;color:#9b2318;padding:1px 7px;border-radius:6px;font-weight:800}
 @media(prefers-color-scheme:dark){:root:not([data-theme=light]) .opt.closed .hours.closed{background:#5a241e;color:#f6b3a9}}
 .empty-actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}.empty-actions button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 13px;font-weight:700;font-size:13px;color:var(--ink);cursor:pointer}.empty-actions button:hover{border-color:#b7c8ab}
+.age{font-size:11px;color:var(--orange);font-weight:600}

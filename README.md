@@ -75,6 +75,8 @@ Uber Eats blockerar i dag anrop från GitHubs nätverk (HTTP 403). Den dagliga k
 
 Jämförelsen fungerar som för Foodora. Om inget namn är exakt detsamma görs ett andra försök där text inom parentes och ordet "pizza" tas bort ("Chicken Madras (Stark)", "Capricciosa Pizza"). Det andra försöket gäller bara när träffen är entydig och priset ligger mellan hälften och det dubbla. Då visar kortet Uber Eats-namnet inom citattecken, så att du ser vad som jämförs. Det andra försöket gäller också Foodora.
 
+
+Jämförelsepriser från Foodora och Uber Eats som är äldre än ett dygn får ett datum (*pris från 3 okt.*), både på Wolt-korten och på restauranger som bara finns i de apparna. Är de äldre än en vecka används de inte i jämförelsen (filtret Billigare på räknar inte med dem). Uber Eats läses i webbläsaren när GitHub blockeras och kan därför bli gammalt.
 ## Egna köp
 
 `data/receipts.json` innehåller priser från egna Wolt-kvitton och visas som egna punkter i prishistoriken. Kvittona läses bara när användaren ber om det, med `scripts/extract-receipt.js` på en öppen kvittosida. Det som sparas är restaurang, datum (utan klockslag), Wolt-rätt-ID, rättens namn och pris. Ordernummer, adress, betalsätt och totalsummor sparas inte. Avgifter sparas bara som summa per order i `data/fees.json` (se Avgifter nedan). Endast levererade ordrar tas med.
