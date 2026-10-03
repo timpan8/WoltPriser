@@ -18,7 +18,7 @@ const ratingOf=url=>meta.get(url)?.rating??ratings?.[url]??null,stars=url=>{cons
 // Öppettider (data/venueinfo.json, minuter efter midnatt, svensk tid). null om okänt.
 const DAYS=['sun','mon','tue','wed','thu','fri','sat'],DAYNAME={mon:'mån',tue:'tis',wed:'ons',thu:'tors',fri:'fre',sat:'lör',sun:'sön'};
 const hm=m=>`${String(Math.floor(m/60)%24).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`;
-function openState(url,now=new Date()){const h=vinfo?.[url]?.hours;if(!h)return null;
+function openState(url,now=new Date()){const h=vinfo?.[url]?.hours;if(!h||!Object.values(h).some(r=>r?.length))return null;
  const p=Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Stockholm',weekday:'short',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(now).map(x=>[x.type,x.value]));
  const d=DAYS.indexOf(p.weekday.slice(0,3).toLowerCase()),t=Number(p.hour)*60+Number(p.minute),day=k=>h[DAYS[(d+k+7)%7]]||[];
  for(const [o,c] of day(0))if(t>=o&&t<c)return {open:true,close:c,left:c-t};
