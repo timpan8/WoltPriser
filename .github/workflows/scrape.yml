@@ -45,6 +45,7 @@ jobs:
           if [ -f data/discovered.json ]; then git add data/discovered.json; fi
           if [ -f data/ubereats.json ]; then git add data/ubereats.json; fi
           if [ -f data/ratings.json ]; then git add data/ratings.json; fi
+          if [ -f data/venueinfo.json ]; then git add data/venueinfo.json; fi
           if [ -f data/ubereats-links.json ]; then git add data/ubereats-links.json; fi
           if git diff --cached --quiet; then echo "Inga ändringar."; exit 0; fi
           git commit -m "Prisavläsning $(TZ=Europe/Stockholm date '+%Y-%m-%d %H:%M')"
