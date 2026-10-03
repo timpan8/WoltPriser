@@ -28,6 +28,12 @@ Belopp lagras som heltal i ören och tidpunkter i UTC. Historiken identifierar r
 
 Skrapan (`lib/sources/wolt.mjs`) och den manuella läsningen (`scripts/extract-menu.js`) sparar rättens bildlänk i fältet `image`, utan storleksparametrar. Bara https-länkar på `imageproxy.wolt.com` godkänns. Bilderna kopieras inte till repot; sidan visar dem direkt från Wolt i liten storlek (`?w=300`, `?w=600` för skärmar med hög upplösning). Senaste bild per restaurang och rätt-ID sparas i `data/images.json`, som importen uppdaterar. Bildlänken ingår inte i ändringsloggen i `data/history.json`, så en ny bild räknas inte som en ändring av rätten. Rätter utan bild, eller där bilden inte laddar, får en neutral platshållare.
 
+## Foodora
+
+Samma restauranger läses också på Foodora, så att korten kan visa om rätten är billigare där. `data/venues.json` har fältet `foodora` med restaurangens Foodora-länk; den fylls bara i när restaurangen går att identifiera entydigt (samma namn och område, eller samma meny och priser). `scripts/extract-foodora.js` läser en öppen Foodora-sida på samma skrivskyddade sätt som menyskriptet: rättens namn, kategori, pris, överstruket ordinarie pris, om priset visas som "från" och pris under PRO-DEALS (foodora pro). Importformuläret tar emot `{ "foodora": [...] }` där varje avläsning har `url` (Foodora), `wolt` (Wolt-länken) och `items`. Priserna sparas i `data/foodora.json` som en ändringslogg per rätt.
+
+Foodora har inga gemensamma rätt-ID:n med Wolt. En rätt jämförs bara när namnet är exakt detsamma (utan skiljetecken och versaler); flera rätter med samma namn avgörs av kategorin, annars jämförs de inte. "Från"-priser är grundpriset innan obligatoriska val och märks på kortet. Jämförelsen gäller menypriset: leverans, serviceavgift och medlemskap skiljer sig mellan tjänsterna. Foodora-priser visas i prishistoriken men räknas inte in i märkningarna.
+
 ## Egna köp
 
 `data/receipts.json` innehåller priser från egna Wolt-kvitton och visas som egna punkter i prishistoriken. Kvittona läses bara när användaren ber om det, med `scripts/extract-receipt.js` på en öppen kvittosida. Det som sparas är restaurang, datum (utan klockslag), Wolt-rätt-ID, rättens namn och pris. Ordernummer, adress, betalsätt och totalsummor sparas inte. Avgifter sparas bara som summa per order i `data/fees.json` (se Avgifter nedan). Endast levererade ordrar tas med.

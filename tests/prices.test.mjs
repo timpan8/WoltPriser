@@ -60,3 +60,18 @@ test('fees are estimated from own receipts as a share of the ordinary price',()=
  assert.equal(m.venues.has('C'),false);assert.equal(m.venues.get('A').n,2);
  assert.deepEqual(withFees(m,'B',7000,10000),{fee:800,total:7800,ratio:0.08,orders:1});
  assert.equal(withFees(m,'Ny restaurang',10000,10000).fee,Math.round(10000*m.all));assert.equal(withFees(null,'B',1,1),null);assert.equal(feeModel({orders:[]}),null);});
+import {validateFoodora,mergeFoodora,foodoraMenu,matchFoodora,foodoraPrice,foodoraPoints} from '../lib/foodora.mjs';
+const fdUrl='https://www.foodora.se/restaurant/ab12/test-restaurang',fdItem={id:'pasta',name:'Pasta',category:'Pasta',price:9500,originalPrice:9500,proPrice:null,from:true};
+const fsnap=(day,items=[fdItem])=>({url:fdUrl,wolt:url,name:'Test',observedAt:`2026-09-${day}T12:00:00.000Z`,items});
+test('Foodora links and prices are validated',()=>{assert.equal(validateFoodora({foodora:[fsnap('20')]})[0].url,fdUrl);
+ for(const bad of [{url:'https://evil.example/restaurant/a/b'},{wolt:'https://evil.example/x'},{items:[{...fdItem,price:-1}]},{items:[{...fdItem,proPrice:20000}]},{items:[]}])assert.throws(()=>validateFoodora({foodora:[{...fsnap('20'),...bad}]}));});
+test('Foodora log only grows when a price changes and keeps the latest menu',()=>{let st=mergeFoodora(null,{foodora:[fsnap('10'),fsnap('11'),fsnap('12',[{...fdItem,price:8900,originalPrice:9500}])]});
+ assert.equal(st.venues[url].items.pasta.log.length,2);const m=foodoraMenu(st,url);assert.equal(m.items[0].price,8900);assert.equal(m.items[0].from,true);
+ st=mergeFoodora(st,{foodora:[fsnap('09',[{...fdItem,price:1}])]});assert.equal(foodoraMenu(st,url).items[0].price,8900);
+ st=mergeFoodora(st,{foodora:[fsnap('13',[{...fdItem,id:'pizza',name:'Pizza'}])]});assert.deepEqual(foodoraMenu(st,url).items.map(i=>i.id),['pizza']);
+ assert.deepEqual(foodoraPoints(foodoraMenu(mergeFoodora(null,{foodora:[fsnap('10')]}),url).items[0],false).map(p=>p.price),[9500]);});
+test('dishes are matched to Foodora only on the same name; duplicates need the same category or price',()=>{
+ const st=mergeFoodora(null,{foodora:[fsnap('10',[{...fdItem,id:'a',name:'Chicken Tikka Butter Masala'},{...fdItem,id:'b',name:'Naan',category:'Bröd',price:3200,originalPrice:3200},{...fdItem,id:'c',name:'Naan',category:'Tillbehör',price:3500,originalPrice:3500},{...fdItem,id:'d',name:'Lassi',price:3000,originalPrice:3500,proPrice:2500}])]}),m=foodoraMenu(st,url);
+ assert.equal(matchFoodora(m,{name:'chicken tikka butter-masala'}).id,'a');assert.equal(matchFoodora(m,{name:'Chicken Tikka'}),null);
+ assert.equal(matchFoodora(m,{name:'Naan',category:'Bröd'}).id,'b');assert.equal(matchFoodora(m,{name:'Naan',category:'Övrigt'}),null);
+ const l=matchFoodora(m,{name:'Lassi'});assert.equal(foodoraPrice(l,false),3000);assert.equal(foodoraPrice(l,true),2500);assert.equal(matchFoodora(null,{name:'x'}),null);});
