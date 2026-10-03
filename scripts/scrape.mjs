@@ -48,13 +48,19 @@ if(ok.length&&!args['dry-run']){saved=await saveSnapshots(root,{snapshots:ok.map
  // Betyg för alla lästa restauranger (även dina, som inte alltid finns i restauranglistan). Gamla betyg behålls.
  const rfile=new URL('../data/ratings.json',import.meta.url),ratings=JSON.parse(await fs.readFile(rfile,'utf8').catch(()=>'{}'));
  for(const r of ok)if(r.rating!=null)ratings[r.snapshot.url]=r.rating;for(const v of discovered||[])if(v.rating!=null)ratings[v.url]=v.rating;
- await fs.writeFile(rfile,JSON.stringify(ratings,null,1)+'\n');}
+ await fs.writeFile(rfile,JSON.stringify(ratings,null,1)+'\n');
+ // Öppettider och minsta ordervärde per restaurang (data/venueinfo.json). Gamla uppgifter behålls om nya saknas.
+ const ifile=new URL('../data/venueinfo.json',import.meta.url),vinfo=JSON.parse(await fs.readFile(ifile,'utf8').catch(()=>'{}'));
+ for(const r of ok)if(r.hours||r.minOrder)vinfo[r.snapshot.url]={...vinfo[r.snapshot.url],...(r.hours?{hours:r.hours}:{}),...(r.minOrder?{minOrder:r.minOrder}:{})};
+ await fs.writeFile(ifile,JSON.stringify(vinfo)+'\n');}
 if(ue.ok.length&&!args['dry-run']){await saveCompare(root,UBEREATS,ue.ok.map(r=>r.snapshot));ueSaved=true;}
 if(ue.searched&&!args['dry-run']){await saveUberEatsLinks(root,ue.links);ueSaved=true;}
 const deals=saved?unusualDeals(saved.history,new Set(ok.map(r=>r.snapshot.url))):[];
 
 const lines=[`### Prisavläsning ${new Date().toLocaleString('sv-SE',{timeZone:'Europe/Stockholm'})}${args['dry-run']?' (provkörning, inget sparat)':''}`,
- `${ok.length} av ${venues.length} restauranger lästa, ${ok.reduce((n,r)=>n+r.snapshot.items.length,0)} rätter, betyg för ${ok.filter(r=>r.rating!=null).length}.`];
+ `${ok.length} av ${venues.length} restauranger lästa, ${ok.reduce((n,r)=>n+r.snapshot.items.length,0)} rätter, betyg för ${ok.filter(r=>r.rating!=null).length}, öppettider för ${ok.filter(r=>r.hours).length}, minsta order för ${ok.filter(r=>r.minOrder).length}.`];
+// Diagnostik i provkörningen: hur svaret ser ut när öppettider inte hittas.
+if(args['dry-run']){const d=ok.find(r=>r.debug?.length);if(d)lines.push('',`Tidsnycklar i Wolts svar (${d.venue.name}): `+d.debug.join(' · '));}
 const cap=(list,n=25)=>list.length>n?[...list.slice(0,n),`- … och ${list.length-n} till`]:list;
 if(failed.length)lines.push('','**Misslyckades (gamla data behålls):**',...cap(failed.map(f=>`- ${f.venue.name}: ${f.error}`)));
 if(ue.blocked)lines.push('',`**Uber Eats blockerar läsningen härifrån** (${ue.blocked}). ${ue.ok.length} restauranger hann läsas. Gamla Uber Eats-priser behålls; använd webbläsarreserven (AUTOMATION.md, Uber Eats i webbläsaren).`);
