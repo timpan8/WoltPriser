@@ -2,8 +2,8 @@
  "version": 1,
  "links": {
   "https://wolt.com/sv/swe/stockholm/restaurant/galinas-pizza": {
-   "ubereats": null,
-   "checkedAt": "2026-10-03T20:38:08.220Z"
+   "ubereats": "https://www.ubereats.com/se/store/galinas-pizza/ICFa90nlR-WpiU97ShYIuw",
+   "checkedAt": "2026-10-03T21:32:22.918Z"
   },
   "https://wolt.com/sv/swe/stockholm/restaurant/zoro-kolgrill-turkisk-resturang-stockholm": {
    "ubereats": null,
@@ -90,8 +90,8 @@
    "checkedAt": "2026-10-03T20:38:08.220Z"
   },
   "https://wolt.com/sv/swe/stockholm/restaurant/captain-burger-1": {
-   "ubereats": null,
-   "checkedAt": "2026-10-03T20:38:08.220Z"
+   "ubereats": "https://www.ubereats.com/se/store/tullfritt-soder/89Ear01KWmqaptYAIMz6OA",
+   "checkedAt": "2026-10-03T21:32:22.918Z"
   },
   "https://wolt.com/sv/swe/stockholm/restaurant/bastard-burgers-gullmarsplan": {
    "ubereats": "https://www.ubereats.com/se/store/bastard-burgers-gullmarsplan/zN4N_DxQUoSKRPtaJH42fQ",
@@ -120,6 +120,66 @@
   "https://wolt.com/sv/swe/stockholm/restaurant/papas-pizzeria-enskede": {
    "ubereats": "https://www.ubereats.com/se/store/papas-pizzeria/JjwsPuZMX6KyC-_TznM_iQ",
    "checkedAt": "2026-10-03T20:38:08.220Z"
+  },
+  "https://wolt.com/sv/swe/stockholm/restaurant/jerusalem-kebab": {
+   "ubereats": "https://www.ubereats.com/se/store/jerusalem-kebab-sodermalm/_oI8AHC5X8mlJ65myC_5lw",
+   "checkedAt": "2026-10-03T21:32:22.918Z"
+  },
+  "https://wolt.com/sv/swe/stockholm/restaurant/pizzeria-tropicana": {
+   "ubereats": null,
+   "checkedAt": "2026-10-03T21:32:22.918Z"
+  },
+  "https://wolt.com/sv/swe/stockholm/restaurant/downtown-hornstull": {
+   "ubereats": "https://www.ubereats.com/se/store/downtown-hornstull/tZD-kuIKVFSG1U42i4guOA",
+   "checkedAt": "2026-10-03T21:32:22.918Z"
+  },
+  "https://wolt.com/sv/swe/stockholm/restaurant/margherita-pizzeria-sthlm": {
+   "ubereats": "https://www.ubereats.com/se/store/margherita-pizzeria/wsSdP7cYV-6FlHZQPflZUA",
+   "checkedAt": "2026-10-03T21:32:22.918Z"
+  },
+  "https://wolt.com/sv/swe/stockholm/restaurant/folkets-kebab-hornsgatan-sthlm": {
+   "ubereats": "https://www.ubereats.com/se/store/folkets-kebab/dFLxeHs0XWqlasQ0nPYEaw",
+   "checkedAt": "2026-10-03T21:32:22.918Z"
+  },
+  "https://wolt.com/sv/swe/stockholm/restaurant/restaurang-indira": {
+   "ubereats": "https://www.ubereats.com/se/store/restaurang-indira/4Gn4KhEYQp-oShj4d6flNA",
+   "checkedAt": "2026-10-03T21:32:22.918Z"
+  },
+  "https://wolt.com/sv/swe/stockholm/restaurant/maxigrillen-gotgatan": {
+   "ubereats": "https://www.ubereats.com/se/store/maxi-grillen/G9Pp-4-GVCysXdEJfFQB9Q",
+   "checkedAt": "2026-10-03T21:32:22.918Z"
+  },
+  "https://wolt.com/sv/swe/stockholm/restaurant/kebab-kungen-skanstull": {
+   "ubereats": "https://www.ubereats.com/se/store/kebab-kungen-skanstull/A6iJ9tVaRqyq5YAIojP3Hw",
+   "checkedAt": "2026-10-03T21:32:22.918Z"
+  },
+  "https://wolt.com/sv/swe/stockholm/restaurant/stora-t-kolgrill": {
+   "ubereats": "https://www.ubereats.com/se/store/stora-t-kolgrill-%26-kebab/MAYgPDCMUyeXCQyMRKiR8w",
+   "checkedAt": "2026-10-03T21:32:22.918Z"
+  },
+  "https://wolt.com/sv/swe/stockholm/restaurant/stigbergets-fot": {
+   "ubereats": "https://www.ubereats.com/se/store/stigbergets-fot/578Hn3d6S-G_z5NsGMH1Uw",
+   "checkedAt": "2026-10-03T21:32:22.918Z"
+  },
+  "https://wolt.com/sv/swe/stockholm/restaurant/indio-kitchen": {
+   "ubereats": "https://www.ubereats.com/se/store/indio-kitchen-kocksgatan/uiaX5P0WSD6MK-RYProNkA",
+   "checkedAt": "2026-10-03T21:32:22.918Z"
+  },
+  "https://wolt.com/sv/swe/stockholm/restaurant/snabbt-gott-ringvgen": {
+   "ubereats": "https://www.ubereats.com/se/store/snabbt-%26-gott-ringvagen/__ChG-c8Xc2CSbmXLTwAUw",
+   "checkedAt": "2026-10-03T21:32:22.918Z"
+  },
+  "https://wolt.com/sv/swe/stockholm/restaurant/premium-burger-street-food": {
+   "ubereats": "https://www.ubereats.com/se/store/premium-burger-%26-street-food/i9qc_eMkWSGFY-_Nm7ahsw",
+   "checkedAt": "2026-10-03T21:32:22.918Z"
+  },
+  "https://wolt.com/sv/swe/stockholm/restaurant/hornsgatan-kvarterskrog": {
+   "ubereats": "https://www.ubereats.com/se/store/hornsgatan-kvarterskrog/j-FGUmnrV3KeYHrKnXJ55A",
+   "checkedAt": "2026-10-03T21:32:22.918Z"
+  },
+  "https://wolt.com/sv/swe/stockholm/restaurant/bastard-burgers-medborgarplatsen": {
+   "ubereats": "https://www.ubereats.com/se/store/bastard-burgers-medborgarplatsen/1RGVQqmkW1CL6-4ekGvTwQ",
+   "checkedAt": "2026-10-03T21:32:22.918Z"
   }
  }
 }
