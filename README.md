@@ -6,7 +6,7 @@ En svensk, mobilanpassad översikt över menypriser från utvalda restauranger p
 
 Sidan finns på https://timpan8.github.io/WoltPriser/.
 
-Standardfilter: under 160 kr, fisk/skaldjur döljs när de nämns i menytext, drycker och tillbehör döljs med textbaserade regler. Wolt+ kan slås av och på. Filter är hjälpmedel, inte en allergikontroll. Tillgänglighet på rättnivå är inte ett löfte om att restaurangen kan leverera just nu.
+Rätterna delas in i flikarna Mat, Frukost, Fika & dessert, Dryck och Smått & tillbehör utifrån restaurangens menykategori (och för drycker även rättens namn). I varje flik visas erbjudandena först: ovanligt billigt, sedan kampanj, sedan nytt lägsta eller sänkt pris, och inom varje nivå störst rabatt först. Standardfilter: under 160 kr och fisk/skaldjur döljs när de nämns i menytext. Wolt+ kan slås av och på. Filter är hjälpmedel, inte en allergikontroll. Tillgänglighet på rättnivå är inte ett löfte om att restaurangen kan leverera just nu.
 
 ## Insamling
 
