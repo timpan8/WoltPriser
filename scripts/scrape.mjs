@@ -10,7 +10,8 @@ import {money} from '../lib/prices.mjs';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
 const args=Object.fromEntries(process.argv.slice(2).map(a=>{const [k,v]=a.replace(/^--/,'').split('=');return [k,v??true];}));
-const lat=Number(process.env.WOLT_LAT||59.3076),lon=Number(process.env.WOLT_LON||18.0764);
+// Standard: Årsta (postnummer 120 53, runt Årsta torg). WOLT_LAT/WOLT_LON går före.
+const lat=Number(process.env.WOLT_LAT||59.299),lon=Number(process.env.WOLT_LON||18.052);
 const output=async(k,v)=>{if(process.env.GITHUB_OUTPUT)await fs.appendFile(process.env.GITHUB_OUTPUT,`${k}=${v}\n`);};
 const summary=async md=>{if(process.env.GITHUB_STEP_SUMMARY)await fs.appendFile(process.env.GITHUB_STEP_SUMMARY,md+'\n');};
 
