@@ -3,7 +3,7 @@
 // Miljövariabler: WOLT_LAT/WOLT_LON (leveransadress för kampanjer), SCRAPE_CONCURRENCY, SCRAPE_DUE_HOUR.
 import fs from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
-import {loadHistory,loadVenues,saveSnapshots} from '../lib/store.mjs';
+import {loadHistory,loadVenues,loadMember,saveSnapshots} from '../lib/store.mjs';
 import {scrapeAll,isDue,unusualDeals} from '../lib/scrape.mjs';
 import {money} from '../lib/prices.mjs';
 
@@ -23,7 +23,8 @@ if(args.limit)venues=venues.slice(0,Number(args.limit));
 if(!venues.length){console.error('Inga restauranger att läsa.');process.exit(1);}
 
 console.log(`Läser ${venues.length} restauranger…`);
-const {ok,failed}=await scrapeAll({venues,history,lat,lon,concurrency:Number(process.env.SCRAPE_CONCURRENCY||2),log:m=>console.log('  '+m)});
+const member=await loadMember(root);
+const {ok,failed}=await scrapeAll({venues,history,member,lat,lon,concurrency:Number(process.env.SCRAPE_CONCURRENCY||2),log:m=>console.log('  '+m)});
 
 let saved=null;
 if(ok.length&&!args['dry-run'])saved=await saveSnapshots(root,{snapshots:ok.map(r=>r.snapshot)});

@@ -12,7 +12,7 @@ Rätterna delas in i flikarna Mat, Frukost, Fika & dessert, Dryck och Smått & t
 
 Insamlingen sker automatiskt med `scripts/scrape.mjs` (se `AUTOMATION.md`). Skriptet hämtar varje restaurangs meny från Wolts öppna JSON-API, samma anrop som wolt.com gör för en besökare som inte är inloggad: `consumer-assortment` ger rätter, kategorier, ordinarie priser, bilder och tillgänglighet, och venue-`dynamic` ger restaurangens aktiva kampanjer. Kampanjpriset räknas fram ur kampanjens regel (t.ex. 30 % på utvalda rätter); vid införandet gav det samma priser, kategorier och texter som DOM-avläsningarna. Ingen inloggning, inga cookies, orderdetaljer eller adresser används; positionen för kampanjer anges med `WOLT_LAT`/`WOLT_LON` (standard: Skanstull). Alla rätter i menyn inkluderas, även dyrare rätter och sådant som senare filtreras bort i gränssnittet. Anpassade tillval och obligatoriska val inne i varje rätt är inte prissatta.
 
-Begränsningar: Wolt+-kampanjer visas bara för inloggade medlemmar och kommer därför inte med i den automatiska insamlingen (priset utan Wolt+ blir ändå rätt). Rätter som Wolt döljer när de är slut kan saknas i en avläsning och markeras då som borta tills de kommer tillbaka.
+Begränsningar: Wolt+-kampanjer visas bara för inloggade medlemmar och kommer därför inte med i den automatiska insamlingen. De kommer i stället från dina egna priser (se nedan). Rätter som Wolt döljer när de är slut kan saknas i en avläsning och markeras då som borta tills de kommer tillbaka.
 
 Plattformar läggs till som källor i `lib/sources/` (Wolt nu; Foodora och Uber Eats kan läggas till med samma format). Den gamla webbläsarläsningen (`scripts/extract-menu.js` + importformuläret) finns kvar som manuell reserv.
 
@@ -23,6 +23,12 @@ Restauranglistan finns i `data/venues.json`. En restaurang kan läggas till med 
 Belopp lagras som heltal i ören och tidpunkter i UTC. Historiken identifierar rätter med restauranglänk + Wolt-rätt-ID. När Wolt skapar ett nytt ID får rätten ny historik. Dubbletter mellan Populärt och menyn tas bort, medan olika ID:n behålls. Varje sparad avläsning bevaras.
 
 `data/history.json` sparas kompakt så att filen inte växer med hela menyn varje dag. `readings` har en rad per avläsning: restaurang, tidpunkt och antal rätter. `items` har en ändringslogg per rätt. En ny post skrivs bara när pris, text, Wolt+ eller tillgänglighet ändrats, eller när rätten försvunnit från menyn. Varje avläsning kan återskapas exakt ur loggen. Sidan räknar ut prishistoriken en gång när den laddas, inte vid varje filterändring.
+
+## Dina priser
+
+`data/history.json` är grunddatan: allas priser som skrapan läser utan inloggning. `data/member.json` har dina priser från din inloggade webbläsare i samma format: Wolt+-kampanjer och annat som bara syns för dig. Codex läser dem med `scripts/extract-menu.js`, och importformuläret sparar dem med `{ "mine": true, "snapshots": [...] }` (se `AUTOMATION.md`). Din inloggning lämnar aldrig datorn.
+
+Vid publiceringen bygger `scripts/build-data.mjs` den publicerade historiken med `lib/member.mjs`: grunddatan, där varje rätt får ditt pris om din senaste läsning av restaurangen är högst 7 dagar gammal, rätten har samma ordinarie pris och ditt pris är lägre. Har restaurangen ändrat det ordinarie priset sedan dess, eller finns en ny allmän kampanj som är billigare, gäller grunddatan. Dina läsningar räknas också som avläsningar i prishistoriken. Den lokala servern visar samma sammanslagna historik. Alla läsningar före den automatiska insamlingen gjordes inloggade och finns därför i båda filerna. Skrapans varning om saknade Wolt+-priser gäller bara rätter där du saknar ett färskt eget pris.
 
 ## Bilder
 
