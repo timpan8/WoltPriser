@@ -5,7 +5,7 @@
 import fs from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import {loadHistory,loadVenues,loadMember,saveSnapshots,loadCompare,saveCompare,loadUberEatsLinks,saveUberEatsLinks} from '../lib/store.mjs';
-import {scrapeAll,scrapeUberEats,isDue,unusualDeals,scrapeList,DEFAULT_POS} from '../lib/scrape.mjs';
+import {scrapeAll,scrapeUberEats,isDue,unusualDeals,scrapeList,mergeDiscovered,DEFAULT_POS} from '../lib/scrape.mjs';
 import {defaultSource} from '../lib/sources/index.mjs';
 import {UBEREATS} from '../lib/foodora.mjs';
 import {money} from '../lib/prices.mjs';
@@ -46,7 +46,10 @@ const ue=process.env.SCRAPE_UBEREATS==='0'?{ok:[],failed:[],links:null,searched:
 
 let saved=null,ueSaved=false;
 if(ok.length&&!args['dry-run']){saved=await saveSnapshots(root,{snapshots:ok.map(r=>r.snapshot)},{addVenues:false});
- if(discovered)await fs.writeFile(new URL('../data/discovered.json',import.meta.url),JSON.stringify({updated:new Date().toISOString(),venues:discovered},null,1)+'\n');
+ // Restauranglistan slås ihop med förra: en körning när många har stängt (t.ex. på natten) ska inte ta bort betyg, kök
+ // och position för de som inte syns just nu. seen = senast restaurangen fanns i listan; efter 30 dagar utan träff tas den bort.
+ if(discovered){const dfile=new URL('../data/discovered.json',import.meta.url),prev=JSON.parse(await fs.readFile(dfile,'utf8').catch(()=>'{}')).venues||[],nowIso=new Date().toISOString();
+  await fs.writeFile(dfile,JSON.stringify({updated:nowIso,venues:mergeDiscovered(prev,discovered,nowIso)},null,1)+'\n');}
  // Betyg för alla lästa restauranger (även dina, som inte alltid finns i restauranglistan). Gamla betyg behålls.
  const rfile=new URL('../data/ratings.json',import.meta.url),ratings=JSON.parse(await fs.readFile(rfile,'utf8').catch(()=>'{}'));
  for(const r of ok)if(r.rating!=null)ratings[r.snapshot.url]=r.rating;for(const v of discovered||[])if(v.rating!=null)ratings[v.url]=v.rating;

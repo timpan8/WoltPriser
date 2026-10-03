@@ -1,0 +1,26 @@
+name: Sidtest
+# Röktest i webbläsare för sidan (tests/ui/smoke.mjs) på pull requests och main när sidan eller dess bibliotek ändras.
+on:
+  pull_request:
+    paths: ['app.mjs', 'index.html', 'style.css', 'lib/**', 'scripts/server.mjs', 'tests/**', '.github/workflows/ui.yml']
+  push:
+    branches: [main]
+    paths: ['app.mjs', 'index.html', 'style.css', 'lib/**', 'scripts/server.mjs', 'tests/**', '.github/workflows/ui.yml']
+permissions:
+  contents: read
+jobs:
+  ui:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+      - run: npm test
+      - name: Installera Chromium
+        run: |
+          npm i --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Röktest i webbläsare
+        run: node tests/ui/smoke.mjs
