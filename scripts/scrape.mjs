@@ -61,6 +61,7 @@ const lines=[`### Prisavläsning ${new Date().toLocaleString('sv-SE',{timeZone:'
  `${ok.length} av ${venues.length} restauranger lästa, ${ok.reduce((n,r)=>n+r.snapshot.items.length,0)} rätter, betyg för ${ok.filter(r=>r.rating!=null).length}, öppettider för ${ok.filter(r=>r.hours).length}, minsta order för ${ok.filter(r=>r.minOrder).length}.`];
 // Diagnostik i provkörningen: hur svaret ser ut när öppettider inte hittas.
 if(args['dry-run']){const d=ok.find(r=>r.debug?.length);if(d)lines.push('',`Tidsnycklar i Wolts svar (${d.venue.name}): `+d.debug.join(' · '));}
+if(args['dry-run']){const hm=m=>`${String(Math.floor(m/60)%24).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`;for(const r of ok.filter(r=>r.hours||r.minOrder).slice(0,3))lines.push(`- ${r.venue.name}: ${Object.entries(r.hours||{}).map(([d,rs])=>d+' '+rs.map(([a,b])=>hm(a)+'–'+hm(b)).join(', ')).join(' · ')}${r.minOrder?` · minsta order ${money(r.minOrder)}`:''}`);}
 const cap=(list,n=25)=>list.length>n?[...list.slice(0,n),`- … och ${list.length-n} till`]:list;
 if(failed.length)lines.push('','**Misslyckades (gamla data behålls):**',...cap(failed.map(f=>`- ${f.venue.name}: ${f.error}`)));
 if(ue.blocked)lines.push('',`**Uber Eats blockerar läsningen härifrån** (${ue.blocked}). ${ue.ok.length} restauranger hann läsas. Gamla Uber Eats-priser behålls; använd webbläsarreserven (AUTOMATION.md, Uber Eats i webbläsaren).`);
