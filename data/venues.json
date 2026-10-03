@@ -2,12 +2,14 @@
   {
     "name": "Restaurang Ellora",
     "url": "https://wolt.com/sv/swe/stockholm/restaurant/restaurang-ellora",
-    "foodora": "https://www.foodora.se/restaurant/s5ed/restaurang-ellora"
+    "foodora": "https://www.foodora.se/restaurant/s5ed/restaurang-ellora",
+    "ubereats": "https://www.ubereats.com/se/store/ellora/fAmZLSgDTXG3ct0Sh2dtkQ"
   },
   {
     "name": "Piatto Fresco Årstaberg",
     "url": "https://wolt.com/sv/swe/stockholm/restaurant/piatto-fresco-rstaberg",
-    "foodora": "https://www.foodora.se/restaurant/tlbg/piatto-fresco-arstaberg"
+    "foodora": "https://www.foodora.se/restaurant/tlbg/piatto-fresco-arstaberg",
+    "ubereats": "https://www.ubereats.com/se/store/piatto-fresco-arstaberg/qZXxJzOYV5GPqhSWqxI9QQ"
   },
   {
     "name": "Galinas Pizza Teatern",
@@ -17,12 +19,14 @@
   {
     "name": "MAX Stockholm - Medborgarplatsen",
     "url": "https://wolt.com/sv/swe/stockholm/restaurant/max-hamburgare-medborgarplatsen",
-    "foodora": "https://www.foodora.se/restaurant/s0gl/max-stockholm-medborgarplatsen"
+    "foodora": "https://www.foodora.se/restaurant/s0gl/max-stockholm-medborgarplatsen",
+    "ubereats": "https://www.ubereats.com/se/store/max-sthlm-medborgarplatsen/ir3iRxs5RKu98cSL_fH8OA"
   },
   {
     "name": "Burger King Årsta",
     "url": "https://wolt.com/sv/swe/stockholm/restaurant/burger-king-rsta",
-    "foodora": "https://www.foodora.se/restaurant/s9cx/burger-king-stockholm-arsta"
+    "foodora": "https://www.foodora.se/restaurant/s9cx/burger-king-stockholm-arsta",
+    "ubereats": "https://www.ubereats.com/se/store/burger-king-arsta/yl7fgcXeSFaVG-AwkndQfg"
   },
   {
     "name": "Zoro Kolgrill Turkisk Resturang",
@@ -36,12 +40,14 @@
   {
     "name": "Pazzi Södermalm",
     "url": "https://wolt.com/sv/swe/stockholm/restaurant/pazzi-sdermalm",
-    "foodora": "https://www.foodora.se/restaurant/v2tf/pazzi-soder"
+    "foodora": "https://www.foodora.se/restaurant/v2tf/pazzi-soder",
+    "ubereats": "https://www.ubereats.com/se/store/pazzi-sodermalm/txO_bmkaTu2nNPNvH-Ru5A"
   },
   {
     "name": "SubCulture Årsta",
     "url": "https://wolt.com/sv/swe/stockholm/restaurant/subculture-rsta",
-    "foodora": "https://www.foodora.se/restaurant/ychw/subculture-arsta"
+    "foodora": "https://www.foodora.se/restaurant/ychw/subculture-arsta",
+    "ubereats": "https://www.ubereats.com/se/store/subculture-arsta/luN6YQ0WUxuY3mByxctXjw"
   },
   {
     "name": "Meno Male Söder",
@@ -50,7 +56,8 @@
   {
     "name": "Deli Italia Årsta",
     "url": "https://wolt.com/sv/swe/stockholm/restaurant/deli-italia-arsta",
-    "foodora": "https://www.foodora.se/restaurant/s0ic/deli-italia-arsta"
+    "foodora": "https://www.foodora.se/restaurant/s0ic/deli-italia-arsta",
+    "ubereats": "https://www.ubereats.com/se/store/deli-italia/7Vif453XR4ODSGPodeQp5g"
   },
   {
     "name": "Taco Bar Sickla",
@@ -74,7 +81,8 @@
   {
     "name": "Shaka Shaka Hornstull",
     "url": "https://wolt.com/sv/swe/stockholm/restaurant/shaka-shaka-hornstull",
-    "foodora": "https://www.foodora.se/restaurant/s0iq/shaka-shaka-hornstull"
+    "foodora": "https://www.foodora.se/restaurant/s0iq/shaka-shaka-hornstull",
+    "ubereats": "https://www.ubereats.com/se/store/shaka-shaka-hornstull/sQb5XHmIVz2c1ENHKHpn8Q"
   },
   {
     "name": "Il Forno Italiano Liljeholmstorget",
@@ -83,18 +91,21 @@
   },
   {
     "name": "El Birria Express",
-    "url": "https://wolt.com/sv/swe/stockholm/restaurant/el-birria-kungens-kurva"
+    "url": "https://wolt.com/sv/swe/stockholm/restaurant/el-birria-kungens-kurva",
+    "ubereats": "https://www.ubereats.com/se/store/el-birria-sodermalm/Z4a4BzYOVTquC6IaZ6bC9Q"
   },
   {
     "name": "Muskot",
-    "url": "https://wolt.com/sv/swe/stockholm/restaurant/muskot"
+    "url": "https://wolt.com/sv/swe/stockholm/restaurant/muskot",
+    "ubereats": "https://www.ubereats.com/se/store/muskot-kok-%26-bar-hornsgatan/GKOMDodfXDGUWtOPVIle9Q"
   },
   {
     "name": "Bröd & Salt Skanstull"
   },
   {
     "name": "Gordo Foodtruck Rågsved",
-    "url": "https://wolt.com/sv/swe/stockholm/restaurant/gordo-foodtruck-rgsved"
+    "url": "https://wolt.com/sv/swe/stockholm/restaurant/gordo-foodtruck-rgsved",
+    "ubereats": "https://www.ubereats.com/se/store/gordo-truck-ragsved/iIW7bRZOVuem5yd2NQ9naQ"
   },
   {
     "name": "Smäsh Burger Medis",
