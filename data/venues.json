@@ -68,18 +68,22 @@
     "url": "https://wolt.com/sv/swe/stockholm/restaurant/il-forno"
   },
   {
-    "name": "El Birria Express"
+    "name": "El Birria Express",
+    "url": "https://wolt.com/sv/swe/stockholm/restaurant/el-birria-kungens-kurva"
   },
   {
-    "name": "Muskot"
+    "name": "Muskot",
+    "url": "https://wolt.com/sv/swe/stockholm/restaurant/muskot"
   },
   {
     "name": "Bröd & Salt Skanstull"
   },
   {
-    "name": "Gordo Foodtruck Rågsved"
+    "name": "Gordo Foodtruck Rågsved",
+    "url": "https://wolt.com/sv/swe/stockholm/restaurant/gordo-foodtruck-rgsved"
   },
   {
-    "name": "Smäsh Burger Medis"
+    "name": "Smäsh Burger Medis",
+    "url": "https://wolt.com/sv/swe/stockholm/restaurant/smsh-burger-medis"
   }
 ]
