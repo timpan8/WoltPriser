@@ -1,15 +1,15 @@
-import {money,seafood,extra,effectivePrice,analyze} from './lib/prices.mjs';
+import {money,seafood,extra,effectivePrice,analyze,normalizeHistory,latestSnapshots} from './lib/prices.mjs';
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let history=[],latest=[],rows=[],limit=24;const fmt=s=>new Date(s).toLocaleString('sv-SE',{timeZone:'Europe/Stockholm',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
 function render(){
  const plus=$('#plus').checked,q=$('#search').value.toLocaleLowerCase('sv'),restaurant=$('#restaurant').value,budget=Number($('#budget').value);
- rows=latest.flatMap(s=>s.items.filter(i=>i.available).map(item=>({s,item,price:effectivePrice(item,plus),stats:analyze(history,{url:s.url,item},plus,s.observedAt)})));
+ rows=latest.flatMap(s=>s.items.filter(i=>i.available).map(item=>({s,item,price:effectivePrice(item,plus),stats:item.stats[plus]})));
  const seen=new Set();rows=rows.sort((a,b)=>a.item.id.localeCompare(b.item.id)).filter(r=>{const key=JSON.stringify([r.s.url,r.item.name,r.item.description,r.price,r.item.originalPrice,r.item.woltPlus]);if(seen.has(key))return false;seen.add(key);return true;});
  const base=rows.filter(r=>(!$('#noFish').checked||!seafood(r.item))&&($('#extras').checked||!extra(r.item)));
  $('#countHero').textContent=base.filter(r=>r.price<budget).length;
  const selected=base.filter(r=>r.price<budget&&(!restaurant||r.s.url===restaurant)&&(!q||(r.item.name+' '+r.item.description+' '+r.s.name).toLocaleLowerCase('sv').includes(q))&&(!$('#onlyDeals').checked||r.stats.unusual||r.price<r.item.originalPrice));
  const mode=$('#sort').value;selected.sort((a,b)=>mode==='name'?a.s.name.localeCompare(b.s.name,'sv'):mode==='drop'?(a.stats.change??Infinity)-(b.stats.change??Infinity)||a.price-b.price:mode==='price'?a.price-b.price:Number(b.stats.unusual)-Number(a.stats.unusual)||Number(b.price<b.item.originalPrice)-Number(a.price<a.item.originalPrice)||a.price-b.price);
- $('#results').textContent=selected.length+' alternativ';$('#dealCount').textContent=rows.filter(r=>r.price<r.item.originalPrice).length;
+ $('#results').textContent=selected.length+' alternativ';$('#dealCount').textContent=base.filter(r=>r.price<r.item.originalPrice).length;
  $('#cards').innerHTML=selected.slice(0,limit).map(r=>{const idx=rows.indexOf(r),sale=r.price<r.item.originalPrice,off=Math.round((1-r.price/r.item.originalPrice)*100),st=r.stats;
  const badge=st.unusual?`<span class="badge unusual">${st.discount} % under vanligt</span>`:sale?`<span class="badge">Kampanj −${off} %</span>`:st.lowest?'<span class="badge">Nytt lägsta</span>':'';
  const change=st.change===null?'Första avläsningen':st.change===0?'Oförändrat sedan förra avläsningen':`${st.change<0?'↓':'↑'} ${money(Math.abs(st.change))} sedan förra avläsningen`;
@@ -24,8 +24,8 @@ function showHistory(r){$('#historyTitle').textContent=r.item.name;$('#historyRe
 }
 $('#closeDialog').onclick=()=>$('#historyDialog').close();$('#more').onclick=()=>{limit+=24;render();};
 for(const id of ['search','restaurant','budget','sort','noFish','plus','extras','onlyDeals'])$('#'+id).addEventListener('input',()=>{limit=24;render();});
-try{const response=await fetch('./data/history.json',{cache:'no-store'});if(!response.ok)throw Error('Prisdata kunde inte hämtas');history=await response.json();if(!history.length)throw Error('Ingen avläsning har importerats ännu.');const map=new Map();for(const s of history)if(!map.has(s.url)||map.get(s.url).observedAt<s.observedAt)map.set(s.url,s);latest=[...map.values()];
- $('#venueCount').textContent=latest.length;$('#itemCount').textContent=latest.reduce((n,s)=>n+s.items.length,0);const last=history.map(s=>s.observedAt).sort().at(-1);$('#updated').textContent=fmt(last);$('#restaurant').innerHTML+=[...latest].sort((a,b)=>a.name.localeCompare(b.name,'sv')).map(s=>`<option value="${esc(s.url)}">${esc(s.name)}</option>`).join('');
- const dates=new Set(history.map(s=>s.observedAt.slice(0,10)));$('#heroNote').textContent=dates.size===1?'Första avläsningen är sparad. Nu börjar prishistoriken.':`${dates.size} dagars prisavläsningar att jämföra med.`;
+try{const response=await fetch('./data/history.json',{cache:'no-store'});if(!response.ok)throw Error('Prisdata kunde inte hämtas');history=normalizeHistory(await response.json());if(!history.readings?.length)throw Error('Ingen avläsning har importerats ännu.');latest=latestSnapshots(history);for(const s of latest)for(const item of s.items)item.stats={true:analyze(item.timeline,item,true,s.observedAt),false:analyze(item.timeline,item,false,s.observedAt)};
+ $('#venueCount').textContent=latest.length;$('#itemCount').textContent=latest.reduce((n,s)=>n+s.items.filter(i=>i.available).length,0);const last=history.readings.at(-1).observedAt;$('#updated').textContent=fmt(last);$('#restaurant').innerHTML+=[...latest].sort((a,b)=>a.name.localeCompare(b.name,'sv')).map(s=>`<option value="${esc(s.url)}">${esc(s.name)}</option>`).join('');
+ const dates=new Set(history.readings.map(r=>r.observedAt.slice(0,10)));$('#heroNote').textContent=dates.size===1?'Första avläsningen är sparad. Nu börjar prishistoriken.':`${dates.size} dagars prisavläsningar att jämföra med.`;
  const age=(Date.now()-Date.parse(last))/3600000;$('#notice').textContent=age>30?`Prislistan är ${Math.floor(age)} timmar gammal. Kontrollera dagens priser hos Wolt.`:dates.size<8?'Vi bygger prishistoriken. Kampanjer visas redan nu; märkningen ”ovanligt lågt” kommer först när det finns minst 7 tidigare mätdagar.':'Fynd jämförs med tidigare dagspriser. Avläsningar kan missa korta kampanjer.';render();
 }catch(e){$('#notice').textContent=e.message;$('#cards').innerHTML='<div class="empty">Prislistan är inte tillgänglig just nu. Försök igen senare.</div>';}
