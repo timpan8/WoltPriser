@@ -27,7 +27,7 @@ jobs:
         run: |
           mkdir -p _site/lib _site/data
           cp index.html style.css app.mjs _site/
-          cp lib/prices.mjs lib/receipts.mjs _site/lib/
+          cp lib/prices.mjs lib/receipts.mjs lib/dishes.mjs _site/lib/
           cp data/history.json _site/data/
           if [ -f data/receipts.json ]; then cp data/receipts.json _site/data/; fi
       - uses: actions/upload-pages-artifact@v3
