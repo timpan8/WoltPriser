@@ -232,3 +232,9 @@ test('Wolt HTTP 429: the venue is read again one at a time at the end, others ar
   assert.deepEqual(r.ok.map(x=>x.venue.name).sort(),['Fast','Slow']);assert.equal(r.failed.length,0);assert.ok(r.ok.find(x=>x.venue.name==='Slow').retried);
   assert.ok(logs.some(l=>/läser om dem en i taget/.test(l)));
  }finally{timing.backoff=old;}});
+
+test('restaurant list: a night run with few open restaurants keeps the others (with cuisine and position) for 30 days',async()=>{
+ const {mergeDiscovered}=await import('../lib/scrape.mjs');
+ const prev=[{url:'a',name:'A',tags:['pizza'],pos:{lat:1,lon:2},seen:'2026-10-03T14:00:00Z'},{url:'b',name:'B',tags:['sushi'],seen:'2026-10-03T14:00:00Z'},{url:'c',name:'C',tags:[],seen:'2026-08-01T14:00:00Z'}];
+ const m=mergeDiscovered(prev,[{url:'a',name:'A',rating:8,tags:['pizza','kebab']}],'2026-10-04T01:00:00Z');
+ assert.deepEqual(m.map(v=>v.url),['a','b']);assert.deepEqual(m[0].tags,['pizza','kebab']);assert.deepEqual(m[0].pos,{lat:1,lon:2});assert.equal(m[0].seen,'2026-10-04T01:00:00Z');assert.deepEqual(m[1].tags,['sushi']);});
