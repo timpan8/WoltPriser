@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-03T23:03:00.122Z",
+ "updated": "2026-10-03T23:38:25.950Z",
  "venues": [
   {
    "name": "MAX Stockholm - Medborgarplatsen",
@@ -121,7 +121,7 @@
     "hamburgare",
     "kebab"
    ],
-   "estimate": 30,
+   "estimate": 25,
    "address": "Gullmarsplan 1B, 121 40, Stockholm, SWE",
    "pos": {
     "lat": 59.29868403,
@@ -157,37 +157,6 @@
    "pos": {
     "lat": 59.3150634,
     "lon": 18.0708378
-   }
-  },
-  {
-   "name": "Pizzeria Tropicana",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/pizzeria-tropicana",
-   "rating": 8.4,
-   "tags": [
-    "pizza",
-    "kebab"
-   ],
-   "estimate": 40,
-   "address": "vasaloppsvägen 73, 129 45 Hägersten",
-   "pos": {
-    "lat": 59.293802,
-    "lon": 17.9655589
-   }
-  },
-  {
-   "name": "DOWNTOWN Hornstull",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/downtown-hornstull",
-   "rating": 7.4,
-   "tags": [
-    "burger",
-    "korv",
-    "kebab"
-   ],
-   "estimate": 30,
-   "address": "Långholmsgatan 14A",
-   "pos": {
-    "lat": 59.3179147,
-    "lon": 18.0322706
    }
   },
   {
@@ -374,7 +343,7 @@
     "fried chicken",
     "hamburgare"
    ],
-   "estimate": 30,
+   "estimate": 25,
    "address": "Kontrollvägen 17",
    "pos": {
     "lat": 59.293113,
@@ -406,7 +375,7 @@
     "efterrätt",
     "hamburgare"
    ],
-   "estimate": 40,
+   "estimate": 35,
    "address": "Sergelgatan 1",
    "pos": {
     "lat": 59.332497,
@@ -517,7 +486,7 @@
     "fried chicken",
     "hamburgare"
    ],
-   "estimate": 30,
+   "estimate": 35,
    "address": "Kungsgatan 50",
    "pos": {
     "lat": 59.3351022,
