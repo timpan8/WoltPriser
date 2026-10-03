@@ -9,7 +9,7 @@ import {scrapeAll,scrapeUberEats,isDue,unusualDeals,scrapeList,DEFAULT_POS} from
 import {defaultSource} from '../lib/sources/index.mjs';
 import {UBEREATS} from '../lib/foodora.mjs';
 import {money} from '../lib/prices.mjs';
-import {updateGoogle} from '../lib/sources/google.mjs';
+import {updateGoogle,checkGoogle} from '../lib/sources/google.mjs';
 import {placeFromSearch,slugFromUrl} from '../lib/sources/wolt.mjs';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
@@ -76,6 +76,19 @@ const gl=()=>Object.entries(google.store).filter(([u,g])=>g.rating!=null&&ok.som
 if(google)lines.push('',`Google-betyg: hämtade ${google.fetched} av ${google.due} som behövde uppdateras, hittade ${google.found}${google.found?' (t.ex. '+gl()+')':''}.${google.errors.length?' Fel: '+google.errors.slice(0,3).join('; '):''}`);
 else if(!process.env.GOOGLE_PLACES_KEY)lines.push('','Google-betyg: ingen GOOGLE_PLACES_KEY, hoppar över.');
 if(args['dry-run']&&!google)for(const p of places)if(!p.pos)Object.assign(p,await placeFromSearch(slugFromUrl(p.url),p.name,{lat,lon}));
+// Provkörningen kontrollerar sparade Google-matchningar: missar söks om (med kandidater), träffar jämförs med Wolts namn.
+if(args['dry-run']&&process.env.GOOGLE_PLACES_KEY){const saved=JSON.parse(await fs.readFile(new URL('../data/google.json',import.meta.url),'utf8').catch(()=>'{}'));
+ // Namn och position: dagens lista, sparade data/discovered.json, provkörningens restauranger och till sist Wolts sökning.
+ const prevList=JSON.parse(await fs.readFile(new URL('../data/discovered.json',import.meta.url),'utf8').catch(()=>'{}')).venues||[];
+ const info=new Map([...prevList,...listed.values()].map(d=>[d.url,{url:d.url,name:d.name,address:d.address,pos:d.pos}]));for(const p of places)info.set(p.url,p);
+ const names=new Map((await loadVenues(root)).map(v=>[v.url,v.name])),known=[];
+ for(const u of Object.keys(saved)){let k=info.get(u)||{url:u,name:names.get(u)||slugFromUrl(u).replace(/-/g,' ')};if(!k.pos)k={...k,...await placeFromSearch(slugFromUrl(u),k.name,{lat,lon})};known.push(k);}
+ const res=await checkGoogle({venues:known,store:saved,key:process.env.GOOGLE_PLACES_KEY,center:{lat,lon}}),m=x=>x==null?'?':x<1?Math.round(x*1000)+' m':x.toFixed(1)+' km';
+ const misses=res.filter(r=>r.was==='miss'),hits=res.filter(r=>r.was!=='miss'),odd=hits.filter(r=>r.pick&&(r.score<2||r.km>0.3));
+ lines.push('',`**Google-kontroll:** ${misses.length} missar sökta igen, ${misses.filter(r=>r.pick).length} matchar nu; ${hits.length} tidigare träffar, ${odd.length} med annat namn eller över 300 m bort.`);
+ for(const r of misses)lines.push(`- MISS ${r.venue.name} (${r.venue.address||'ingen adress'}) → ${r.pick?`**${r.pick.name}**, ${r.pick.address}, ★ ${r.pick.rating} (${r.pick.count})`:'ingen träff'}; kandidater: ${(r.candidates||[]).map(c=>`${c.name} ${m(c.km)} [${c.score}${c.ok?' ok':''}]`).join(' · ')||'inga'}`);
+ for(const r of hits)lines.push(`- ${r.was==='träff'?'TRÄFF':'UTAN BETYG'}${odd.includes(r)?' ⚠':''} ${r.venue.name} → ${r.pick?`${r.pick.name}, ${r.pick.address}, ${m(r.km)}, ★ ${r.pick.rating}`:'hittades inte'}`);
+ for(const r of res.filter(r=>r.error))lines.push(`- FEL ${r.venue.name}: ${r.error}`);}
 if(args['dry-run'])lines.push(`Adress och position för Google-sökningen: ${places.filter(p=>p.pos).length} av ${places.length}${places.find(p=>p.address)?` (t.ex. ${places.find(p=>p.address).name}, ${places.find(p=>p.address).address})`:''}.`);
 const cap=(list,n=25)=>list.length>n?[...list.slice(0,n),`- … och ${list.length-n} till`]:list;
 if(failed.length)lines.push('','**Misslyckades (gamla data behålls):**',...cap(failed.map(f=>`- ${f.venue.name}: ${f.error}`)));

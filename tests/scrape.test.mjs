@@ -174,7 +174,7 @@ test('opening hours and minimum order are read from several Wolt formats',async(
  const real=venueInfo({venue_raw:{delivery_specs:{order_minimum_no_surcharge:12000,delivery_times:{monday:[{type:'open',value:39600},{type:'close',value:77400}],friday:[{type:'open',value:64800}],saturday:[{type:'close',value:7200},{type:'open',value:43200},{type:'close',value:86400}]}}}});
  assert.deepEqual(real.hours,{mon:[[660,1290]],fri:[[1080,1560]],sat:[[720,1440]]});assert.equal(real.minOrder,12000);});
 
-test('Google rating: search near the Wolt address once, then refresh by place id weekly; misses wait a month',async()=>{
+test('Google rating: search near the Wolt address once, then refresh by place id weekly; misses retry after a week',async()=>{
  const {updateGoogle,pickPlace}=await import('../lib/sources/google.mjs');const {venuePlace}=await import('../lib/sources/wolt.mjs');
  assert.deepEqual(venuePlace({venue:{address:'Årsta torg 5',location:{coordinates:[18.05,59.3]}}}),{address:'Årsta torg 5',pos:{lat:59.3,lon:18.05}});
  assert.deepEqual(venuePlace({results:[{location:{lat:59.31,lon:18.06}}]}).pos,{lat:59.31,lon:18.06});
@@ -188,15 +188,35 @@ test('Google rating: search near the Wolt address once, then refresh by place id
  const far={...near,id:'B',location:{latitude:59.4,longitude:18.2}},other={...near,id:'C',displayName:{text:'Pizzeria Roma'}};
  assert.equal(pickPlace({name:'Ellora',pos:{lat:59.3,lon:18.05}},[other,far,near])?.id,'A');
  assert.equal(pickPlace({name:'Ellora',pos:{lat:59.3,lon:18.05}},[far,other]),null);
+ // Kedjenamn som skiljer sig mellan Wolt och Google: samma första ord räcker om stället ligger inom 400 m, aldrig längre bort.
+ const {nameScore}=await import('../lib/sources/google.mjs');
+ assert.equal(nameScore('MAX Stockholm - Sköndal','MAX Premium Burgers'),0.5);assert.equal(nameScore('Zoro Kolgrill Turkisk Resturang Stockholm','Zoro Kolgrill'),1);
+ assert.equal(nameScore('Pizzeria Roma','Pizzeria Napoli'),0);assert.equal(nameScore('Restaurang Ellora','Restaurang Indira'),0);
+ const maxAt=(lat,lon)=>({id:'M',displayName:{text:'MAX Premium Burgers'},location:{latitude:lat,longitude:lon}});
+ assert.equal(pickPlace({name:'MAX Stockholm - Sköndal',address:'Sköndalsvägen 3',pos:{lat:59.3,lon:18.05}},[{...maxAt(59.3015,18.05),formattedAddress:'Sköndalsvägen 3, 128 69 Sköndal'}])?.id,'M');
+ assert.equal(pickPlace({name:'MAX Stockholm - Sköndal',pos:{lat:59.3,lon:18.05}},[maxAt(59.3015,18.05)]),null);
+ assert.equal(pickPlace({name:'MAX Stockholm - Sköndal',pos:{lat:59.3,lon:18.05}},[maxAt(59.31,18.05)]),null);
+ assert.equal(pickPlace({name:'MAX Stockholm - Sköndal',center:{lat:59.3,lon:18.05}},[maxAt(59.3015,18.05)]),null);
+ // Bara första ordet gemensamt: kräver samma gata (eller ≤ 80 m) och ett matställe.
+ const area={id:'H',displayName:{text:'Högdalens företagsområde'},formattedAddress:'Stallarholmsvägen 49, 124 59 Bandhagen',types:['point_of_interest','establishment'],location:{latitude:59.3010,longitude:18.05}};
+ const hog={name:'Högdalens Pizzeria & Thai Wok',address:'Stallarholmsvägen 24',pos:{lat:59.3,lon:18.05}};
+ assert.equal(pickPlace(hog,[area]),null);assert.equal(pickPlace(hog,[{...area,types:['restaurant']}]),null);
+ assert.equal(pickPlace({...hog,address:'Stallarholmsvägen 49'},[{...area,types:['restaurant']}])?.id,'H');
+ assert.equal(pickPlace({name:'MAX Stockholm - Sergels Torg',address:'Sergelgatan 1',pos:{lat:59.3,lon:18.05}},[{...maxAt(59.3005,18.05),formattedAddress:'Sergels Torg 1, 111 57 Stockholm',types:['hamburger_restaurant']}])?.id,'M');
+ // En sparad träff mer än 1,5 km från Wolts position söks om (El Birria Express ≠ El Birria Kungsholmen).
+ {const t1=Date.parse('2026-10-04T14:00:00Z'),seen=[];const far2={id:'K',displayName:{text:'El Birria - Kungsholmen'},rating:3.7,userRatingCount:9,location:{latitude:59.33,longitude:18.05}};
+  const fi=async(url,init)=>{seen.push(url);return new Response(JSON.stringify(url.endsWith(':searchText')?{places:[far2]}:far2),{status:200});};
+  const r2=await updateGoogle({venues:[{url:'w/eb',name:'El Birria Express',pos:{lat:59.30,lon:18.05}}],store:{'w/eb':{id:'K',rating:3.7,count:9,at:'2026-09-01T00:00:00Z'}},key:'k',fetchImpl:fi,now:t1});
+  assert.equal(r2.store['w/eb'].miss,true);assert.equal(seen.length,2);}
  const calls=[];const fetchImpl=async(url,init)=>{calls.push({url,init});const body=url.endsWith(':searchText')?{places:/Ellora/.test(init.body)?[far,near]:[]}:{...near,rating:4.5,userRatingCount:820};return new Response(JSON.stringify(body),{status:200});};
  const venues=[{url:'w/ellora',name:'Ellora',address:'Årsta torg 5',pos:{lat:59.3,lon:18.05}},{url:'w/x',name:'Okänd',pos:{lat:59.3,lon:18.05}}];
  const t0=Date.parse('2026-10-04T14:00:00Z');
  let r=await updateGoogle({venues,key:'k',fetchImpl,now:t0});
- assert.deepEqual(r.store['w/ellora'],{id:'A',rating:4.4,count:812,maps:'https://maps.google.com/?cid=1',at:'2026-10-04T14:00:00.000Z'});
+ assert.deepEqual(r.store['w/ellora'],{id:'A',name:'Restaurang Ellora',rating:4.4,count:812,maps:'https://maps.google.com/?cid=1',at:'2026-10-04T14:00:00.000Z',v:2});
  assert.equal(r.store['w/x'].miss,true);assert.equal(r.found,1);assert.equal(calls.length,2);
  assert.equal(calls[0].init.headers['x-goog-api-key'],'k');assert.match(JSON.parse(calls[0].init.body).textQuery,/Ellora, Årsta torg 5/);
  calls.length=0;r=await updateGoogle({venues,store:r.store,key:'k',fetchImpl,now:t0+3*86400000});assert.equal(calls.length,0);
  r=await updateGoogle({venues,store:r.store,key:'k',fetchImpl,now:t0+8*86400000});
- assert.equal(calls.length,1);assert.match(calls[0].url,/\/places\/A$/);assert.equal(r.store['w/ellora'].rating,4.5);
+ assert.equal(calls.length,2);assert.ok(calls.some(c=>/\/places\/A$/.test(c.url)));assert.ok(calls.some(c=>c.url.endsWith(':searchText')&&/Okänd/.test(c.init.body)));assert.equal(r.store['w/ellora'].rating,4.5);
  const denied=await updateGoogle({venues,key:'bad',fetchImpl:async()=>new Response('{}',{status:403}),now:t0});
  assert.equal(denied.fetched,0);assert.equal(denied.errors.length,1);assert.match(denied.errors[0],/HTTP 403/);});
