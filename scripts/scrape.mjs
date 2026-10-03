@@ -57,4 +57,4 @@ if(deals.length)lines.push('','**Ovanligt billigt:**',...cap(deals.map(d=>`- ${d
 console.log('\n'+lines.join('\n'));await summary(lines.join('\n'));
 await output('saved',!!saved||ueSaved);await output('failed',failed.length+ue.failed.length);await output('deals',deals.length);
 if(!ok.length){console.error('Ingen Wolt-meny kunde läsas; inget sparat.');process.exit(1);}
-if(args.strict&&(failed.length||ue.failed.length)){console.error('Minst en restaurang misslyckades (--strict).');process.exit(1);}
+if(args.strict&&(failed.some(f=>!f.venue.discovered)||ue.failed.length)){console.error('Minst en restaurang misslyckades (--strict).');process.exit(1);}
