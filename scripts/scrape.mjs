@@ -57,7 +57,8 @@ if(ok.length&&!args['dry-run']){saved=await saveSnapshots(root,{snapshots:ok.map
 // Google-betyg (data/google.json) när GOOGLE_PLACES_KEY finns; i provkörningen bara ett par restauranger och inget sparas.
 let google=null;
 if(process.env.GOOGLE_PLACES_KEY&&ok.length){const gfile=new URL('../data/google.json',import.meta.url),store=args['dry-run']?{}:JSON.parse(await fs.readFile(gfile,'utf8').catch(()=>'{}'));
- google=await updateGoogle({venues:ok.map(r=>({url:r.snapshot.url,name:r.venue.name,address:r.place?.address,pos:r.place?.pos})),store,key:process.env.GOOGLE_PLACES_KEY,center:{lat,lon},limit:args['dry-run']?3:Number(process.env.GOOGLE_LIMIT||60)});
+ const listed=new Map((discovered||[]).map(v=>[v.url,v]));
+ google=await updateGoogle({venues:ok.map(r=>{const d=listed.get(r.snapshot.url);return {url:r.snapshot.url,name:r.venue.name,address:r.place?.address||d?.address,pos:r.place?.pos||d?.pos};}),store,key:process.env.GOOGLE_PLACES_KEY,center:{lat,lon},limit:args['dry-run']?3:Number(process.env.GOOGLE_LIMIT||60)});
  if(!args['dry-run']&&google.fetched)await fs.writeFile(gfile,JSON.stringify(google.store,null,1)+'\n');}
 if(ue.ok.length&&!args['dry-run']){await saveCompare(root,UBEREATS,ue.ok.map(r=>r.snapshot));ueSaved=true;}
 if(ue.searched&&!args['dry-run']){await saveUberEatsLinks(root,ue.links);ueSaved=true;}
@@ -71,6 +72,7 @@ if(args['dry-run']){const hm=m=>`${String(Math.floor(m/60)%24).padStart(2,'0')}:
 const gl=()=>Object.entries(google.store).filter(([u,g])=>g.rating!=null&&ok.some(r=>r.snapshot.url===u)).slice(0,3).map(([u,g])=>`${ok.find(r=>r.snapshot.url===u).venue.name} ★ ${g.rating} (${g.count})`).join(', ');
 if(google)lines.push('',`Google-betyg: hämtade ${google.fetched} av ${google.due} som behövde uppdateras, hittade ${google.found}${google.found?' (t.ex. '+gl()+')':''}.${google.errors.length?' Fel: '+google.errors.slice(0,3).join('; '):''}`);
 else if(!process.env.GOOGLE_PLACES_KEY)lines.push('','Google-betyg: ingen GOOGLE_PLACES_KEY, hoppar över.');
+if(args['dry-run']){const listed=(discovered||[]).filter(v=>v.pos).length,d=ok.find(r=>r.placeDebug?.length);lines.push(`Restauranglistan: ${listed} av ${(discovered||[]).length} med position${discovered?.find(v=>v.address)?` (t.ex. ${discovered.find(v=>v.address).name}, ${discovered.find(v=>v.address).address})`:''}.`);if(d)lines.push(`Adressnycklar i Wolts svar (${d.venue.name}): `+d.placeDebug.join(' · '));}
 if(args['dry-run'])lines.push(`Adress/position från Wolt: ${ok.filter(r=>r.place?.pos).length} av ${ok.length} med position, ${ok.filter(r=>r.place?.address).length} med adress${ok[0]?.place?.address?` (t.ex. ${ok[0].place.address})`:''}.`);
 const cap=(list,n=25)=>list.length>n?[...list.slice(0,n),`- … och ${list.length-n} till`]:list;
 if(failed.length)lines.push('','**Misslyckades (gamla data behålls):**',...cap(failed.map(f=>`- ${f.venue.name}: ${f.error}`)));

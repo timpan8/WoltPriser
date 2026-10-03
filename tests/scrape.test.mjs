@@ -178,6 +178,8 @@ test('Google rating: search near the Wolt address once, then refresh by place id
  const {updateGoogle,pickPlace}=await import('../lib/sources/google.mjs');const {venuePlace}=await import('../lib/sources/wolt.mjs');
  assert.deepEqual(venuePlace({venue:{address:'Årsta torg 5',location:{coordinates:[18.05,59.3]}}}),{address:'Årsta torg 5',pos:{lat:59.3,lon:18.05}});
  assert.deepEqual(venuePlace({results:[{location:{lat:59.31,lon:18.06}}]}).pos,{lat:59.31,lon:18.06});
+ const {parseVenueList}=await import('../lib/sources/wolt.mjs');
+ assert.deepEqual(parseVenueList({sections:[{items:[{venue:{slug:'ellora',name:'Ellora',rating:{score:8},address:'Årsta torg 5',location:[18.05,59.3]}}]}]})[0],{name:'Ellora',url:'https://wolt.com/sv/swe/stockholm/restaurant/ellora',rating:8,tags:[],estimate:null,address:'Årsta torg 5',pos:{lat:59.3,lon:18.05}});
  const near={id:'A',displayName:{text:'Restaurang Ellora'},rating:4.4,userRatingCount:812,googleMapsUri:'https://maps.google.com/?cid=1',location:{latitude:59.3001,longitude:18.0501}};
  const far={...near,id:'B',location:{latitude:59.4,longitude:18.2}},other={...near,id:'C',displayName:{text:'Pizzeria Roma'}};
  assert.equal(pickPlace({name:'Ellora',pos:{lat:59.3,lon:18.05}},[other,far,near])?.id,'A');
