@@ -14,12 +14,17 @@ let cart=load('woltpriser-cart',[]),rowByKey=new Map();const cartKey=r=>r.s.url+
 const dupKey=r=>[r.item.name.toLocaleLowerCase('sv').replace(/[®™]/g,'').replace(/\s+/g,' ').trim(),r.price,r.item.originalPrice,r.deal.level].join('|');
 const COURSE_ICON={mat:'🍽️',frukost:'🥪',fika:'🍰',dryck:'🥤',smatt:'🍟',barn:'🧒'};
 // Betyg: restauranglistan (discovered.json) eller avläsningen (ratings.json, även dina restauranger).
-const ratingOf=url=>meta.get(url)?.rating??ratings?.[url]??null,stars=url=>{const v=ratingOf(url);return v?`<span class="rating"> ${google?.[url]?.rating!=null?'Wolt ':''}★ ${String(Math.round(v*10)/10).replace('.',',')}</span>`:'';};
+const ratingOf=url=>meta.get(url)?.rating??ratings?.[url]??null;
+// Betygsnivå på samma skala oavsett app (Googles 1–5 räknas gånger 2): 9+ utmärkt, 8+ bra, 7+ okej, annars svagt.
+// Färgen visar nivån, så att Google 4,6 och Wolt 9,2 båda syns som utmärkta trots olika skalor.
+const LEVELS=['','svagt','okej','bra','utmärkt'],level=x=>x>=9?4:x>=8?3:x>=7?2:1,num=v=>String(Math.round(v*10)/10).replace('.',',');
+const stars=url=>{const v=ratingOf(url);if(!v)return '';const l=level(v);return ` <span class="rating rt r${l}" title="Wolt-betyg ${num(v)} av 10 (${LEVELS[l]})">Wolt ${num(v)}<small>/10</small></span>`;};
 // Google-betyget (1–5) med antal omdömen och länk till Google Maps, om det finns i data/google.json.
-const rates=url=>{const v=ratingOf(url),g=gstars(url);return v||g?`<div class="opt-rates">${v?`<span class="rating">Wolt ★ ${String(Math.round(v*10)/10).replace('.',',')}</span>`:''}${g}</div>`:'';};
+const rates=url=>{const w=stars(url),g=gstars(url);return w||g?`<div class="opt-rates">${w}${g}</div>`:'';};
 // Betyg på tioskala för sortering: Wolt (0–10), Google (1–5, gånger 2) och snittet av de som finns.
 const woltR=url=>ratingOf(url)??null,googR=url=>google?.[url]?.rating!=null?google[url].rating*2:null,avgR=url=>{const v=[woltR(url),googR(url)].filter(x=>x!=null);return v.length?v.reduce((a,b)=>a+b)/v.length:null;};
-const gstars=(url,short)=>{const g=google?.[url];if(g?.rating==null)return '';const t=`Google ★ ${String(g.rating).replace('.',',')}${short?'':` <small>(${(g.count||0).toLocaleString("sv-SE")})</small>`}`;return ` <a class="grating" href="${esc(g.maps||'https://www.google.com/maps/search/?api=1&query=Google&query_place_id='+g.id)}" target="_blank" rel="noopener noreferrer" title="Betyg på Google av ${g.count||0} personer">${t}</a>`;};
+const gstars=(url,short)=>{const g=google?.[url];if(g?.rating==null)return '';const l=level(g.rating*2),n=(g.count||0).toLocaleString('sv-SE');
+ return ` <a class="grating rt r${l}" href="${esc(g.maps||'https://www.google.com/maps/search/?api=1&query=Google&query_place_id='+g.id)}" target="_blank" rel="noopener noreferrer" title="Google-betyg ${num(g.rating)} av 5 (${LEVELS[l]}), ${n} omdömen">Google ${num(g.rating)}<small>/5</small>${short?'':` <small class="cnt">(${n})</small>`}</a>`;};
 // Öppettider (data/venueinfo.json, minuter efter midnatt, svensk tid). null om okänt.
 const DAYS=['sun','mon','tue','wed','thu','fri','sat'],DAYNAME={mon:'mån',tue:'tis',wed:'ons',thu:'tors',fri:'fre',sat:'lör',sun:'sön'};
 const hm=m=>`${String(Math.floor(m/60)%24).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`;
