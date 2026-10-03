@@ -212,7 +212,7 @@ test('Google rating: search near the Wolt address once, then refresh by place id
  const venues=[{url:'w/ellora',name:'Ellora',address:'Årsta torg 5',pos:{lat:59.3,lon:18.05}},{url:'w/x',name:'Okänd',pos:{lat:59.3,lon:18.05}}];
  const t0=Date.parse('2026-10-04T14:00:00Z');
  let r=await updateGoogle({venues,key:'k',fetchImpl,now:t0});
- assert.deepEqual(r.store['w/ellora'],{id:'A',name:'Restaurang Ellora',rating:4.4,count:812,maps:'https://maps.google.com/?cid=1',at:'2026-10-04T14:00:00.000Z'});
+ assert.deepEqual(r.store['w/ellora'],{id:'A',name:'Restaurang Ellora',rating:4.4,count:812,maps:'https://maps.google.com/?cid=1',at:'2026-10-04T14:00:00.000Z',v:2});
  assert.equal(r.store['w/x'].miss,true);assert.equal(r.found,1);assert.equal(calls.length,2);
  assert.equal(calls[0].init.headers['x-goog-api-key'],'k');assert.match(JSON.parse(calls[0].init.body).textQuery,/Ellora, Årsta torg 5/);
  calls.length=0;r=await updateGoogle({venues,store:r.store,key:'k',fetchImpl,now:t0+3*86400000});assert.equal(calls.length,0);
