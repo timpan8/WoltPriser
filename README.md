@@ -42,6 +42,15 @@ Samma restauranger läses också på Foodora, så att korten kan visa om rätten
 
 Foodora har inga gemensamma rätt-ID:n med Wolt. En rätt jämförs bara när namnet är exakt detsamma (utan skiljetecken och versaler); flera rätter med samma namn avgörs av kategorin, annars jämförs de inte. "Från"-priser är grundpriset innan obligatoriska val och märks på kortet. Jämförelsen gäller menypriset: leverans, serviceavgift och medlemskap skiljer sig mellan tjänsterna. Foodora-priser visas i prishistoriken men räknas inte in i märkningarna.
 
+## Restauranger som inte finns på Wolt
+
+Foodora och Uber Eats kan också läsas för restauranger som inte finns på Wolt. En sådan avläsning saknar fältet `wolt` och sparas i `data/foodora.json` respektive `data/ubereats.json` under appens egen länk. Sidan visar dem bara när filtret **Visa restauranger som inte finns på Wolt** är på (eller när restaurangen väljs i listan, under "Inte på Wolt"). Korten märks "Inte på Wolt" och länkar till appen.
+
+- Samma restaurang på både Foodora och Uber Eats slås ihop på namnet (utan skiljetecken, versaler och ortsord som "Stockholm"). Appen med flest rätter ger priset; den andra jämförs på samma sätt som mot Wolt.
+- Finns en restaurang med samma namn på Wolt visas den bara som Wolt-restaurang.
+- Märkningarna fungerar som för Wolt men bygger på appens egen ändringslogg. Avgifter räknas inte, eftersom avgiftsmodellen bygger på dina Wolt-kvitton.
+- Import: `node scripts/import-compare.mjs <fil.json>` med `{ "foodora": [...] }` och/eller `{ "ubereats": [...] }` (samma format som importformuläret). Uber Eats-restauranger utan Wolt-länk kräver en känd Uber Eats-länk; de söks inte upp på namn.
+
 ## Uber Eats
 
 Uber Eats läses för alla restauranger som läses på Wolt, både dina och de som levererar till positionen. Länken till Uber Eats-butiken hittas så här:
