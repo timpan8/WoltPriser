@@ -155,3 +155,7 @@ test('browser fallback: extract-ubereats.js output is imported like the cloud re
  }finally{globalThis.fetch=real;globalThis.setTimeout=realTimeout;}});
 test('venue rating is read tolerantly from the venue response',async()=>{const {venueRating}=await import('../lib/sources/wolt.mjs');
  assert.equal(venueRating({venue_raw:{name:'X',rating:{rating:4,score:8.6,volume:200}}}),8.6);assert.equal(venueRating({venue:{rating:{score:0}}}),null);assert.equal(venueRating({}),null);assert.equal(venueRating(null),null);});
+test('rating falls back to the static venue data, then to search, and never fails the reading',async()=>{const {ratingFor}=await import('../lib/sources/wolt.mjs');
+ assert.equal(await ratingFor('x','X',{fetchImpl:fakeFetch({'/static/':{venue:{rating:{score:9.1}}}})}),9.1);
+ assert.equal(await ratingFor('x','X',{fetchImpl:fakeFetch({'/v1/pages/search':{sections:[{items:[{venue:{slug:'y',rating:{score:5}}},{venue:{slug:'x',rating:{score:8.2}}}]}]}})}),8.2);
+ assert.equal(await ratingFor('x','X',{fetchImpl:async()=>{throw Error('nät');}}),null);});
