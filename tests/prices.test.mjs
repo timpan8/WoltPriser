@@ -1,4 +1,5 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';import {course,deal,mergeVenues,analyze,effectivePrice,mergeHistory,normalizeHistory,expandVenue,latestSnapshots,itemHistory,seafood,extra} from '../lib/prices.mjs';
+import {volumeMl} from '../lib/prices.mjs';
 const url='https://wolt.com/sv/swe/stockholm/restaurant/test';const item={id:'a',name:'Pasta',description:'Tomat',category:'Pasta',price:10000,originalPrice:20000,woltPlus:true,offer:'',available:true};
 const snap=(day,price=10000)=>({url,name:'Test',observedAt:`2026-09-${day}T12:00:00.000Z`,items:[{...item,price}]});
 const timeline=snaps=>itemHistory(snaps.map(s=>s.observedAt),'a',normalizeHistory(snaps).items[url].a);
@@ -40,7 +41,7 @@ test('menu categories are sorted into tabs',()=>{const c=(category,name='Rätt')
  assert.equal(p('Yama Kids','Beginners Chopsticks',39),null);assert.equal(p('Extra & vegetariska','Beyti',199),'mat');assert.equal(p('Amerikanska Pan Pizzor','Late Breakfast',159),'mat');
  assert.equal(p('Yama Home','Cooked Sushi Rice 500g',49),'smatt');assert.equal(p('Kall Mat','Grekisk Yoghurt med Jordgubbar',49),'frukost');assert.equal(p("Winnin' Deals",'FikaDeal',35),'fika');
  assert.equal(p('Övriga Rätter','Ost & Kalkontoast',36),'frukost');assert.equal(p('KYCKLING','Grilled Chicken Sandwich',89),'mat');assert.equal(p('Sharing is Caring','TB Holy Habanerosås',70),'smatt');
- assert.equal(p('Kampanj','Tre Sideorders för 99kr',99),'smatt');assert.equal(p('Kampanj','Köttbullar i gräddsås',79),'mat');assert.equal(p('Korv','Premium Korv med Stor Baguette',100),'mat');assert.equal(p('CHICKEN TENDERS','Hot Habanero-krydda',8),'smatt');assert.equal(p('CHICKEN TENDERS',"XL Raising MAX's Sauce",38),'smatt');assert.equal(p('Kampanj','Biff i pepparsås',189),'mat');});
+ assert.equal(p('Kampanj','Tre Sideorders för 99kr',99),'smatt');assert.equal(p('Kampanj','Köttbullar i gräddsås',79),'mat');assert.equal(p('Korv','Premium Korv med Stor Baguette',100),'mat');assert.equal(p('DESSERT','Chocolate Dip',15),'smatt');assert.equal(p('Desserter','Äppelpaj',15),'fika');assert.equal(p('CHICKEN TENDERS','Hot Habanero-krydda',8),'smatt');assert.equal(p('CHICKEN TENDERS',"XL Raising MAX's Sauce",38),'smatt');assert.equal(p('Kampanj','Biff i pepparsås',189),'mat');});
 test('offers are ranked: unusually cheap, then campaign, then new lowest',()=>{const s={unusual:false,discount:null,median:null,lowest:false,change:null,last:null};
  assert.deepEqual(deal(item,10000,{...s,unusual:true,discount:33,median:15000}),{level:3,label:'Ovanligt billigt',pct:33,save:5000});
  assert.equal(deal(item,10000,s).level,2);assert.equal(deal(item,10000,s).pct,50);
@@ -90,3 +91,6 @@ test('dishes are matched to Foodora only on the same name; duplicates need the s
  assert.equal(matchFoodora(m,{name:'chicken tikka butter-masala'}).id,'a');assert.equal(matchFoodora(m,{name:'Chicken Tikka'}),null);
  assert.equal(matchFoodora(m,{name:'Naan',category:'Bröd'}).id,'b');assert.equal(matchFoodora(m,{name:'Naan',category:'Övrigt'}),null);
  const l=matchFoodora(m,{name:'Lassi'});assert.equal(foodoraPrice(l,false),3000);assert.equal(foodoraPrice(l,true),2500);assert.equal(matchFoodora(null,{name:'x'}),null);});
+test('drink volume is read from the name',()=>{
+ const v=volumeMl;assert.equal(v('Coca-Cola 33 cl'),330);assert.equal(v('Pepsi Max 1,5L'),1500);assert.equal(v('Ramlösa 50cl'),500);assert.equal(v('Iced Latte 16oz'),473);
+ assert.equal(v('Fruktdryck Apelsin 250 ml - Smakis'),250);assert.equal(v('Coca-Cola 6 x 33 cl'),1980);assert.equal(v('4-pack - Burk läsk'),null);assert.equal(v('Fanta'),null);assert.equal(v('Vatten 0,33 l'),330);});
