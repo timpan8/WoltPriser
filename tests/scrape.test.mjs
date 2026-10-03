@@ -212,7 +212,7 @@ test('Google rating: search near the Wolt address once, then refresh by place id
  const venues=[{url:'w/ellora',name:'Ellora',address:'Årsta torg 5',pos:{lat:59.3,lon:18.05}},{url:'w/x',name:'Okänd',pos:{lat:59.3,lon:18.05}}];
  const t0=Date.parse('2026-10-04T14:00:00Z');
  let r=await updateGoogle({venues,key:'k',fetchImpl,now:t0});
- assert.deepEqual(r.store['w/ellora'],{id:'A',name:'Restaurang Ellora',rating:4.4,count:812,maps:'https://maps.google.com/?cid=1',at:'2026-10-04T14:00:00.000Z',v:2});
+ assert.deepEqual(r.store['w/ellora'],{id:'A',name:'Restaurang Ellora',rating:4.4,count:812,maps:'https://maps.google.com/?cid=1',at:'2026-10-04T14:00:00.000Z',v:3});
  assert.equal(r.store['w/x'].miss,true);assert.equal(r.found,1);assert.equal(calls.length,2);
  assert.equal(calls[0].init.headers['x-goog-api-key'],'k');assert.match(JSON.parse(calls[0].init.body).textQuery,/Ellora, Årsta torg 5/);
  calls.length=0;r=await updateGoogle({venues,store:r.store,key:'k',fetchImpl,now:t0+3*86400000});assert.equal(calls.length,0);
@@ -220,3 +220,15 @@ test('Google rating: search near the Wolt address once, then refresh by place id
  assert.equal(calls.length,2);assert.ok(calls.some(c=>/\/places\/A$/.test(c.url)));assert.ok(calls.some(c=>c.url.endsWith(':searchText')&&/Okänd/.test(c.init.body)));assert.equal(r.store['w/ellora'].rating,4.5);
  const denied=await updateGoogle({venues,key:'bad',fetchImpl:async()=>new Response('{}',{status:403}),now:t0});
  assert.equal(denied.fetched,0);assert.equal(denied.errors.length,1);assert.match(denied.errors[0],/HTTP 403/);});
+
+test('Wolt HTTP 429: the venue is read again one at a time at the end, others are unaffected',async()=>{
+ const {scrapeAll}=await import('../lib/scrape.mjs');const {timing}=await import('../lib/sources/wolt.mjs');const old=timing.backoff;timing.backoff=0;
+ try{let blocked=6;const logs=[];
+  const menu={loading_strategy:'full',categories:[{id:'c',name:'Mat',item_ids:['i1']}],items:[{id:'i1',name:'Pizza',price:10000,original_price:null,images:[],description:''}]};
+  const fetchImpl=async url=>{if(/slow-place/.test(url)&&/assortment/.test(url)&&blocked-->0)return new Response('{}',{status:429});
+   return new Response(JSON.stringify(/assortment/.test(url)?menu:/dynamic/.test(url)?{venue:{rating:{score:8}}}:{}),{status:200});};
+  const venues=[{name:'Fast',url:'https://wolt.com/sv/swe/stockholm/restaurant/fast-place'},{name:'Slow',url:'https://wolt.com/sv/swe/stockholm/restaurant/slow-place'}];
+  const r=await scrapeAll({venues,history:{readings:[],items:{}},lat:1,lon:2,fetchImpl,retryDelay:0,retryCooldown:0,slowdown:0,pause:async()=>{},log:m=>logs.push(m)});
+  assert.deepEqual(r.ok.map(x=>x.venue.name).sort(),['Fast','Slow']);assert.equal(r.failed.length,0);assert.ok(r.ok.find(x=>x.venue.name==='Slow').retried);
+  assert.ok(logs.some(l=>/läser om dem en i taget/.test(l)));
+ }finally{timing.backoff=old;}});

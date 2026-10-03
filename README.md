@@ -75,6 +75,12 @@ Uber Eats blockerar i dag anrop från GitHubs nätverk (HTTP 403). Den dagliga k
 
 Jämförelsen fungerar som för Foodora. Om inget namn är exakt detsamma görs ett andra försök där text inom parentes och ordet "pizza" tas bort ("Chicken Madras (Stark)", "Capricciosa Pizza"). Det andra försöket gäller bara när träffen är entydig och priset ligger mellan hälften och det dubbla. Då visar kortet Uber Eats-namnet inom citattecken, så att du ser vad som jämförs. Det andra försöket gäller också Foodora.
 
+
+Jämförelsepriser från Foodora och Uber Eats som är äldre än ett dygn får ett datum (*pris från 3 okt.*), både på Wolt-korten och på restauranger som bara finns i de apparna. Är de äldre än en vecka används de inte i jämförelsen (filtret Billigare på räknar inte med dem). Uber Eats läses i webbläsaren när GitHub blockeras och kan därför bli gammalt.
+## Prisgraf
+
+Prishistoriken (↗ Historik på ett kort) visar en graf: Wolt-, Foodora- och Uber Eats-priset som trappsteg (priset gäller tills nästa avläsning ändrar det), egna köp som ringar och en streckad linje för vanligt pris. Prisaxeln har stödlinjer, och hovring eller tryck i grafen visar datum, pris och app för närmaste punkt. Färgerna är kontrollerade för färgblindhet i ljust och mörkt läge (Wolt blå, Foodora rosa, Uber Eats lila, egna köp guld), och apparna skiljs dessutom åt med form (cirkel, kvadrat, triangel) och streckning. Tabellen under grafen visar samma punkter.
+
 ## Egna köp
 
 `data/receipts.json` innehåller priser från egna Wolt-kvitton och visas som egna punkter i prishistoriken. Kvittona läses bara när användaren ber om det, med `scripts/extract-receipt.js` på en öppen kvittosida. Det som sparas är restaurang, datum (utan klockslag), Wolt-rätt-ID, rättens namn och pris. Ordernummer, adress, betalsätt och totalsummor sparas inte. Avgifter sparas bara som summa per order i `data/fees.json` (se Avgifter nedan). Endast levererade ordrar tas med.
@@ -100,3 +106,5 @@ Korten visar både menypriset och en uppskattning av vad rätten kostar med avgi
 ## Publicering och automation
 
 Push till main kör tester och publicerar den statiska sidan med GitHub Pages. Vid publiceringen får `style.css`, `app.mjs` och modulerna i `lib/` en versionsparameter per commit (`?v=`). Webbläsaren kan därför inte blanda filer från olika versioner ur cachen. Går skriptet ändå inte att köra visas en uppmaning att ladda om. Arbetsflödet `Prisavläsning` (`.github/workflows/scrape.yml`) läser av menyerna varje dag efter kl. 16 svensk tid, sparar de nya prisfilerna i en commit och startar publiceringen. Om ingen meny kunde läsas misslyckas körningen och GitHub skickar ett mejl; enstaka restauranger som misslyckas listas i körningens sammanfattning och behåller sina gamla data. `scripts/scrape-local.ps1` gör samma sak från en egen dator om GitHub skulle blockeras. Se `AUTOMATION.md`. Publicerade JSON-filer innehåller endast menydetaljer och avläsningstider.
+
+Vid publiceringen delar `scripts/split-compare.mjs` jämförelsefilerna: priserna för restauranger som finns på Wolt stannar i `foodora.json`/`ubereats.json` (cirka 1 MB), och restaurangerna utanför Wolt läggs i `foodora-other.json`/`ubereats-other.json` (cirka 5 MB). Sidan hämtar de senare bara när väljaren Appar visar restauranger utanför Wolt; byts väljaren laddas sidan om med dem. Lokalt (`npm start`) läses de odelade filerna som förut.
