@@ -1,5 +1,5 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';import {course,deal,mergeVenues,analyze,effectivePrice,mergeHistory,normalizeHistory,expandVenue,latestSnapshots,itemHistory,seafood,extra} from '../lib/prices.mjs';
-import {volumeMl} from '../lib/prices.mjs';
+import {volumeMl,diet} from '../lib/prices.mjs';
 const url='https://wolt.com/sv/swe/stockholm/restaurant/test';const item={id:'a',name:'Pasta',description:'Tomat',category:'Pasta',price:10000,originalPrice:20000,woltPlus:true,offer:'',available:true};
 const snap=(day,price=10000)=>({url,name:'Test',observedAt:`2026-09-${day}T12:00:00.000Z`,items:[{...item,price}]});
 const timeline=snaps=>itemHistory(snaps.map(s=>s.observedAt),'a',normalizeHistory(snaps).items[url].a);
@@ -121,3 +121,7 @@ test('quick filters: name decides, menu category only for cuisines',async()=>{
  assert.deepEqual(f('Classico Bryggkaffe','Varm dryck','dryck'),['kaffe']);assert.deepEqual(f('Vattenmelonslemonad','Kall dryck','dryck'),['juice']);assert.deepEqual(f('Capri-Sun Monster 200 ml','Dryck','dryck'),[]);
  assert.deepEqual(f('Garlic Dip','Dips','smatt'),['saser']);assert.deepEqual(f('Fries & Dip','Sides','smatt'),['pommes']);assert.deepEqual(f('Äppelklyftor','Tillbehör','smatt'),[]);
  assert.deepEqual(f("Ben & Jerry's Cookie Dough 465 ml",'Glass','fika'),['glass']);assert.deepEqual(f('Morotskaka','Bakverk','fika'),['kakor']);});
+test('diet is read from the menu text, conservatively',()=>{const d=(name,description='',category='')=>diet({name,description,category});
+ assert.equal(d('Vegansk Kebabrulle'),'vegan');assert.equal(d('No Chicken Nuggets 6 pcs'),'vegan');assert.equal(d('Spicy Tuna Sandwich','med vegansk majo'),null);
+ assert.equal(d('Pizza Margherita','Tomat, mozzarella'),'veg');assert.equal(d('Falafel Tallrik'),'veg');assert.equal(d('Halloumi King Meal'),'veg');
+ assert.equal(d('Kebabpizza','Kebabkött, mozzarella'),null);assert.equal(d('Köfte'),null);assert.equal(d('Chicken Tikka Butter Masala'),null);assert.equal(d('Söderrulle','','Veganska rätter'),'vegan');});
