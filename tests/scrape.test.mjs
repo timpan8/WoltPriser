@@ -59,3 +59,18 @@ test('a Wolt+ price that disappears is reported, a normal campaign ending is not
  const before={...snap,observedAt:'2026-10-02T14:20:00.000Z'};const history=mergeHistory(emptyHistory(),{snapshots:[before]});
  const after={...snap,items:snap.items.map(i=>i.id==='d'?{...i,price:i.originalPrice,woltPlus:false}:i.id==='a'?{...i,price:i.originalPrice,offer:''}:i)};
  assert.deepEqual(lostWoltPlus(history,after),['Rätt d']);assert.deepEqual(lostWoltPlus(history,snap),[]);assert.deepEqual(lostWoltPlus(emptyHistory(),after),[]);});
+import {parseVenueList} from '../lib/sources/wolt.mjs';
+import {scrapeList} from '../lib/scrape.mjs';
+import {mergeVenues} from '../lib/prices.mjs';
+test('the venue list keeps restaurants that deliver, skips shops and duplicates, wherever they sit in the response',()=>{
+ const json={sections:[{items:[{venue:{slug:'ellora',name:' Restaurang  Ellora ',delivers:true,product_line:'restaurant',rating:{score:9.2},tags:['Indiskt',{name:'Curry'}],estimate:30}},{venue:{slug:'coop-zinken',name:'Coop Zinken',delivers:true,product_line:'grocery'}}]},
+  {items:[{link:{target:'x'},venue:{slug:'far-away',name:'Långt bort',delivers:false,product_line:'restaurant'}},{venue:{slug:'ellora',name:'Restaurang Ellora',delivers:true}}]},{nested:{deep:[{slug:'pizza',name:'Pizza',online:true}]}}]};
+ assert.deepEqual(parseVenueList(json),[{name:'Restaurang Ellora',url:'https://wolt.com/sv/swe/stockholm/restaurant/ellora',rating:9.2,tags:['Indiskt','Curry'],estimate:30},{name:'Pizza',url:'https://wolt.com/sv/swe/stockholm/restaurant/pizza',rating:null,tags:[],estimate:null}]);
+ assert.deepEqual(parseVenueList({}),[]);});
+test('your restaurants come first and discovered ones are added once',()=>{const mine=[{name:'A',url:'u/a'},{name:'Bara namn'}];
+ assert.deepEqual(scrapeList(mine,[{name:'A igen',url:'u/a'},{name:'B',url:'u/b'},{name:'B',url:'u/b'}]),[{name:'A',url:'u/a'},{name:'Bara namn'},{name:'B',url:'u/b',discovered:true}]);});
+test('discovered restaurants do not become yours in venues.json, but name-only entries still get their link',()=>{
+ const h=mergeHistory(emptyHistory(),{snapshots:[{...snap,observedAt:'2026-10-02T14:20:00.000Z'},{...snap,name:'Ny',url:'https://wolt.com/sv/swe/stockholm/restaurant/ny',observedAt:'2026-10-02T14:21:00.000Z'}]});
+ assert.deepEqual(mergeVenues([{name:'test'}],h,{addNew:false}),[{name:'Test',url}]);assert.equal(mergeVenues([{name:'test'}],h).length,2);});
+test('a daily reading of hundreds of restaurants can be saved in one go',()=>{const many=Array.from({length:600},(_,k)=>({...snap,url:url+'-'+k,observedAt:'2026-10-02T14:20:00.000Z'}));
+ const h=mergeHistory(emptyHistory(),{snapshots:many});assert.equal(h.readings.length,600);const again=mergeHistory(h,{snapshots:many.map(s=>({...s,observedAt:'2026-10-03T14:20:00.000Z'}))});assert.equal(again.readings.length,1200);});

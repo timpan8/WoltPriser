@@ -18,7 +18,9 @@ Plattformar läggs till som källor i `lib/sources/` (Wolt nu; Foodora och Uber 
 
 Rätter som tidigare hade ett Wolt+-pris men nu läses med fullpris räknas upp som varning i körningens sammanfattning, så att det syns om Wolt+-rabatter saknas och inte bara ser ut som prishöjningar.
 
-Restauranglistan finns i `data/venues.json`. En restaurang kan läggas till med bara namn; insamlingen söker då upp den på Wolt och importen fyller i länken. Importformuläret (se `AUTOMATION.md`) tar emot `{ "snapshots": [...] }` via webbläsaren. Det validerar och sparar menydata lokalt i `data/history.json`. Samma restaurang och tidpunkt importeras endast en gång. Ett fel eller en tom meny får aldrig ersätta gamla data eller bli pris 0.
+Skrapan läser alla restauranger som levererar till positionen (`WOLT_LAT`/`WOLT_LON`), inte bara dina. Listan hämtas varje dag från Wolt (samma lista som startsidan visar) och sparas med namn, länk, betyg och kökstyp i `data/discovered.json`. Butiker hoppas över. Går listan inte att hämta läses bara dina restauranger. På sidan finns filtren Bara mina restauranger och Kök, och restaurangväljaren delas i dina och övriga. Mina rätter jämför med alla restauranger.
+
+Dina restauranger finns i `data/venues.json`; skrapan lägger aldrig till upptäckta restauranger där. En restaurang kan läggas till med bara namn; insamlingen söker då upp den på Wolt och importen fyller i länken. Importformuläret (se `AUTOMATION.md`) tar emot `{ "snapshots": [...] }` via webbläsaren. Det validerar och sparar menydata lokalt i `data/history.json`. Samma restaurang och tidpunkt importeras endast en gång. Ett fel eller en tom meny får aldrig ersätta gamla data eller bli pris 0.
 
 Belopp lagras som heltal i ören och tidpunkter i UTC. Historiken identifierar rätter med restauranglänk + Wolt-rätt-ID. När Wolt skapar ett nytt ID får rätten ny historik. Dubbletter mellan Populärt och menyn tas bort, medan olika ID:n behålls. Varje sparad avläsning bevaras.
 

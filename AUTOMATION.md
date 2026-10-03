@@ -5,7 +5,7 @@
 Arbetsflödet `Prisavläsning` (`.github/workflows/scrape.yml`) körs 14:07 och 15:07 UTC. `--if-due` gör att bara den första körningen efter kl. 16 svensk tid läser av, så schemat fungerar både sommar- och vintertid och tål att GitHub startar sent.
 
 1. `npm test`.
-2. `node scripts/scrape.mjs --if-due` läser `data/venues.json` och hämtar varje meny via `lib/sources/wolt.mjs`, två restauranger åt gången med paus mellan anropen. Restauranger utan `url` söks upp med exakt namn; utan entydig träff hoppas de över och rapporteras.
+2. `node scripts/scrape.mjs --if-due` hämtar listan över alla restauranger som levererar till positionen (`discoverWolt`, sparas i `data/discovered.json`), lägger till dina restauranger från `data/venues.json` och hämtar varje meny via `lib/sources/wolt.mjs`, två restauranger åt gången med paus mellan anropen. Med flera hundra restauranger tar det 10–15 minuter. `SCRAPE_DISCOVER=0` läser bara dina restauranger. Restauranger utan `url` söks upp med exakt namn; utan entydig träff hoppas de över och rapporteras.
 3. Rimlighetskontroll per restaurang: tom meny, eller mer än 30 % färre rätter än förra avläsningen, ger ett nytt försök efter 5 s och annars fel. Om kampanjerna inte går att läsa räknas restaurangen som misslyckad, så att ett rabatterat pris aldrig sparas som ordinarie. Misslyckade restauranger behåller sina gamla data. Inga priser uppskattas.
 4. Lyckade avläsningar sparas med samma kod som importformuläret (`lib/store.mjs`): `history.json`, `images.json` och `venues.json`.
 5. Ändrade prisfiler committas till main och `pages.yml` startas (en push från GitHub Actions startar inte andra arbetsflöden av sig själv).
@@ -13,7 +13,7 @@ Arbetsflödet `Prisavläsning` (`.github/workflows/scrape.yml`) körs 14:07 och 
 
 Manuell körning: Actions → Prisavläsning → Run workflow (läser av direkt). Pull requests som ändrar insamlingen gör en provkörning mot tre restauranger utan att spara.
 
-Inställningar (Settings → Secrets and variables → Actions → Variables, valfria): `WOLT_LAT` och `WOLT_LON` för leveransadressen som kampanjer kontrolleras mot.
+Inställningar (Settings → Secrets and variables → Actions → Variables): `WOLT_LAT` och `WOLT_LON` för din leveransadress. De styr både vilka restauranger som läses och vilka kampanjer som gäller; utan dem används Skanstull. Ange ungefärliga koordinater (till exempel kvartersnivå); variablerna är inte publika.
 
 ## Lokalt
 
