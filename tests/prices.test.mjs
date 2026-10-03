@@ -36,7 +36,11 @@ test('menu categories are sorted into tabs',()=>{const c=(category,name='Rätt')
  assert.equal(p('MAX CLASSICS',"Classic '68 Cheese",111),'mat');assert.equal(p('Frapino','Choklad Frapino Standard',80),'dryck');assert.equal(p('Eftrerrätter','Äppelpaj',55),'fika');
  assert.equal(p('Dipp','Chili Majo',10),'smatt');assert.equal(p('Något Extra','Guacamole',27),'smatt');assert.equal(p('Tillbehör','Dipped Churros',59),'fika');
  assert.equal(p('Smashburgare','Chiliburgare + pommes',104),'mat');assert.equal(p('Hamburgare','Smash burgare 200g Cheese inkl pommes',230),'mat');assert.equal(p('Smashburgare Meny (Dryck och pommes ingår)','Smash Original - Meny',169),'mat');
- assert.equal(p('Tilltugg','Pannoumi Fries',87),'smatt');assert.equal(p('CHICKEN TENDERS','Hot Habanero-krydda',8),'smatt');assert.equal(p('CHICKEN TENDERS',"XL Raising MAX's Sauce",38),'smatt');assert.equal(p('Kampanj','Biff i pepparsås',189),'mat');});
+ assert.equal(p('Tilltugg','Pannoumi Fries',87),'smatt');
+ assert.equal(p('Yama Kids','Beginners Chopsticks',39),null);assert.equal(p('Extra & vegetariska','Beyti',199),'mat');assert.equal(p('Amerikanska Pan Pizzor','Late Breakfast',159),'mat');
+ assert.equal(p('Yama Home','Cooked Sushi Rice 500g',49),'smatt');assert.equal(p('Kall Mat','Grekisk Yoghurt med Jordgubbar',49),'frukost');assert.equal(p("Winnin' Deals",'FikaDeal',35),'fika');
+ assert.equal(p('Övriga Rätter','Ost & Kalkontoast',36),'frukost');assert.equal(p('KYCKLING','Grilled Chicken Sandwich',89),'mat');assert.equal(p('Sharing is Caring','TB Holy Habanerosås',70),'smatt');
+ assert.equal(p('Kampanj','Tre Sideorders för 99kr',99),'smatt');assert.equal(p('Kampanj','Köttbullar i gräddsås',79),'mat');assert.equal(p('Korv','Premium Korv med Stor Baguette',100),'mat');assert.equal(p('CHICKEN TENDERS','Hot Habanero-krydda',8),'smatt');assert.equal(p('CHICKEN TENDERS',"XL Raising MAX's Sauce",38),'smatt');assert.equal(p('Kampanj','Biff i pepparsås',189),'mat');});
 test('offers are ranked: unusually cheap, then campaign, then new lowest',()=>{const s={unusual:false,discount:null,median:null,lowest:false,change:null,last:null};
  assert.deepEqual(deal(item,10000,{...s,unusual:true,discount:33,median:15000}),{level:3,label:'Ovanligt billigt',pct:33,save:5000});
  assert.equal(deal(item,10000,s).level,2);assert.equal(deal(item,10000,s).pct,50);
