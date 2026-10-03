@@ -30,6 +30,7 @@ jobs:
           cp lib/prices.mjs lib/receipts.mjs lib/dishes.mjs _site/lib/
           cp data/history.json _site/data/
           if [ -f data/receipts.json ]; then cp data/receipts.json _site/data/; fi
+          if [ -f data/images.json ]; then cp data/images.json _site/data/; fi
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site

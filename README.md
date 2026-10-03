@@ -18,6 +18,10 @@ Belopp lagras som heltal i ören och tidpunkter i UTC. Historiken identifierar r
 
 `data/history.json` sparas kompakt så att filen inte växer med hela menyn varje dag. `readings` har en rad per avläsning: restaurang, tidpunkt och antal rätter. `items` har en ändringslogg per rätt. En ny post skrivs bara när pris, text, Wolt+ eller tillgänglighet ändrats, eller när rätten försvunnit från menyn. Varje avläsning kan återskapas exakt ur loggen. Sidan räknar ut prishistoriken en gång när den laddas, inte vid varje filterändring.
 
+## Bilder
+
+`scripts/extract-menu.js` sparar rättens bildlänk i fältet `image` (Wolts `src` utan storleksparametrar). Bara https-länkar på `imageproxy.wolt.com` godkänns. Bilderna kopieras inte till repot; sidan visar dem direkt från Wolt i liten storlek (`?w=300`, `?w=600` för skärmar med hög upplösning). Senaste bild per restaurang och rätt-ID sparas i `data/images.json`, som importen uppdaterar. Bildlänken ingår inte i ändringsloggen i `data/history.json`, så en ny bild räknas inte som en ändring av rätten. Rätter utan bild, eller där bilden inte laddar, får en neutral platshållare.
+
 ## Egna köp
 
 `data/receipts.json` innehåller priser från egna Wolt-kvitton och visas som egna punkter i prishistoriken. Kvittona läses bara när användaren ber om det, med `scripts/extract-receipt.js` på en öppen kvittosida. Det som sparas är restaurang, datum (utan klockslag), Wolt-rätt-ID, rättens namn och pris. Ordernummer, adress, betalsätt, avgifter och totalsummor sparas inte. Endast levererade ordrar tas med.
