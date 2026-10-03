@@ -36,6 +36,7 @@ jobs:
           if [ -f data/discovered.json ]; then cp data/discovered.json _site/data/; fi
           if [ -f data/foodora.json ]; then cp data/foodora.json _site/data/; fi
           if [ -f data/ubereats.json ]; then cp data/ubereats.json _site/data/; fi
+          if [ -f data/ratings.json ]; then cp data/ratings.json _site/data/; fi
           # Versionera skript och stil per commit, så att webbläsaren aldrig blandar gamla och nya filer ur cachen.
           v="${GITHUB_SHA::12}"
           sed -i "s#href=\"style.css\"#href=\"style.css?v=$v\"#; s#src=\"app.mjs\"#src=\"app.mjs?v=$v\"#" _site/index.html
