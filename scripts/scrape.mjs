@@ -91,6 +91,7 @@ if(args['dry-run']&&process.env.GOOGLE_PLACES_KEY){const saved=JSON.parse(await 
  for(const r of res.filter(r=>r.error))lines.push(`- FEL ${r.venue.name}: ${r.error}`);}
 if(args['dry-run'])lines.push(`Adress och position för Google-sökningen: ${places.filter(p=>p.pos).length} av ${places.length}${places.find(p=>p.address)?` (t.ex. ${places.find(p=>p.address).name}, ${places.find(p=>p.address).address})`:''}.`);
 const cap=(list,n=25)=>list.length>n?[...list.slice(0,n),`- … och ${list.length-n} till`]:list;
+if(ok.some(r=>r.retried))lines.push('',`Wolt bromsade (HTTP 429): ${ok.filter(r=>r.retried).length} restauranger lästes om i slutet och lyckades (${ok.filter(r=>r.retried).slice(0,5).map(r=>r.venue.name).join(', ')}).`);
 if(failed.length)lines.push('','**Misslyckades (gamla data behålls):**',...cap(failed.map(f=>`- ${f.venue.name}: ${f.error}`)));
 if(ue.blocked)lines.push('',`**Uber Eats blockerar läsningen härifrån** (${ue.blocked}). ${ue.ok.length} restauranger hann läsas. Gamla Uber Eats-priser behålls; använd webbläsarreserven (AUTOMATION.md, Uber Eats i webbläsaren).`);
 else if(ue.ok.length||ue.failed.length||ue.searched)lines.push('',`Uber Eats: ${ue.ok.length} av ${ue.ok.length+ue.failed.length} restauranger lästa, ${ue.ok.reduce((n,r)=>n+r.snapshot.items.length,0)} rätter. Sökte ${ue.searched} restauranger utan länk, hittade ${ue.found}.`,...cap(ue.failed.map(f=>`- ${f.venue.name}: ${f.error}`)));
