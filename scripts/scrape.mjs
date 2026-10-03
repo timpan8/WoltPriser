@@ -59,8 +59,9 @@ if(ok.length&&!args['dry-run']){saved=await saveSnapshots(root,{snapshots:ok.map
 let google=null;const listed=new Map((discovered||[]).map(v=>[v.url,v]));
 const places=ok.map(r=>{const d=listed.get(r.snapshot.url);return {url:r.snapshot.url,name:r.venue.name,address:r.place?.address||d?.address,pos:r.place?.pos||d?.pos};});
 if(process.env.GOOGLE_PLACES_KEY&&ok.length){const gfile=new URL('../data/google.json',import.meta.url),store=args['dry-run']?{}:JSON.parse(await fs.readFile(gfile,'utf8').catch(()=>'{}'));
- // Utan position (inte i restauranglistan just nu) och utan känt Google-id: adressen ur Wolts sökning.
- for(const p of places)if(!p.pos&&!store[p.url]?.id)Object.assign(p,await placeFromSearch(slugFromUrl(p.url),p.name,{lat,lon}));
+ // Utan position (inte i restauranglistan just nu): adressen ur Wolts sökning, även för restauranger med sparat Google-id,
+ // så att en sparad träff kan kontrolleras mot positionen (El Birria Kungens kurva ≠ El Birria Kungsholmen).
+ for(const p of places)if(!p.pos)Object.assign(p,await placeFromSearch(slugFromUrl(p.url),p.name,{lat,lon}));
  google=await updateGoogle({venues:places,store,key:process.env.GOOGLE_PLACES_KEY,center:{lat,lon},limit:args['dry-run']?3:Number(process.env.GOOGLE_LIMIT||60)});
  if(!args['dry-run']&&google.fetched)await fs.writeFile(gfile,JSON.stringify(google.store,null,1)+'\n');}
 if(ue.ok.length&&!args['dry-run']){await saveCompare(root,UBEREATS,ue.ok.map(r=>r.snapshot));ueSaved=true;}
