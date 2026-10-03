@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
 :root{--paper:#f7f8f3;--ink:#163c31;--muted:#5f6b64;--line:#dfe5db;--lime:#dfef96;--soft:#eef2e7;--green:#2f6a3a;--deal:#e3f0c4;--orange:#ae5b32}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px 'DM Sans',system-ui,sans-serif}a{color:inherit;text-decoration:none}button,input,select{font:inherit}button,a,input,select{touch-action:manipulation}button{cursor:pointer}
-header,main,footer{max-width:1240px;margin:auto}
+header,main,footer{max-width:1600px;margin:auto}
 header{display:flex;align-items:center;gap:20px;padding:18px 28px;border-bottom:1px solid var(--line)}.brand{font:800 20px Manrope,system-ui;letter-spacing:-1px;white-space:nowrap}.brandmark{display:inline-flex;align-items:center;justify-content:center;background:var(--ink);color:var(--lime);width:34px;height:34px;border-radius:10px;margin-right:7px;font-size:24px}.status{margin:0;font-size:12px;color:var(--muted)}.repo{margin-left:auto;font-size:12px;white-space:nowrap}
 .eyebrow{font-size:10px;font-weight:800;letter-spacing:1.8px}
 .intro-row{display:flex;align-items:end;justify-content:space-between;gap:40px;padding:34px 28px 22px}h1{font:800 clamp(34px,4.4vw,52px)/1.05 Manrope,system-ui;letter-spacing:-2px;margin:0}h1 em{font-style:normal;color:#60805a}.intro{max-width:420px;margin:0;line-height:1.6;color:var(--muted);font-size:14px}
@@ -14,7 +14,7 @@ header{display:flex;align-items:center;gap:20px;padding:18px 28px;border-bottom:
 .tag{display:inline-block;padding:4px 8px;border-radius:6px;font-size:11px;font-weight:700;white-space:nowrap}.tag.t3{background:var(--ink);color:var(--lime)}.tag.t2{background:var(--deal);color:#24532c}.tag.t1{background:#fff;color:var(--green);border:1px solid #bcd3b0}
 .notice{border:1px solid var(--line);background:var(--soft);border-radius:10px;padding:11px 15px;margin:0 0 18px;font-size:12px;line-height:1.5}.notice[hidden]{display:none}
 .group{display:flex;align-items:baseline;gap:10px;font:800 21px Manrope;letter-spacing:-.6px;margin:26px 0 14px}.group:first-child{margin-top:4px}.group span{font:500 12px 'DM Sans';color:var(--muted);letter-spacing:0}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
 .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;min-height:230px;transition:transform .15s,box-shadow .15s}.card:hover{transform:translateY(-2px);box-shadow:0 8px 20px #163c310d}.card.lvl3{border:2px solid var(--ink)}.card.lvl2{border-color:#c3d9a6}
 .thumb{margin:-18px -18px 14px;aspect-ratio:16/9;border-radius:13px 13px 0 0;overflow:hidden;background:#eef1ea linear-gradient(135deg,#eef1ea,#e3e8de);position:relative}.thumb:not(:has(img))::after{content:"";position:absolute;inset:0;margin:auto;width:34px;height:34px;opacity:.35;background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23163c31' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M4 11h16a8 8 0 0 1-16 0zM2 11h20M9 7c0-1.5 1-1.5 1-3M13 7c0-1.5 1-1.5 1-3'/%3E%3C/svg%3E")}.thumb img{display:block;width:100%;height:100%;object-fit:cover}.card-top{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:22px}.save{font-size:11px;font-weight:700;color:var(--green)}
 .card h3{font:800 18px/1.25 Manrope;letter-spacing:-.5px;margin:12px 0 4px}.venue{font-size:12px;font-weight:600;margin-bottom:8px}.venue span{font-weight:400;color:var(--muted)}
@@ -78,5 +78,10 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
 .sub span{font-size:17px;line-height:1}.sub small{font:600 11px system-ui;color:var(--muted)}.sub:hover{border-color:var(--green)}
 .sub.active{background:var(--ink);border-color:var(--ink);color:#fff}.sub.active small{color:#cfdcd2}
 @media(max-width:540px){.subcats{flex-wrap:nowrap;overflow-x:auto;margin:0 -16px 12px;padding:0 16px 2px;scrollbar-width:none}.subcats::-webkit-scrollbar{display:none}.sub{flex:0 0 auto}}
+/* Stora skärmar: sidan fyller bredden (fler kort per rad) och allt skalas upp något så att texten inte blir liten. */
+@media(min-width:1000px){.venue,.description,.total,.bought{font-size:13px}.fd-line,.usual,.membership,.change,.tag,.save,.chip,.key{font-size:12px}.card h3{font-size:19px}.price{font-size:27px}}
+@media(min-width:1400px){body{zoom:1.08}}
+@media(min-width:1700px){body{zoom:1.16}}
+@media(min-width:2200px){body{zoom:1.3}}
 /* Restauranger som inte finns på Wolt (Foodora/Uber Eats). */
 .via{display:inline-block;font-size:10px;font-weight:700;color:#7a4a12;background:#fbefd9;border-radius:999px;padding:1px 7px;margin-left:4px;vertical-align:1px}.chip.ot input{accent-color:#b06a1d}.price-row .from{font-size:12px;color:var(--muted);margin-right:-5px}
