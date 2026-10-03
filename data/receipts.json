@@ -1,0 +1,581 @@
+{
+ "version": 1,
+ "prices": [
+  {
+   "venue": "Meno Male Söder",
+   "date": "2026-06-29",
+   "id": "69cc4558f5123f16ce935ddd",
+   "name": "Salame Pepperoni",
+   "price": 15300,
+   "listPrice": 18000,
+   "estimated": false
+  },
+  {
+   "venue": "Bröd & Salt Skanstull",
+   "date": "2026-07-02",
+   "id": "0dc7b821ccee91ff497d0c2e",
+   "name": "3 bullar",
+   "price": 9418,
+   "listPrice": 12900,
+   "estimated": true
+  },
+  {
+   "venue": "Bröd & Salt Skanstull",
+   "date": "2026-07-02",
+   "id": "6f91d59118c2d20906590f63",
+   "name": "Frukostpaket Mellan",
+   "price": 8104,
+   "listPrice": 11100,
+   "estimated": true
+  },
+  {
+   "venue": "Bröd & Salt Skanstull",
+   "date": "2026-07-02",
+   "id": "b62153bc1884854c819427ec",
+   "name": "Frukostpaket Club Sandwich Ciabatta",
+   "price": 9053,
+   "listPrice": 12400,
+   "estimated": true
+  },
+  {
+   "venue": "Bröd & Salt Skanstull",
+   "date": "2026-07-02",
+   "id": "ce37f346f2a4b5be4b88c36f",
+   "name": "Scone - Choklad",
+   "price": 2920,
+   "listPrice": 4000,
+   "estimated": true
+  },
+  {
+   "venue": "Shaka Shaka Hornstull",
+   "date": "2026-07-03",
+   "id": "932b25ee39d4e63063baf912",
+   "name": "Huli Huli",
+   "price": 14900,
+   "listPrice": 14900,
+   "estimated": false
+  },
+  {
+   "venue": "Restaurang Ellora",
+   "date": "2026-07-04",
+   "id": "6593f583b4219b8e8daa4ea3",
+   "name": "Chicken Tikka Butter Masala",
+   "price": 13720,
+   "listPrice": 19600,
+   "estimated": false
+  },
+  {
+   "venue": "Restaurang Ellora",
+   "date": "2026-07-04",
+   "id": "6593f583b4219b8e8daa4ed1",
+   "name": "Naan",
+   "price": 4000,
+   "listPrice": 4000,
+   "estimated": false
+  },
+  {
+   "venue": "Bröd & Salt Skanstull",
+   "date": "2026-07-05",
+   "id": "28e039d9549d502fc368ff67",
+   "name": "Frukostpaket Club Sandwich Ciabatta",
+   "price": 12400,
+   "listPrice": 12400,
+   "estimated": false
+  },
+  {
+   "venue": "Bröd & Salt Skanstull",
+   "date": "2026-07-05",
+   "id": "9af8423cf3c4bedf36949419",
+   "name": "Scone - Choklad",
+   "price": 2500,
+   "listPrice": 2500,
+   "estimated": false
+  },
+  {
+   "venue": "MAX Stockholm - Medborgarplatsen",
+   "date": "2026-07-08",
+   "id": "68d558026358392ccc38d3f2",
+   "name": "Spicy Avocado Maxoumi-mål",
+   "price": 15500,
+   "listPrice": 15500,
+   "estimated": false
+  },
+  {
+   "venue": "Restaurang Ellora",
+   "date": "2026-07-10",
+   "id": "6593f583b4219b8e8daa4ea3",
+   "name": "Chicken Tikka Butter Masala",
+   "price": 13720,
+   "listPrice": 19600,
+   "estimated": false
+  },
+  {
+   "venue": "Restaurang Ellora",
+   "date": "2026-07-10",
+   "id": "6593f583b4219b8e8daa4ed1",
+   "name": "Naan",
+   "price": 4000,
+   "listPrice": 4000,
+   "estimated": false
+  },
+  {
+   "venue": "Taco Bar Sickla",
+   "date": "2026-07-11",
+   "id": "68b98d9a51366d979ee25944",
+   "name": "Nacho De Luxe Super Grande",
+   "price": 17500,
+   "listPrice": 17500,
+   "estimated": false
+  },
+  {
+   "venue": "Caffè Nero Götgatan",
+   "date": "2026-07-12",
+   "id": "68ad766c7fda38aaac100111",
+   "name": "Fralla / Croissant + Frukostbägare från 79k",
+   "price": 8900,
+   "listPrice": 8900,
+   "estimated": false
+  },
+  {
+   "venue": "Caffè Nero Götgatan",
+   "date": "2026-07-12",
+   "id": "6966cbae82394fd0fc016b7a",
+   "name": "Wrap Kyckling & Fetaost",
+   "price": 13400,
+   "listPrice": 13400,
+   "estimated": false
+  },
+  {
+   "venue": "Taco Bar Sickla",
+   "date": "2026-07-19",
+   "id": "68b98d9a51366d979ee25944",
+   "name": "Nacho De Luxe Super Grande",
+   "price": 17500,
+   "listPrice": 17500,
+   "estimated": false
+  },
+  {
+   "venue": "Galinas Pizza Teatern",
+   "date": "2026-07-20",
+   "id": "fa168dfa741521680335a4df",
+   "name": "Pepperoni No 5",
+   "price": 17900,
+   "listPrice": 17900,
+   "estimated": false
+  },
+  {
+   "venue": "Gordo Foodtruck Rågsved",
+   "date": "2026-07-20",
+   "id": "33276e403a55431a89d5006f",
+   "name": "Halloumi Dream Bowl",
+   "price": 14175,
+   "listPrice": 18900,
+   "estimated": false
+  },
+  {
+   "venue": "Burger King Årsta",
+   "date": "2026-07-21",
+   "id": "4ed6aeb51e13c4eaed5b536b",
+   "name": "Double Gourmet Ramslök & Västerbottensost Meal",
+   "price": 20900,
+   "listPrice": 20900,
+   "estimated": false
+  },
+  {
+   "venue": "MAX Stockholm - Medborgarplatsen",
+   "date": "2026-07-22",
+   "id": "66ed02fd47ea36192cd88400",
+   "name": "Lyxshake Choklad",
+   "price": 6700,
+   "listPrice": 6700,
+   "estimated": false
+  },
+  {
+   "venue": "MAX Stockholm - Medborgarplatsen",
+   "date": "2026-07-22",
+   "id": "68d558026358392ccc38d3f2",
+   "name": "Spicy Avocado Maxoumi-mål",
+   "price": 15500,
+   "listPrice": 15500,
+   "estimated": false
+  },
+  {
+   "venue": "Muskot",
+   "date": "2026-07-23",
+   "id": "3e57f8201175ef3092b8a373",
+   "name": "Tikka Masala Chicken",
+   "price": 11600,
+   "listPrice": 14500,
+   "estimated": false
+  },
+  {
+   "venue": "Muskot",
+   "date": "2026-07-23",
+   "id": "6ae810c1321fda0dc693476d",
+   "name": "Garlic´n Cheese Naan",
+   "price": 3600,
+   "listPrice": 4500,
+   "estimated": false
+  },
+  {
+   "venue": "Muskot",
+   "date": "2026-07-24",
+   "id": "3e57f8201175ef3092b8a373",
+   "name": "Tikka Masala Chicken",
+   "price": 11600,
+   "listPrice": 14500,
+   "estimated": false
+  },
+  {
+   "venue": "Muskot",
+   "date": "2026-07-25",
+   "id": "3e57f8201175ef3092b8a373",
+   "name": "Tikka Masala Chicken",
+   "price": 11600,
+   "listPrice": 14500,
+   "estimated": false
+  },
+  {
+   "venue": "Muskot",
+   "date": "2026-07-25",
+   "id": "b772125ab0a430ea2ca7a1ce",
+   "name": "Naan Peshwari",
+   "price": 3600,
+   "listPrice": 4500,
+   "estimated": false
+  },
+  {
+   "venue": "Deli Italia Årsta",
+   "date": "2026-07-26",
+   "id": "ba63a49cc198dcbdbe4da1cf",
+   "name": "Halloumisallad",
+   "price": 18900,
+   "listPrice": 18900,
+   "estimated": false
+  },
+  {
+   "venue": "Deli Italia Årsta",
+   "date": "2026-07-26",
+   "id": "c5f1c0adf3c87b7973ad2847",
+   "name": "Halloumi Sticks",
+   "price": 2500,
+   "listPrice": 2500,
+   "estimated": false
+  },
+  {
+   "venue": "Shaka Shaka Skanstull",
+   "date": "2026-07-28",
+   "id": "e78c085d6b49e89dc88ffb39",
+   "name": "Reggae",
+   "price": 14900,
+   "listPrice": 14900,
+   "estimated": false
+  },
+  {
+   "venue": "SubCulture Årsta",
+   "date": "2026-07-28",
+   "id": "07d1fcb75634cf4385a72443",
+   "name": "Uncle Phil",
+   "price": 15800,
+   "listPrice": 15800,
+   "estimated": false
+  },
+  {
+   "venue": "SubCulture Årsta",
+   "date": "2026-07-28",
+   "id": "d2746ade0f1c827f9001e44f",
+   "name": "Nashville",
+   "price": 15800,
+   "listPrice": 15800,
+   "estimated": false
+  },
+  {
+   "venue": "Deli Italia Årsta",
+   "date": "2026-07-29",
+   "id": "723a08feb5828e0a134640de",
+   "name": "Lasagne Al Forno",
+   "price": 18400,
+   "listPrice": 18400,
+   "estimated": false
+  },
+  {
+   "venue": "Deli Italia Årsta",
+   "date": "2026-07-29",
+   "id": "c5f1c0adf3c87b7973ad2847",
+   "name": "Halloumi Sticks",
+   "price": 2500,
+   "listPrice": 2500,
+   "estimated": false
+  },
+  {
+   "venue": "Restaurang Ellora",
+   "date": "2026-08-22",
+   "id": "6593f583b4219b8e8daa4ea3",
+   "name": "Chicken Tikka Butter Masala",
+   "price": 14070,
+   "listPrice": 20100,
+   "estimated": false
+  },
+  {
+   "venue": "El Birria Express",
+   "date": "2026-08-23",
+   "id": "58e41daf35cf63753c79cb56",
+   "name": "Sabor Paraiso",
+   "price": 14875,
+   "listPrice": 17500,
+   "estimated": false
+  },
+  {
+   "venue": "Restaurang Ellora",
+   "date": "2026-08-24",
+   "id": "6593f583b4219b8e8daa4ea3",
+   "name": "Chicken Tikka Butter Masala",
+   "price": 14070,
+   "listPrice": 20100,
+   "estimated": false
+  },
+  {
+   "venue": "Bread & Buns Stora Essingen",
+   "date": "2026-08-26",
+   "id": "647da83445da1474832402b8",
+   "name": "Smörgås",
+   "price": 5200,
+   "listPrice": 5200,
+   "estimated": false
+  },
+  {
+   "venue": "Bread & Buns Stora Essingen",
+   "date": "2026-08-26",
+   "id": "647da83445da1474832402e0",
+   "name": "Kanelbulle",
+   "price": 4600,
+   "listPrice": 4600,
+   "estimated": false
+  },
+  {
+   "venue": "Bread & Buns Stora Essingen",
+   "date": "2026-08-26",
+   "id": "6486e8401a67de755879fe30",
+   "name": "Mozzarella & Tomat",
+   "price": 8900,
+   "listPrice": 8900,
+   "estimated": false
+  },
+  {
+   "venue": "Piatto Fresco Årstaberg",
+   "date": "2026-08-26",
+   "id": "6572eb07a955cca4937b53fc",
+   "name": "Lasagne al Forno",
+   "price": 10800,
+   "listPrice": 18000,
+   "estimated": false
+  },
+  {
+   "venue": "Piatto Fresco Årstaberg",
+   "date": "2026-08-27",
+   "id": "cd8051e963967916e390ec62",
+   "name": "Lunch Margherita",
+   "price": 6200,
+   "listPrice": 12000,
+   "estimated": true
+  },
+  {
+   "venue": "Joe & The Juice Götgatan",
+   "date": "2026-08-28",
+   "id": "67cae674bce04df534cfa136",
+   "name": "Acai Bowl",
+   "price": 6060,
+   "listPrice": 10100,
+   "estimated": false
+  },
+  {
+   "venue": "Joe & The Juice Götgatan",
+   "date": "2026-08-28",
+   "id": "67cae674bce04df534cfa144",
+   "name": "Avocado Sandwich",
+   "price": 6540,
+   "listPrice": 10900,
+   "estimated": false
+  },
+  {
+   "venue": "Restaurang Ellora",
+   "date": "2026-08-28",
+   "id": "6593f583b4219b8e8daa4ea3",
+   "name": "Chicken Tikka Butter Masala",
+   "price": 14070,
+   "listPrice": 20100,
+   "estimated": false
+  },
+  {
+   "venue": "El Birria Express",
+   "date": "2026-09-02",
+   "id": "cc9a0c904826a41d6ba86ae0",
+   "name": "Sabor Paraiso",
+   "price": 14875,
+   "listPrice": 17500,
+   "estimated": false
+  },
+  {
+   "venue": "Piatto Fresco Årstaberg",
+   "date": "2026-09-04",
+   "id": "5bf483210299165fd1940071",
+   "name": "Spaghetti Carbonara inkl. dryck",
+   "price": 12840,
+   "listPrice": 21400,
+   "estimated": false
+  },
+  {
+   "venue": "Piatto Fresco Årstaberg",
+   "date": "2026-09-05",
+   "id": "3971c2bc907d2c36b2b392bc",
+   "name": "Margherita inkl. dryck",
+   "price": 12240,
+   "listPrice": 20400,
+   "estimated": false
+  },
+  {
+   "venue": "Restaurang Ellora",
+   "date": "2026-09-06",
+   "id": "6593f583b4219b8e8daa4ea3",
+   "name": "Chicken Tikka Butter Masala",
+   "price": 14070,
+   "listPrice": 20100,
+   "estimated": false
+  },
+  {
+   "venue": "Bread & Buns Stora Essingen",
+   "date": "2026-09-07",
+   "id": "647da83445da1474832402b4",
+   "name": "Stor Frukost",
+   "price": 14900,
+   "listPrice": 14900,
+   "estimated": false
+  },
+  {
+   "venue": "Bread & Buns Stora Essingen",
+   "date": "2026-09-07",
+   "id": "6486e8401a67de755879fe30",
+   "name": "Mozzarella & Tomat",
+   "price": 8900,
+   "listPrice": 8900,
+   "estimated": false
+  },
+  {
+   "venue": "Restaurang Ellora",
+   "date": "2026-09-14",
+   "id": "6593f583b4219b8e8daa4ea3",
+   "name": "Chicken Tikka Butter Masala",
+   "price": 14070,
+   "listPrice": 20100,
+   "estimated": false
+  },
+  {
+   "venue": "Piatto Fresco Årstaberg",
+   "date": "2026-09-18",
+   "id": "6572eb07a955cca4937b53ec",
+   "name": "Grillad Halloumisallad",
+   "price": 9500,
+   "listPrice": 19000,
+   "estimated": false
+  },
+  {
+   "venue": "Piatto Fresco Årstaberg",
+   "date": "2026-09-18",
+   "id": "6572eb07a955cca4937b540e",
+   "name": "Marghertia",
+   "price": 8250,
+   "listPrice": 16500,
+   "estimated": false
+  },
+  {
+   "venue": "Piatto Fresco Årstaberg",
+   "date": "2026-09-18",
+   "id": "6572eb07a955cca4937b5428",
+   "name": "Coca-Cola Original Taste 33cl",
+   "price": 3900,
+   "listPrice": 3900,
+   "estimated": false
+  },
+  {
+   "venue": "Zoro Kolgrill Turkisk Resturang",
+   "date": "2026-09-19",
+   "id": "5a64d81699655db44ec0e614",
+   "name": "Beyti",
+   "price": 19900,
+   "listPrice": 19900,
+   "estimated": false
+  },
+  {
+   "venue": "Restaurang Ellora",
+   "date": "2026-09-21",
+   "id": "6593f583b4219b8e8daa4ea3",
+   "name": "Chicken Tikka Butter Masala",
+   "price": 14070,
+   "listPrice": 20100,
+   "estimated": false
+  },
+  {
+   "venue": "Joe & The Juice Götgatan",
+   "date": "2026-09-26",
+   "id": "63aaa25c2e72c810f6c7f3d7",
+   "name": "Yoghurt Bowl",
+   "price": 4893,
+   "listPrice": 6700,
+   "estimated": true
+  },
+  {
+   "venue": "Joe & The Juice Götgatan",
+   "date": "2026-09-26",
+   "id": "67cae674bce04df534cfa136",
+   "name": "Acai Bowl",
+   "price": 7449,
+   "listPrice": 10200,
+   "estimated": true
+  },
+  {
+   "venue": "Joe & The Juice Götgatan",
+   "date": "2026-09-26",
+   "id": "67cae674bce04df534cfa146",
+   "name": "JOE´s Club Sandwich",
+   "price": 8033,
+   "listPrice": 11000,
+   "estimated": true
+  },
+  {
+   "venue": "Restaurang Ellora",
+   "date": "2026-09-26",
+   "id": "6593f583b4219b8e8daa4ea3",
+   "name": "Chicken Tikka Butter Masala",
+   "price": 14070,
+   "listPrice": 20100,
+   "estimated": false
+  },
+  {
+   "venue": "MAX Stockholm - Medborgarplatsen",
+   "date": "2026-09-27",
+   "id": "924f6f8ccb49d08ab483c9b8",
+   "name": "Dubbel Maxoumi-mål och 5 st Mozzarella Sticks",
+   "price": 12676,
+   "listPrice": 20100,
+   "estimated": true
+  },
+  {
+   "venue": "El Birria Express",
+   "date": "2026-10-01",
+   "id": "cc9a0c904826a41d6ba86ae0",
+   "name": "Sabor Paraiso",
+   "price": 14875,
+   "listPrice": 17500,
+   "estimated": false
+  },
+  {
+   "venue": "Restaurang Ellora",
+   "date": "2026-10-02",
+   "id": "6593f583b4219b8e8daa4ea3",
+   "name": "Chicken Tikka Butter Masala",
+   "price": 14070,
+   "listPrice": 20100,
+   "estimated": false
+  }
+ ]
+}
