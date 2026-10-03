@@ -27,7 +27,7 @@ jobs:
         run: |
           mkdir -p _site/lib _site/data
           cp index.html style.css app.mjs _site/
-          cp lib/prices.mjs lib/receipts.mjs lib/dishes.mjs lib/fees.mjs lib/foodora.mjs _site/lib/
+          cp lib/prices.mjs lib/receipts.mjs lib/dishes.mjs lib/fees.mjs lib/foodora.mjs lib/subcats.mjs _site/lib/
           node scripts/build-data.mjs _site/data
           if [ -f data/receipts.json ]; then cp data/receipts.json _site/data/; fi
           if [ -f data/images.json ]; then cp data/images.json _site/data/; fi

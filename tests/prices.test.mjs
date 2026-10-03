@@ -96,3 +96,9 @@ test('dishes are matched to Foodora only on the same name; duplicates need the s
 test('drink volume is read from the name',()=>{
  const v=volumeMl;assert.equal(v('Coca-Cola 33 cl'),330);assert.equal(v('Pepsi Max 1,5L'),1500);assert.equal(v('Ramlösa 50cl'),500);assert.equal(v('Iced Latte 16oz'),473);
  assert.equal(v('Fruktdryck Apelsin 250 ml - Smakis'),250);assert.equal(v('Coca-Cola 6 x 33 cl'),1980);assert.equal(v('4-pack - Burk läsk'),null);assert.equal(v('Fanta'),null);assert.equal(v('Vatten 0,33 l'),330);});
+test('quick filters: name decides, menu category only for cuisines',async()=>{
+ const {subcatsFor}=await import('../lib/subcats.mjs');const f=(name,category,c='mat')=>subcatsFor({name,category},c);
+ assert.deepEqual(f('Chicken Tikka Butter Masala','Kampanj!'),['indiskt','kyckling']);assert.ok(f('Picasso','Pizzor').includes('pizza'));
+ assert.deepEqual(f('Filét-o-Fish®','Kyckling, Fisk & Vego'),['fisk']);assert.ok(!f('Double Gourmet Grill Bacon & Cheese Meal','GOURMET MENYER').includes('grill'));
+ assert.deepEqual(f('Coca-Cola 33 cl','Dryck','dryck'),['lask']);assert.deepEqual(f('Ramlösa Citrus 33cl','Dryck','dryck'),['vatten']);
+ assert.deepEqual(f('Lökringar','TILLBEHÖR & DIP','smatt'),['ost']);assert.deepEqual(f('Vitlökssås 10 cl','Sås','smatt'),['saser']);assert.deepEqual(f('Pizza','x','mina'),[]);});
