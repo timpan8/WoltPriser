@@ -193,9 +193,21 @@ test('Google rating: search near the Wolt address once, then refresh by place id
  assert.equal(nameScore('MAX Stockholm - Sköndal','MAX Premium Burgers'),0.5);assert.equal(nameScore('Zoro Kolgrill Turkisk Resturang Stockholm','Zoro Kolgrill'),1);
  assert.equal(nameScore('Pizzeria Roma','Pizzeria Napoli'),0);assert.equal(nameScore('Restaurang Ellora','Restaurang Indira'),0);
  const maxAt=(lat,lon)=>({id:'M',displayName:{text:'MAX Premium Burgers'},location:{latitude:lat,longitude:lon}});
- assert.equal(pickPlace({name:'MAX Stockholm - Sköndal',pos:{lat:59.3,lon:18.05}},[maxAt(59.3015,18.05)])?.id,'M');
+ assert.equal(pickPlace({name:'MAX Stockholm - Sköndal',address:'Sköndalsvägen 3',pos:{lat:59.3,lon:18.05}},[{...maxAt(59.3015,18.05),formattedAddress:'Sköndalsvägen 3, 128 69 Sköndal'}])?.id,'M');
+ assert.equal(pickPlace({name:'MAX Stockholm - Sköndal',pos:{lat:59.3,lon:18.05}},[maxAt(59.3015,18.05)]),null);
  assert.equal(pickPlace({name:'MAX Stockholm - Sköndal',pos:{lat:59.3,lon:18.05}},[maxAt(59.31,18.05)]),null);
  assert.equal(pickPlace({name:'MAX Stockholm - Sköndal',center:{lat:59.3,lon:18.05}},[maxAt(59.3015,18.05)]),null);
+ // Bara första ordet gemensamt: kräver samma gata (eller ≤ 80 m) och ett matställe.
+ const area={id:'H',displayName:{text:'Högdalens företagsområde'},formattedAddress:'Stallarholmsvägen 49, 124 59 Bandhagen',types:['point_of_interest','establishment'],location:{latitude:59.3010,longitude:18.05}};
+ const hog={name:'Högdalens Pizzeria & Thai Wok',address:'Stallarholmsvägen 24',pos:{lat:59.3,lon:18.05}};
+ assert.equal(pickPlace(hog,[area]),null);assert.equal(pickPlace(hog,[{...area,types:['restaurant']}]),null);
+ assert.equal(pickPlace({...hog,address:'Stallarholmsvägen 49'},[{...area,types:['restaurant']}])?.id,'H');
+ assert.equal(pickPlace({name:'MAX Stockholm - Sergels Torg',address:'Sergelgatan 1',pos:{lat:59.3,lon:18.05}},[{...maxAt(59.3005,18.05),formattedAddress:'Sergels Torg 1, 111 57 Stockholm',types:['hamburger_restaurant']}])?.id,'M');
+ // En sparad träff mer än 1,5 km från Wolts position söks om (El Birria Express ≠ El Birria Kungsholmen).
+ {const t1=Date.parse('2026-10-04T14:00:00Z'),seen=[];const far2={id:'K',displayName:{text:'El Birria - Kungsholmen'},rating:3.7,userRatingCount:9,location:{latitude:59.33,longitude:18.05}};
+  const fi=async(url,init)=>{seen.push(url);return new Response(JSON.stringify(url.endsWith(':searchText')?{places:[far2]}:far2),{status:200});};
+  const r2=await updateGoogle({venues:[{url:'w/eb',name:'El Birria Express',pos:{lat:59.30,lon:18.05}}],store:{'w/eb':{id:'K',rating:3.7,count:9,at:'2026-09-01T00:00:00Z'}},key:'k',fetchImpl:fi,now:t1});
+  assert.equal(r2.store['w/eb'].miss,true);assert.equal(seen.length,2);}
  const calls=[];const fetchImpl=async(url,init)=>{calls.push({url,init});const body=url.endsWith(':searchText')?{places:/Ellora/.test(init.body)?[far,near]:[]}:{...near,rating:4.5,userRatingCount:820};return new Response(JSON.stringify(body),{status:200});};
  const venues=[{url:'w/ellora',name:'Ellora',address:'Årsta torg 5',pos:{lat:59.3,lon:18.05}},{url:'w/x',name:'Okänd',pos:{lat:59.3,lon:18.05}}];
  const t0=Date.parse('2026-10-04T14:00:00Z');
