@@ -78,7 +78,7 @@ test('fees are estimated from own receipts as a share of the ordinary price',()=
  assert.equal(m.venues.has('C'),false);assert.equal(m.venues.get('A').n,2);
  assert.deepEqual(withFees(m,'B',7000,10000),{fee:800,total:7800,ratio:0.08,orders:1});
  assert.equal(withFees(m,'Ny restaurang',10000,10000).fee,Math.round(10000*m.all));assert.equal(withFees(null,'B',1,1),null);assert.equal(feeModel({orders:[]}),null);});
-import {validateFoodora,mergeFoodora,foodoraMenu,matchFoodora,foodoraPrice,foodoraPoints} from '../lib/foodora.mjs';
+import {validateFoodora,mergeFoodora,foodoraMenu,matchFoodora,foodoraPrice,foodoraPoints,otherVenues,venueKey,logTimeline,isWoltKey,FOODORA,UBEREATS} from '../lib/foodora.mjs';
 const fdUrl='https://www.foodora.se/restaurant/ab12/test-restaurang',fdItem={id:'pasta',name:'Pasta',category:'Pasta',price:9500,originalPrice:9500,proPrice:null,from:true};
 const fsnap=(day,items=[fdItem])=>({url:fdUrl,wolt:url,name:'Test',observedAt:`2026-09-${day}T12:00:00.000Z`,items});
 test('Foodora links and prices are validated',()=>{assert.equal(validateFoodora({foodora:[fsnap('20')]})[0].url,fdUrl);
@@ -93,6 +93,20 @@ test('dishes are matched to Foodora only on the same name; duplicates need the s
  assert.equal(matchFoodora(m,{name:'chicken tikka butter-masala'}).id,'a');assert.equal(matchFoodora(m,{name:'Chicken Tikka'}),null);
  assert.equal(matchFoodora(m,{name:'Naan',category:'Bröd'}).id,'b');assert.equal(matchFoodora(m,{name:'Naan',category:'Övrigt'}),null);
  const l=matchFoodora(m,{name:'Lassi'});assert.equal(foodoraPrice(l,false),3000);assert.equal(foodoraPrice(l,true),2500);assert.equal(matchFoodora(null,{name:'x'}),null);});
+test('restaurants that are not on Wolt are stored under their own link',()=>{
+ const own={...fsnap('10'),wolt:undefined},st=mergeFoodora(null,{foodora:[own,fsnap('10')]});
+ assert.equal(validateFoodora({foodora:[own]})[0].wolt,null);assert.deepEqual(Object.keys(st.venues).sort(),[fdUrl,url].sort());
+ assert.equal(isWoltKey(url),true);assert.equal(isWoltKey(fdUrl),false);assert.equal(foodoraMenu(st,fdUrl).items[0].price,9500);});
+test('restaurants outside Wolt are merged across apps by name and skipped when Wolt has them',()=>{
+ const ueOwn='https://www.ubereats.com/se/store/test-restaurang/yl7fgcXeSFaVG-AwkndQfg',it=(id,name,price)=>({...fdItem,id,name,price,originalPrice:price,from:false});
+ const fd=mergeFoodora(null,{foodora:[{url:fdUrl,name:'Test Restaurang Stockholm',observedAt:'2026-09-10T12:00:00.000Z',items:[it('pasta','Pasta',9500)]},{url:'https://www.foodora.se/restaurant/cd34/pa-wolt',name:'På Wolt',observedAt:'2026-09-10T12:00:00.000Z',items:[it('a','A',100)]},fsnap('10')]});
+ const ue=mergeFoodora(null,{ubereats:[{url:ueOwn,name:'Test Restaurang',observedAt:'2026-09-10T12:00:00.000Z',items:[it('u1','Pasta',8900),it('u2','Sallad',7000)]}]},UBEREATS);
+ assert.equal(venueKey('Test Restaurang Stockholm'),venueKey('test-restaurang'));
+ const list=otherVenues([[fd,FOODORA],[ue,UBEREATS]],new Set([venueKey('På Wolt')]));
+ assert.equal(list.length,1);assert.equal(list[0].main.p.key,'ubereats');assert.deepEqual(list[0].others.map(o=>o.p.key),['foodora']);
+ assert.equal(matchFoodora(list[0].others[0].menu,{name:'Pasta',price:8900}).price,9500);
+ const t=logTimeline([['2026-09-01T12:00:00.000Z',9500,9500,8000,0],['2026-09-05T12:00:00.000Z',8900,9500,null,0]],true);
+ assert.deepEqual(t.map(x=>x.item.price),[8000,8900]);assert.equal(t[0].item.available,true);});
 test('drink volume is read from the name',()=>{
  const v=volumeMl;assert.equal(v('Coca-Cola 33 cl'),330);assert.equal(v('Pepsi Max 1,5L'),1500);assert.equal(v('Ramlösa 50cl'),500);assert.equal(v('Iced Latte 16oz'),473);
  assert.equal(v('Fruktdryck Apelsin 250 ml - Smakis'),250);assert.equal(v('Coca-Cola 6 x 33 cl'),1980);assert.equal(v('4-pack - Burk läsk'),null);assert.equal(v('Fanta'),null);assert.equal(v('Vatten 0,33 l'),330);});
