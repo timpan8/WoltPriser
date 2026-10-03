@@ -15,7 +15,7 @@ test('unchanged prices are stored once and every reading can be restored',()=>{c
  assert.deepEqual(expandVenue(h,url).map(s=>s.items.map(i=>i.id+i.price)),[['a10000','b10000'],['a10000','b10000'],['a9000'],['a9000','b10000']]);});
 test('readings imported out of order are merged correctly',()=>{const h=mergeHistory(mergeHistory([],{snapshots:[snap('12',9000)]}),{snapshots:[snap('10')]});assert.deepEqual(expandVenue(h,url).map(s=>s.items[0].price),[10000,9000]);assert.deepEqual(h.readings.map(r=>r.observedAt.slice(8,10)),['10','12']);});
 test('latest menu has stats for the newest reading only',()=>{const h=mergeHistory([],{snapshots:[snap('10',15000),{...snap('11'),items:[{...item,id:'c'}]}]});const [v]=latestSnapshots(h);assert.deepEqual(v.items.map(i=>i.id),['c']);assert.equal(v.observedAt,'2026-09-11T12:00:00.000Z');});
-import {receiptPrices,mergeReceipts,receiptPoints} from '../lib/receipts.mjs';
+import {receiptPrices,mergeReceipts,receiptPoints,purchases} from '../lib/receipts.mjs';
 const rc=(items,discount=0,delivery=0,delivered=true)=>({venue:'Test',date:'2026-09-20',delivered,delivery,discount,items:items.map(([id,price,options=0,count=1])=>({id,name:'Rätt '+id.slice(-1),price,count,options}))});
 const ida='a'.repeat(24),idb='b'.repeat(24);
 test('receipt discount on one dish is exact when it is a round percentage of that dish',()=>{const [a,b]=receiptPrices(rc([[ida,19600],[idb,4000]],5880));assert.equal(a.price,13720);assert.equal(b.price,4000);assert.equal(a.estimated,false);});
@@ -30,3 +30,6 @@ test('offers are ranked: unusually cheap, then campaign, then new lowest',()=>{c
  assert.deepEqual(deal(item,10000,{...s,unusual:true,discount:33,median:15000}),{level:3,label:'Ovanligt billigt',pct:33,save:5000});
  assert.equal(deal(item,10000,s).level,2);assert.equal(deal(item,10000,s).pct,50);
  const full={...item,price:20000};assert.equal(deal(full,20000,{...s,lowest:true,last:21000}).level,1);assert.equal(deal(full,20000,{...s,change:-500}).label,'Sänkt pris');assert.equal(deal(full,20000,s).level,0);});
+test('own purchases count order days and the usual price, also when Wolt changed the dish ID',()=>{const store={prices:[{venue:'V',date:'2026-09-01',id:'old',name:'Tikka Masala',price:14000},{venue:'V',date:'2026-09-10',id:'new',name:'Tikka Masala',price:12000},{venue:'V',date:'2026-09-10',id:'new',name:'Tikka Masala',price:12000},{venue:'V',date:'2026-09-20',id:'new',name:'Tikka Masala',price:13000},{venue:'Annan',date:'2026-09-20',id:'new',name:'Tikka Masala',price:1}]};
+ assert.deepEqual(purchases(store,'V','new','tikka masala'),{times:3,usual:12500,last:{date:'2026-09-20',price:13000}});
+ assert.equal(purchases(store,'V','x','Pizza'),null);assert.equal(receiptPoints(store,'V','new','Tikka Masala').length,4);assert.equal(receiptPoints(store,'V','new').length,3);});
