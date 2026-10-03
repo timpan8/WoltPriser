@@ -32,6 +32,8 @@ jobs:
           if [ -f data/receipts.json ]; then cp data/receipts.json _site/data/; fi
           if [ -f data/images.json ]; then cp data/images.json _site/data/; fi
           if [ -f data/fees.json ]; then cp data/fees.json _site/data/; fi
+          cp data/venues.json _site/data/
+          if [ -f data/discovered.json ]; then cp data/discovered.json _site/data/; fi
           if [ -f data/foodora.json ]; then cp data/foodora.json _site/data/; fi
           # Versionera skript och stil per commit, så att webbläsaren aldrig blandar gamla och nya filer ur cachen.
           v="${GITHUB_SHA::12}"
