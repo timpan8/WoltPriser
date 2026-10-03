@@ -80,9 +80,9 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
 @media(max-width:540px){.subcats{flex-wrap:nowrap;overflow-x:auto;margin:0 -16px 12px;padding:0 16px 2px;scrollbar-width:none}.subcats::-webkit-scrollbar{display:none}.sub{flex:0 0 auto}}
 /* Stora skärmar: sidan fyller bredden (fler kort per rad) och allt skalas upp något så att texten inte blir liten. */
 @media(min-width:1000px){.venue,.description,.total,.bought{font-size:13px}.fd-line,.usual,.membership,.change,.tag,.save,.chip,.key{font-size:12px}.card h3{font-size:19px}.price{font-size:27px}}
-@media(min-width:1400px){body{zoom:1.08}}
-@media(min-width:1700px){body{zoom:1.16}}
-@media(min-width:2200px){body{zoom:1.3}}
+@media(min-width:1400px){:root{--zoom:1.08}body{zoom:var(--zoom)}}
+@media(min-width:1700px){:root{--zoom:1.16}body{zoom:var(--zoom)}}
+@media(min-width:2200px){:root{--zoom:1.3}body{zoom:var(--zoom)}}
 /* Restauranger som inte finns på Wolt (Foodora/Uber Eats). */
 .via{display:inline-block;font-size:10px;font-weight:700;color:#7a4a12;background:#fbefd9;border-radius:999px;padding:1px 7px;margin-left:4px;vertical-align:1px}.chip.ot input{accent-color:#b06a1d}.price-row .from{font-size:12px;color:var(--muted);margin-right:-5px}
 @media(min-width:861px){.filterrow:has(#appsBox:not([hidden])){grid-template-columns:1fr 220px 170px 220px}}
@@ -107,3 +107,26 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
 .grating{font-size:12px;font-weight:700;color:#1a73e8;white-space:nowrap;text-decoration:none}.grating small{font-weight:500;color:var(--muted)}.grating:hover{text-decoration:underline}
 @media(prefers-color-scheme:dark){:root:not([data-theme=light]) .grating{color:#8ab4f8}}
 .opt-rates{display:flex;flex-wrap:wrap;gap:2px 12px;align-items:baseline;margin:2px 0}.opt-rates .rating{font-size:12px;font-weight:700;color:var(--orange)}.opt-rates .grating{margin:0}.opt-main .opt-rates span{display:inline;margin:0}
+/* Filtergrupper: knappar som slås av och på (ingen kryssruta), grupperade med rubrik. */
+.filterrow.bottom{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.fg-title,.fgroup legend{font:700 11px system-ui;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:0}
+.fgroups{display:flex;flex-wrap:wrap;gap:14px 36px;align-items:flex-start;border-top:1px solid var(--line);padding-top:14px}
+.fgroup{border:0;margin:0;padding:0;min-width:0}.fgroup legend{margin-bottom:8px}
+.fgroup:not(:has(.chip:not([hidden]))){display:none}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.fgroup .chip{position:relative;padding:7px 13px;font-size:13px;font-weight:600;color:var(--ink);background:var(--card);border:1px solid var(--line);transition:background .15s,border-color .15s,color .15s}
+.fgroup .chip:hover{border-color:#b7c8ab}
+.fgroup .chip input[type=checkbox]{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px}
+.fgroup .chip:has(input:checked),.fgroup .chip.sel.on{background:var(--strong);border-color:var(--strong);color:#fff}
+.fgroup .chip:has(input:checked) span::before{content:"✓ ";font-weight:800}
+.fgroup .chip.fd:has(input:checked){background:#d70f64;border-color:#d70f64}.fgroup .chip.ue:has(input:checked){background:#06a35a;border-color:#06a35a}
+.fgroup .chip:has(input:focus-visible),.fgroup .chip.sel:has(select:focus-visible){outline:3px solid #93ac68;outline-offset:1px}
+.fgroup .chip.sel{padding:0 6px 0 10px}.fgroup .chip.sel select{font-weight:600;color:inherit;cursor:pointer;padding:7px 2px}
+.fgroup .chip.sel.on select option{color:var(--ink);background:var(--card)}
+.fgroups .reset{align-self:flex-end;padding:0 0 8px}
+@media(max-width:540px){.fgroups{gap:12px;padding-top:12px}.filterrow.bottom{gap:8px}.filterrow.bottom .seg{flex:1 1 100%}.fgroup .chip{font-size:13px}}
+/* Dialogen ärver sidans zoom på stora skärmar; höjden räknas om så att den alltid ryms. */
+dialog{max-height:calc((100dvh - 48px)/var(--zoom,1));max-width:calc((100vw - 30px)/var(--zoom,1));overflow:auto}
+/* Exempelbild (samma bild hos flera olika restauranger): liten märkning i hörnet. */
+.thumb,.opt-img{position:relative}.thumb.stock::after,.opt-img.stock::after{content:"Exempelbild";position:absolute;left:8px;bottom:8px;background:#0f1814cc;color:#fff;font:600 11px system-ui;padding:3px 7px;border-radius:6px;pointer-events:none}
+.opt-img.stock::after{content:"Exempel";left:3px;bottom:3px;font-size:9px;padding:2px 4px;border-radius:4px}
