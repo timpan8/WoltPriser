@@ -125,3 +125,18 @@ test('diet is read from the menu text, conservatively',()=>{const d=(name,descri
  assert.equal(d('Vegansk Kebabrulle'),'vegan');assert.equal(d('No Chicken Nuggets 6 pcs'),'vegan');assert.equal(d('Spicy Tuna Sandwich','med vegansk majo'),null);
  assert.equal(d('Pizza Margherita','Tomat, mozzarella'),'veg');assert.equal(d('Falafel Tallrik'),'veg');assert.equal(d('Halloumi King Meal'),'veg');
  assert.equal(d('Kebabpizza','Kebabkött, mozzarella'),null);assert.equal(d('Köfte'),null);assert.equal(d('Chicken Tikka Butter Masala'),null);assert.equal(d('Söderrulle','','Veganska rätter'),'vegan');});
+
+test('course: bakeries, dessert shops, drinks in generic categories and kids menus outside Wolt',()=>{
+ const c=(name,category,price=5000)=>course({name,category,price,originalPrice:price});
+ // Fika: bagerier och dessertställen med egna kategorinamn.
+ for(const [n,k] of [['5 KANELBULLAR','BULLAR'],['RED VELVET CROISSANT','BULLAR'],['Daisy Cake','CAKES'],['SMÅKAKOR - KOLA','SWEETS'],['Vaniljglass','Desert'],['Lyx Våffla','Belgiska Våfflor'],['vegan bubbelvåffla','vegan meny'],['Bullar 3 för 2','Paket'],['Enkel Crêpe med Choklad','Franska Crêpes'],['62. Japansk MOCHI glassbollar 2st','Japansk Läsk, Glass & Snacks']])assert.equal(c(n,k),'fika',n);
+ // Men inte köttbullar, sojabullar eller salta crêpes.
+ assert.equal(c('Sojabullar (Vegetarisk)','Vegetariskt/Veganskt',19900),'mat');assert.equal(c('Högrev Crêpe','Crêpes',14900),'mat');
+ // Dryck: te, dricka, lemonad och latte i allmänna kategorier; kanelbulle-latte förblir dryck, pizza fior di latte förblir mat.
+ for(const [n,k] of [['Pumpkin Spice Latte','Nyhet!'],['Lemonade','NYHET!'],['Passion Fruit Iced Tea','NYHET!'],['Cola Zero','Utvalt åt dig'],['Stilla Vatten','Dricka'],['Svart Te Earl Grey Eko','Te'],['Jarritos Mango','Jarritos'],['Kanelbulle Latte','Varm dryck']])assert.equal(c(n,k),'dryck',n);
+ assert.equal(c('Pere Fiore De Latte','Napolitansk Pizza',18900),'mat');assert.equal(c('Vattenkokt Oxfilé','Fläsk- och Nöträtter',24900),'mat');
+ // Frukost & mackor: pannkakor, croissant med pålägg, ostfralla, bagel i paket.
+ for(const [n,k] of [['Amerikanska pannkakor bacon & sirap','Utvalt åt dig'],['Croissant Ost & Kalkon','Varm Mat'],['Ostfralla','Övriga Rätter'],['Bagel Combo','Paket']])assert.equal(c(n,k),'frukost',n);
+ // Barn: Bamse och Kid's Menu.
+ assert.equal(c('Skalmans Pannkakor Meny','Bamsepåsen',7500),'barn');assert.equal(c("Kid's Lasagne","Kid's Menu",14900),'barn');
+});
