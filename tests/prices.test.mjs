@@ -140,3 +140,11 @@ test('course: bakeries, dessert shops, drinks in generic categories and kids men
  // Barn: Bamse och Kid's Menu.
  assert.equal(c('Skalmans Pannkakor Meny','Bamsepåsen',7500),'barn');assert.equal(c("Kid's Lasagne","Kid's Menu",14900),'barn');
 });
+test('course: café chains (focaccia, fika combo, matcha, hot chocolate, bread rolls)',()=>{
+ const c=(name,category,price=5000)=>course({name,category,price,originalPrice:price});
+ for(const [n,k] of [['Focaccia Kyckling & Mozzarella','Varm Mat'],['Focaccia Ost & Kalkon','Varm Mat'],['Focaccia för 2','Paket'],['5 frallor','Bakverk'],['Surdegsfralla Råg Naturell','Bakverk']])assert.equal(c(n,k,11700),'frukost',n);
+ for(const [n,k] of [['Fika Combo','Paket'],['RAW BALLS 3 Pack','Raw balls'],['Bougatsa - Vaniljkräm & Kanel','Grekiska Pajer'],['70% Dark Chocolate Saloy Single Estate','Chocolates']])assert.equal(c(n,k,10100),'fika',n);
+ for(const [n,k] of [['Iced Pumpkin Cream Matcha','Nyhet!'],['Premium Choklad','Varm Choklad'],['Kakao','Varm Choklad']])assert.equal(c(n,k,6800),'dryck',n);
+ // Vanlig focaccia hos pizzerian och salt bougatsa ändras inte.
+ assert.equal(c('Focaccia','Pizza',6500),'mat');assert.equal(c('Bougatsa - Fetaost','Grekiska Pajer',6500),'mat');
+});
