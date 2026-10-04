@@ -2,6 +2,7 @@ import {money,seafood,effectivePrice,analyze,normalizeHistory,latestSnapshots,CO
 import {receiptPoints,purchases} from './lib/receipts.mjs';
 import {tokens,dishIndex,dishGroups,matchKind} from './lib/dishes.mjs';
 import {feeModel,withFees} from './lib/fees.mjs';
+import {fillUp} from './lib/fillup.mjs';
 import {SUBCATS,subcatsFor} from './lib/subcats.mjs';
 import {foodoraMenu,matchFoodora,foodoraPrice,foodoraPoints,otherVenues,venueKey,logTimeline,FOODORA,UBEREATS} from './lib/foodora.mjs';
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -169,15 +170,27 @@ function render(){
  $('#cards').querySelectorAll('[data-index]').forEach(b=>b.addEventListener('click',()=>showHistory(rows[Number(b.dataset.index)])));
 }
 // Beställningen: rätter per restaurang med antal; totalsumma, uppskattade avgifter, minsta order och samma beställning på Foodora/Uber Eats.
+// Under minsta ordervärdet föreslås en rätt till från samma restaurang, närmast minsta ordervärdet först (över eller under).
+let fill={tab:'',n:8};const COURSE_LABEL=Object.fromEntries(COURSES);
+function fillList(s,sum,min){
+ const all=fillUp(rows.filter(r=>r.s.url===s.url).map(r=>({key:cartKey(r),name:r.item.name,price:r.price,course:r.course})),sum,min);if(!all.length)return '';
+ const tabs=COURSES.filter(([k])=>all.some(i=>i.course===k)),list=all.filter(i=>!fill.tab||i.course===fill.tab),shown=list.slice(0,fill.n);
+ const diff=d=>d===0?'<span class="diff over">precis</span>':d>0?`<span class="diff over">${money(d)} över</span>`:`<span class="diff under">${money(-d)} kvar</span>`;
+ return `<li class="fill"><p class="fill-head"><b>Fyll upp i stället för att betala avgiften</b> <small>En rätt till, närmast ${money(min)} först</small></p>
+  ${tabs.length>1?`<div class="fill-tabs">${[['','Alla'],...tabs].map(([k,l])=>`<button type="button" data-fill-tab="${k}" aria-pressed="${fill.tab===k}"${fill.tab===k?' class="on"':''}>${esc(l)}</button>`).join('')}</div>`:''}
+  <ol>${shown.map(i=>`<li><button type="button" class="fill-add" data-qty="${esc(i.key)}" data-d="1" aria-label="Lägg till ${esc(i.name)}">+</button><span>${esc(i.name)}${fill.tab?'':` <small>${esc(COURSE_LABEL[i.course]||'')}</small>`}</span>${diff(i.diff)}<b>${money(i.price)}</b></li>`).join('')}</ol>
+  ${list.length>shown.length?`<button type="button" class="fill-more" data-fill-more>Visa fler (${list.length-shown.length})</button>`:''}</li>`;
+}
 function renderCart(){
  const lines=cart.map(c=>({...c,r:rowByKey.get(c.key)})).filter(c=>c.r),n=lines.reduce((a,c)=>a+c.qty,0);
  $('#cartBar').hidden=!n;if(!n){if($('#cartDialog').open)$('#cartDialog').close();return;}
- $('#cartBar').innerHTML=`<span>🛒 Beställning · ${n} ${n===1?'rätt':'rätter'}</span><b>${money(lines.reduce((a,c)=>a+c.r.price*c.qty,0))}</b>`;
  const groups=[...lines.reduce((m,c)=>m.set(c.r.s.url,[...(m.get(c.r.s.url)||[]),c]),new Map()).values()];
+ const left=groups.reduce((a,g)=>{const min=vinfo?.[g[0].r.s.url]?.minOrder,sum=g.reduce((x,c)=>x+c.r.price*c.qty,0);return a+(min&&sum<min?min-sum:0);},0);
+ $('#cartBar').innerHTML=`<span>🛒 Beställning · ${n} ${n===1?'rätt':'rätter'}${left?` · <small>${money(left)} kvar till minsta order</small>`:''}</span><b>${money(lines.reduce((a,c)=>a+c.r.price*c.qty,0))}</b>`;
  $('#cartList').innerHTML=groups.map(g=>{const s=g[0].r.s,sum=g.reduce((a,c)=>a+c.r.price*c.qty,0),orig=g.reduce((a,c)=>a+c.r.item.originalPrice*c.qty,0),f=s.other?null:withFees(fees,s.name,sum,orig),min=vinfo?.[s.url]?.minOrder;
   const other=(k,label,price)=>{const have=g.filter(c=>c.r[k]!=null);if(!have.length)return '';const tot=have.reduce((a,c)=>a+c.r[k]*c.qty,0),part=have.length<g.length?` (${have.length} av ${g.length} rätter finns)`:'';return `<li class="cmp">${label}: ${money(tot)}${part}${have.length===g.length?(tot<sum?` · <b>${money(sum-tot)} billigare</b>`:tot>sum?` · ${esc(s.label||'Wolt')} ${money(tot-sum)} billigare`:''):''} <small>menypris</small></li>`;};
   return `<section class="cart-venue"><h3>${esc(s.name)}${stars(s.url)}${hoursTag(s.url)}</h3><ul>${g.map(c=>`<li><span>${esc(c.r.item.name)}</span><span class="qty"><button type="button" data-qty="${esc(c.key)}" data-d="-1" aria-label="En mindre">−</button>${c.qty}<button type="button" data-qty="${esc(c.key)}" data-d="1" aria-label="En till">+</button></span><b>${money(c.r.price*c.qty)}</b></li>`).join('')}
-   <li class="sum"><span>Delsumma</span><b>${money(sum)}</b></li>${f?`<li class="sum"><span>≈ med avgifter <small>(uppskattat, ${Math.round(f.ratio*1000)/10} % av ordinarie pris)</small></span><b>${money(f.total)}</b></li>`:''}${min?(sum<min?`<li class="warn">${money(min-sum)} kvar till minsta ordervärde ${money(min)} (annars tillkommer en avgift för liten beställning)</li>`:`<li class="ok">Över minsta ordervärde ${money(min)}</li>`):''}${other('fdp','Foodora')}${other('uep','Uber Eats')}</ul><a class="order" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">Beställ på ${esc(s.label||'Wolt')} ↗</a></section>`;}).join('');
+   <li class="sum"><span>Delsumma</span><b>${money(sum)}</b></li>${f?`<li class="sum"><span>≈ med avgifter <small>(uppskattat, ${Math.round(f.ratio*1000)/10} % av ordinarie pris)</small></span><b>${money(f.total)}</b></li>`:''}${min?(sum<min?`<li class="warn">${money(min-sum)} kvar till minsta ordervärde ${money(min)} (annars tillkommer en avgift för liten beställning)</li>${fillList(s,sum,min)}`:`<li class="ok">Över minsta ordervärde ${money(min)}</li>`):''}${other('fdp','Foodora')}${other('uep','Uber Eats')}</ul><a class="order" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">Beställ på ${esc(s.label||'Wolt')} ↗</a></section>`;}).join('');
 }
 function addToCart(r,d=1){const k=cartKey(r),c=cart.find(x=>x.key===k);if(c)c.qty+=d;else if(d>0)cart.push({key:k,qty:d});cart=cart.filter(x=>x.qty>0);store('woltpriser-cart',cart);renderCart();}
 // Prisgraf: trappsteg per app (priset gäller tills nästa avläsning ändrar det), egna köp som punkter, streckat vanligt pris,
@@ -255,6 +268,8 @@ document.addEventListener('click',e=>{
  const qb=e.target.closest('[data-qty]');if(qb){const r=rowByKey.get(qb.dataset.qty);if(r)addToCart(r,Number(qb.dataset.d));return;}
  if(e.target.closest('#cartBar')){renderCart();$('#cartDialog').showModal();return;}
  if(e.target.closest('#closeCart')){$('#cartDialog').close();return;}
+ const ft=e.target.closest('[data-fill-tab]');if(ft){fill={tab:ft.dataset.fillTab,n:8};renderCart();return;}
+ if(e.target.closest('[data-fill-more]')){fill.n+=12;renderCart();return;}
  if(e.target.closest('#clearCart')){cart=[];store('woltpriser-cart',cart);renderCart();return;}
  const v=e.target.closest('.vlink');if(v){$('#restaurant').value=v.dataset.url;if($('#restaurant').value!==v.dataset.url)return;limit=24;sub='';render();scrollTo({top:$('#tabs').offsetTop-8,behavior:'smooth'});return;}
  if(e.target.closest('#clearVenue')){$('#restaurant').value='';limit=24;render();}});

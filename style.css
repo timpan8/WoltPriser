@@ -167,3 +167,7 @@ a.rt:hover{text-decoration:underline}
 .filter-toggle::after{content:"▾";font-size:12px;transition:transform .2s}.filterpanel.open .filter-toggle::after{transform:rotate(180deg)}
 .filter-toggle span{white-space:nowrap}.filter-toggle small{flex:1;text-align:right;font:600 12px system-ui,sans-serif;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .filterpanel:not(.open)>:not(.filterrow:first-child):not(.filter-toggle){display:none}
+.cart-venue li.fill{display:block;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:6px 0}.fill-head{margin:0 0 8px;font-size:13px}.fill-head small{display:block;color:var(--muted)}
+.fill-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 6px}.fill-tabs button,.fill-more{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:4px 10px;font-size:12px}.fill-tabs button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.cart-venue .fill ol{list-style:none;padding:0;margin:0}.cart-venue .fill ol li{grid-template-columns:auto minmax(0,1fr) auto 64px;gap:8px;border-top:1px solid var(--line)}.cart-venue .fill ol li:first-child{border-top:0}.fill ol li span{overflow-wrap:anywhere}.fill ol li small{color:var(--muted)}
+.fill-add{width:28px;height:28px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:16px;line-height:1}.diff{font-size:12px;white-space:nowrap}.diff.over{color:var(--green)}.diff.under{color:var(--orange)}.fill-more{margin-top:6px}

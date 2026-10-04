@@ -37,7 +37,12 @@ try{
  const sub=await p.$('#subcats .sub');if(sub){await sub.click();await settle();check(await cards()>0||await p.$('#cards .empty')!==null,'snabbfilter');await p.click('#subcats .sub.active');await settle();}
  if(await p.$('#cards .history-button')){await p.click('#cards .history-button');await p.waitForSelector('#historyDialog[open]',{timeout:3000});check(true,'prishistoriken öppnas');await p.click('#closeDialog');}
  if(await p.$('#cards .vlink')){await p.click('#cards .vlink');await settle();check(await p.isVisible('#venueBanner'),'restaurangvyn');await p.click('#clearVenue');await settle();}
- if(await p.$('#cards .add')){await p.click('#cards .add');await settle();await p.click('#cartBar');await p.waitForSelector('#cartDialog[open]',{timeout:3000});check(true,'beställningen öppnas');await p.keyboard.press('Escape');}
+ if(await p.$('#cards .add')){await p.click('#cards .add');await settle();await p.click('#cartBar');await p.waitForSelector('#cartDialog[open]',{timeout:3000});check(true,'beställningen öppnas');
+  if(await p.$('#cartList li.warn')){const n=await p.$$eval('#cartList .fill ol li',l=>l.length);check(n>0,`förslag för att nå minsta order (${n})`);
+   const d=await p.$$eval('#cartList .fill .diff',l=>l.map(x=>x.textContent));check(d.length>0,`närmast minsta order först: ${d.slice(0,3).join(', ')}`);
+   if(await p.$('#cartList [data-fill-tab]')){await p.click('#cartList [data-fill-tab]:nth-child(2)');check(await p.$$eval('#cartList .fill ol li',l=>l.length)>0,'förslagen filtreras på flik');}
+   await p.click('#cartList .fill-add');await settle();check(await p.$$eval('#cartList .cart-venue > ul > li:not(.sum):not(.warn):not(.ok):not(.cmp):not(.fill)',l=>l.length)===2,'förslaget läggs i beställningen');}
+  await p.keyboard.press('Escape');}
  await p.evaluate(()=>location.hash='#mina');await settle();
  if(await p.$('.card.dish .compare')){await p.click('.card.dish .compare');await p.waitForSelector('#dishDialog[open]',{timeout:3000});check(await p.$$eval('#dishList li',l=>l.length)>0,'jämförelsen öppnas');await p.click('#closeDish');}
  // Prestanda (fel 2 i granskningen): Mest för pengarna med alla appar ska rita om snabbt, även vid sökning.
