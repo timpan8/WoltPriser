@@ -27,7 +27,8 @@ jobs:
         run: |
           mkdir -p _site/lib _site/data
           cp index.html style.css app.mjs _site/
-          cp lib/prices.mjs lib/receipts.mjs lib/dishes.mjs lib/fees.mjs lib/foodora.mjs lib/subcats.mjs _site/lib/
+          # Alla moduler som sidan importerar (läses ur app.mjs, så att en ny fil i lib/ inte glöms bort).
+          for f in $(grep -o "from '\./lib/[a-z]*\.mjs'" app.mjs | sed "s#from '\./##; s#'##"); do cp "$f" _site/lib/; done
           node scripts/build-data.mjs _site/data
           if [ -f data/receipts.json ]; then cp data/receipts.json _site/data/; fi
           if [ -f data/images.json ]; then cp data/images.json _site/data/; fi
@@ -44,6 +45,8 @@ jobs:
           sed -i "s#href=\"style.css\"#href=\"style.css?v=$v\"#; s#src=\"app.mjs\"#src=\"app.mjs?v=$v\"#" _site/index.html
           sed -i "s#from '\./lib/\([a-z]*\)\.mjs'#from './lib/\1.mjs?v=$v'#g" _site/app.mjs
           grep -q "app.mjs?v=$v" _site/index.html && ! grep -q "from './lib/[a-z]*\.mjs'" _site/app.mjs
+          # Varje importerad modul måste finnas på den publicerade sidan, annars laddas ingenting.
+          for f in $(grep -o "from '\./lib/[a-z]*\.mjs" _site/app.mjs | sed "s#from '\./##"); do test -f "_site/$f" || { echo "saknas: $f"; exit 1; }; done
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
