@@ -1,40 +1,6 @@
 {
- "updated": "2026-10-05T21:31:43.042Z",
+ "updated": "2026-10-06T19:35:46.373Z",
  "venues": [
-  {
-   "name": "MAX Stockholm - Medborgarplatsen",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/max-hamburgare-medborgarplatsen",
-   "rating": 7.4,
-   "tags": [
-    "burger",
-    "efterrätt",
-    "hamburgare"
-   ],
-   "estimate": 30,
-   "address": "Götgatan 41",
-   "pos": {
-    "lat": 59.315509,
-    "lon": 18.072884
-   },
-   "seen": "2026-10-05T21:31:43.042Z"
-  },
-  {
-   "name": "Burger King Årsta",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/burger-king-rsta",
-   "rating": 7.8,
-   "tags": [
-    "burger",
-    "kyckling",
-    "hamburgare"
-   ],
-   "estimate": 25,
-   "address": "Marknadsvägen 6",
-   "pos": {
-    "lat": 59.295659,
-    "lon": 18.03384
-   },
-   "seen": "2026-10-05T21:31:43.042Z"
-  },
   {
    "name": "McDonald's Årsta",
    "url": "https://wolt.com/sv/swe/stockholm/restaurant/mcdonalds-arsta",
@@ -50,7 +16,141 @@
     "lat": 59.286582,
     "lon": 18.049034
    },
-   "seen": "2026-10-05T21:31:43.042Z"
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Burger King Årsta",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/burger-king-rsta",
+   "rating": 7.8,
+   "tags": [
+    "burger",
+    "kyckling",
+    "hamburgare"
+   ],
+   "estimate": 20,
+   "address": "Marknadsvägen 6",
+   "pos": {
+    "lat": 59.295659,
+    "lon": 18.03384
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "KFC Liljeholmen",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/kfc-liljeholmen",
+   "rating": 7.4,
+   "tags": [
+    "fried chicken",
+    "kyckling"
+   ],
+   "estimate": 25,
+   "address": "Liljeholmstorget 7, Stockholm, Sweden",
+   "pos": {
+    "lat": 59.309777,
+    "lon": 18.022426
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Märtas Krog & Pizza",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/mrtas-krog-pizza-sthlm",
+   "rating": 7.6,
+   "tags": [
+    "kyckling",
+    "kebab",
+    "pasta"
+   ],
+   "estimate": 20,
+   "address": "Malgomajvägen 10-12",
+   "pos": {
+    "lat": 59.2993147,
+    "lon": 18.0337905
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Backstreet Pub & Restaurang",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/backstreet-pub-restaurang",
+   "rating": 7.8,
+   "tags": [
+    "amerikansk",
+    "hamburgare",
+    "italienskt"
+   ],
+   "estimate": 20,
+   "address": "Konstgjutarvägen 42",
+   "pos": {
+    "lat": 59.294796,
+    "lon": 18.0737499
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "MAX Stockholm - Medborgarplatsen",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/max-hamburgare-medborgarplatsen",
+   "rating": 7.4,
+   "tags": [
+    "burger",
+    "efterrätt",
+    "hamburgare"
+   ],
+   "estimate": 25,
+   "address": "Götgatan 41",
+   "pos": {
+    "lat": 59.315509,
+    "lon": 18.072884
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Mae Thai Gullmarsplan",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/mae-thai-gullmarsplan",
+   "rating": 8,
+   "tags": [
+    "asiatiskt",
+    "fried chicken",
+    "fried rice"
+   ],
+   "estimate": 20,
+   "address": "Gullmarsplan 1",
+   "pos": {
+    "lat": 59.2987905,
+    "lon": 18.0797422
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Sushi Yama Stockholm - Gullmarsplan",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/sushi-yama-sgullmarsplan",
+   "rating": 8.4,
+   "tags": [
+    "asiatiskt",
+    "bowl",
+    "japanskt"
+   ],
+   "estimate": 25,
+   "address": "Gullmarsplan 4",
+   "pos": {
+    "lat": 59.2985265,
+    "lon": 18.0790265
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Pizzeria Tropicana",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/pizzeria-tropicana",
+   "rating": 8.6,
+   "tags": [
+    "pizza",
+    "kebab"
+   ],
+   "estimate": 30,
+   "address": "vasaloppsvägen 73, 129 45 Hägersten",
+   "pos": {
+    "lat": 59.293802,
+    "lon": 17.9655589
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
   },
   {
    "name": "Pizzeria Di Metro",
@@ -67,56 +167,277 @@
     "lat": 59.31015641,
     "lon": 18.02211474
    },
-   "seen": "2026-10-05T21:31:43.042Z"
+   "seen": "2026-10-06T19:35:46.373Z"
   },
   {
-   "name": "KFC Liljeholmen",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/kfc-liljeholmen",
+   "name": "Sushi Bay",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/sushi-bay-sthlm",
    "rating": 7.4,
    "tags": [
-    "fried chicken",
-    "kyckling"
+    "sushi",
+    "Benedict",
+    "fried chicken"
    ],
-   "estimate": 25,
-   "address": "Liljeholmstorget 7, Stockholm, Sweden",
+   "estimate": 20,
+   "address": "Sjövikskajen 68",
    "pos": {
-    "lat": 59.309777,
-    "lon": 18.022426
+    "lat": 59.305911,
+    "lon": 18.036867
    },
-   "seen": "2026-10-05T21:31:43.042Z"
+   "seen": "2026-10-06T19:35:46.373Z"
   },
   {
-   "name": "Pizzeria Tropicana",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/pizzeria-tropicana",
-   "rating": 8.4,
+   "name": "Tezukuri Sushi",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/tezukuri-sushi",
+   "rating": 8,
    "tags": [
-    "pizza",
-    "kebab"
+    "asiatiskt",
+    "bento",
+    "japanskt"
    ],
    "estimate": 30,
-   "address": "vasaloppsvägen 73, 129 45 Hägersten",
+   "address": "Hammarby kaj 38",
    "pos": {
-    "lat": 59.293802,
-    "lon": 17.9655589
+    "lat": 59.305496,
+    "lon": 18.09152
    },
-   "seen": "2026-10-05T21:31:43.042Z"
+   "seen": "2026-10-06T19:35:46.373Z"
   },
   {
-   "name": "Backstreet Pub & Restaurang",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/backstreet-pub-restaurang",
-   "rating": 7.6,
+   "name": "Pazzi Södermalm",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/pazzi-sdermalm",
+   "rating": 8.6,
    "tags": [
-    "amerikansk",
-    "hamburgare",
-    "italienskt"
+    "europeiskt",
+    "italienskt",
+    "medelhavet"
    ],
    "estimate": 25,
-   "address": "Konstgjutarvägen 42",
+   "address": "Östgötagatan 65",
    "pos": {
-    "lat": 59.294796,
-    "lon": 18.0737499
+    "lat": 59.3108802,
+    "lon": 18.0785826
    },
-   "seen": "2026-10-05T21:31:43.042Z"
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Del Mare Restaurang & Pizzeria",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/del-mare-restaurang-pizzeria",
+   "rating": 8.2,
+   "tags": [
+    "italienskt",
+    "kebab",
+    "pasta"
+   ],
+   "estimate": 30,
+   "address": "Nybohovsbacken 54",
+   "pos": {
+    "lat": 59.3091092,
+    "lon": 18.0155093
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Din Napolitanska",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/din-napolitanska-soder",
+   "rating": 8.6,
+   "tags": [
+    "pizza",
+    "italienskt"
+   ],
+   "estimate": 30,
+   "address": "Långholmsgatan 27",
+   "pos": {
+    "lat": 59.3157739,
+    "lon": 18.0342897
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Arcadian Burgers",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/arcadian-brgers",
+   "rating": 9.4,
+   "tags": [
+    "amerikansk",
+    "burger",
+    "hamburgare"
+   ],
+   "estimate": 40,
+   "address": "Västbergavägen 4",
+   "pos": {
+    "lat": 59.2937572,
+    "lon": 18.0047782
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Subway Älvsjö",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/subway-lvsj",
+   "rating": 8,
+   "tags": [
+    "sallad",
+    "kyckling",
+    "vegetarisk"
+   ],
+   "estimate": 35,
+   "address": "Älvsjö Torg 13B",
+   "pos": {
+    "lat": 59.278657,
+    "lon": 18.009511
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Gyrella",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/gyrella",
+   "rating": 8.2,
+   "tags": [
+    "grekisk",
+    "sallad",
+    "falafel"
+   ],
+   "estimate": 25,
+   "address": "Götgatan 93",
+   "pos": {
+    "lat": 59.308689,
+    "lon": 18.075892
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Margherita Pizzeria",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/margherita-pizzeria-sthlm",
+   "rating": 8.2,
+   "tags": [
+    "italienskt",
+    "pizza",
+    "pasta"
+   ],
+   "estimate": 20,
+   "address": "ÖSTBERGATORGET 19",
+   "pos": {
+    "lat": 59.2887796,
+    "lon": 18.033164
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Josefs Burger Grill",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/josefs-burger-grill",
+   "rating": 8.8,
+   "tags": [
+    "burger",
+    "hamburgare"
+   ],
+   "estimate": 25,
+   "address": "Götgatan 80",
+   "pos": {
+    "lat": 59.3114627,
+    "lon": 18.074396
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Stora T Kolgrill Kebab",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/stora-t-kolgrill",
+   "rating": 8.4,
+   "tags": [
+    "kebab",
+    "mellanöstern",
+    "fried chicken"
+   ],
+   "estimate": 30,
+   "address": "Långholmsgatan 32",
+   "pos": {
+    "lat": 59.31602209,
+    "lon": 18.03328514
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "El Birria Express",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/el-birria-kungens-kurva",
+   "rating": 8.6,
+   "tags": [
+    "mexikansk",
+    "taco",
+    "tortilla"
+   ],
+   "estimate": 30,
+   "address": "Fatburs Brunnsgata 19",
+   "pos": {
+    "lat": 59.3143407,
+    "lon": 18.0684367
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Piccolo Pizza",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/piccolo-pizzastock",
+   "rating": 8.2,
+   "tags": [
+    "pizza",
+    "burger",
+    "vegetabiliska"
+   ],
+   "estimate": 35,
+   "address": "Bjursätragatan 65",
+   "pos": {
+    "lat": 59.2525995,
+    "lon": 18.0287197
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Trafiket24",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/trafiket24",
+   "rating": 7.6,
+   "tags": [
+    "grill",
+    "kebab",
+    "pita"
+   ],
+   "estimate": 20,
+   "address": "Gullmarsplan 1",
+   "pos": {
+    "lat": 59.299081,
+    "lon": 18.081435
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Grekisk Fastfood",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/grekisk-fastfood",
+   "rating": 7.8,
+   "tags": [
+    "grekisk",
+    "mellanöstern",
+    "kebab"
+   ],
+   "estimate": 25,
+   "address": "Medborgarplatsen 29",
+   "pos": {
+    "lat": 59.315078,
+    "lon": 18.072505
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Ho's Kina",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/hos-ka",
+   "rating": 8.8,
+   "tags": [
+    "asiatiskt",
+    "kyckling",
+    "chinese"
+   ],
+   "estimate": 20,
+   "address": "Hornsgatan 151",
+   "pos": {
+    "lat": 59.3149478,
+    "lon": 18.0324958
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
   },
   {
    "name": "Tullfritt Söder",
@@ -133,24 +454,258 @@
     "lat": 59.29868403,
     "lon": 18.079828
    },
-   "seen": "2026-10-05T21:31:43.042Z"
+   "seen": "2026-10-06T19:35:46.373Z"
   },
   {
-   "name": "Trafiket24",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/trafiket24",
-   "rating": 7.6,
+   "name": "Restaurang Hjälmaren",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/restaurang-hjlmaren",
+   "rating": 8.6,
    "tags": [
+    "pasta",
     "grill",
-    "kebab",
-    "pita"
+    "stek"
    ],
    "estimate": 25,
-   "address": "Gullmarsplan 1",
+   "address": "Hjälmarsvägen 43",
    "pos": {
-    "lat": 59.299081,
-    "lon": 18.081435
+    "lat": 59.2966776,
+    "lon": 18.0526135
    },
-   "seen": "2026-10-05T21:31:43.042Z"
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Bamboo Garden",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/bamboo-garden",
+   "rating": 8.2,
+   "tags": [
+    "asiatiskt",
+    "kinesiskt",
+    "nudlar"
+   ],
+   "estimate": 30,
+   "address": "Åsögatan 120",
+   "pos": {
+    "lat": 59.31304799,
+    "lon": 18.07579547
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Gordo Foodtruck Rågsved",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/gordo-foodtruck-rgsved",
+   "rating": 9,
+   "tags": [
+    "kyckling",
+    "falafel",
+    "bowl"
+   ],
+   "estimate": 35,
+   "address": "Rågsvedsvägen 2",
+   "pos": {
+    "lat": 59.2573905,
+    "lon": 18.0284653
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Dionysos",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/dionysos",
+   "rating": 9.8,
+   "tags": [
+    "fisk",
+    "grekisk",
+    "medelhavet"
+   ],
+   "estimate": 30,
+   "address": "Bondegatan 56",
+   "pos": {
+    "lat": 59.3134881,
+    "lon": 18.0851003
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Burger Mansion Bandhagen",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/burger-mansion-bandhagen",
+   "rating": 7.8,
+   "tags": [
+    "burger",
+    "amerikansk"
+   ],
+   "estimate": 40,
+   "address": "Harpsundsvägen 18",
+   "pos": {
+    "lat": 59.264999,
+    "lon": 18.04764
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Smäsh Burger Medis",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/smsh-burger-medis",
+   "rating": 7.2,
+   "tags": [
+    "burger",
+    "sallad"
+   ],
+   "estimate": 25,
+   "address": "Götgatan 47B",
+   "pos": {
+    "lat": 59.3148792,
+    "lon": 18.0733625
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Bastard Burgers Medborgarplatsen",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/bastard-burgers-medborgarplatsen",
+   "rating": 9,
+   "tags": [
+    "burger",
+    "hamburgare",
+    "milkshake"
+   ],
+   "estimate": 30,
+   "address": "Folkungagatan 54",
+   "pos": {
+    "lat": 59.3142419,
+    "lon": 18.074656
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Restaurang Ellora",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/restaurang-ellora",
+   "rating": 8.6,
+   "tags": [
+    "indiskt",
+    "curry",
+    "asiatiskt"
+   ],
+   "estimate": 35,
+   "address": "Hornsgatan 85",
+   "pos": {
+    "lat": 59.3170759,
+    "lon": 18.0491126
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Maxi Grillen",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/maxigrillen-gotgatan",
+   "rating": 8,
+   "tags": [
+    "grill",
+    "burger"
+   ],
+   "estimate": 25,
+   "address": "Götgatan 47B",
+   "pos": {
+    "lat": 59.3148792,
+    "lon": 18.0733625
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Taco Bar Folkungagatan",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/taco-bar-folkunggatan",
+   "rating": 9,
+   "tags": [
+    "burger",
+    "burrito",
+    "mexikansk"
+   ],
+   "estimate": 30,
+   "address": "Folkungagatan 104",
+   "pos": {
+    "lat": 59.315356,
+    "lon": 18.082919
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Shanti Soft Corner",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/shanti-soft-corner",
+   "rating": 9.4,
+   "tags": [
+    "indiskt",
+    "vegetarisk"
+   ],
+   "estimate": 30,
+   "address": "Södermalms Allé 34",
+   "pos": {
+    "lat": 59.31343411,
+    "lon": 18.06833267
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Angelos Pizzeria",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/angelos-pizzeria",
+   "rating": 8.8,
+   "tags": [
+    "glass",
+    "kebab",
+    "pasta"
+   ],
+   "estimate": 30,
+   "address": "Rosenlundsgatan 18",
+   "pos": {
+    "lat": 59.31706,
+    "lon": 18.05572
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "RAIN",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/rain",
+   "rating": 8.8,
+   "tags": [
+    "kyckling",
+    "indiskt",
+    "vegetarisk"
+   ],
+   "estimate": 30,
+   "address": "Tellusborgsvägen 84",
+   "pos": {
+    "lat": 59.29938,
+    "lon": 18.00364
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Folkets Kebab Hornsgatan",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/folkets-kebab-hornsgatan-sthlm",
+   "rating": 6.2,
+   "tags": [
+    "kebab",
+    "falafel",
+    "vegetarisk"
+   ],
+   "estimate": 30,
+   "address": "Hornsgatan 92",
+   "pos": {
+    "lat": 59.3178397,
+    "lon": 18.0527514
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Restaurang Oasen",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/restaurang-oasen",
+   "rating": 8,
+   "tags": [
+    "burger",
+    "pasta",
+    "pizza"
+   ],
+   "estimate": 40,
+   "address": "Rågsvedsvägen 9",
+   "pos": {
+    "lat": 59.2571962,
+    "lon": 18.0271963
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
   },
   {
    "name": "Kebab Kungen Skanstull",
@@ -167,73 +722,174 @@
     "lat": 59.311226,
     "lon": 18.074508
    },
-   "seen": "2026-10-05T21:31:43.042Z"
+   "seen": "2026-10-06T19:35:46.373Z"
   },
   {
-   "name": "Smäsh Burger Medis",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/smsh-burger-medis",
-   "rating": 7.2,
-   "tags": [
-    "burger",
-    "sallad"
-   ],
-   "estimate": 30,
-   "address": "Götgatan 47B",
-   "pos": {
-    "lat": 59.3148792,
-    "lon": 18.0733625
-   },
-   "seen": "2026-10-05T21:31:43.042Z"
-  },
-  {
-   "name": "Stora T Kolgrill Kebab",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/stora-t-kolgrill",
-   "rating": 8.2,
-   "tags": [
-    "kebab",
-    "mellanöstern",
-    "fried chicken"
-   ],
-   "estimate": 25,
-   "address": "Långholmsgatan 32",
-   "pos": {
-    "lat": 59.31602209,
-    "lon": 18.03328514
-   },
-   "seen": "2026-10-05T21:31:43.042Z"
-  },
-  {
-   "name": "Maxi Grillen",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/maxigrillen-gotgatan",
-   "rating": 8,
-   "tags": [
-    "grill",
-    "burger"
-   ],
-   "estimate": 25,
-   "address": "Götgatan 47B",
-   "pos": {
-    "lat": 59.3148792,
-    "lon": 18.0733625
-   },
-   "seen": "2026-10-05T21:31:43.042Z"
-  },
-  {
-   "name": "Donna Bella",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/donna-bella",
+   "name": "Hornstull Burgers & Grill",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/hornstull-burgers-grill",
    "rating": 8.4,
    "tags": [
-    "pasta",
-    "pizza",
-    "sallad"
+    "hamburgare",
+    "korv",
+    "glass"
    ],
    "estimate": 30,
-   "address": "Fruängsgången 7",
+   "address": "Långholmsgatan 21",
    "pos": {
-    "lat": 59.2853937,
-    "lon": 17.9631207
+    "lat": 59.316338,
+    "lon": 18.033943
    },
-   "seen": "2026-10-05T21:31:43.042Z"
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Parma Kök & Bar",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/parma-kk-bar",
+   "rating": 8.8,
+   "tags": [
+    "german",
+    "pasta",
+    "italienskt"
+   ],
+   "estimate": 35,
+   "address": "Fruängsgången 12",
+   "pos": {
+    "lat": 59.2858046,
+    "lon": 17.963332
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Ölstugan Tullen Hornstull",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/lstugan-tullen-hornstull",
+   "rating": 9.2,
+   "tags": [
+    "schnitzel",
+    "vegetarisk",
+    "europeiskt"
+   ],
+   "estimate": 30,
+   "address": "Hornsgatan 143",
+   "pos": {
+    "lat": 59.3151834,
+    "lon": 18.0350085
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Restaurang Indira",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/restaurang-indira",
+   "rating": null,
+   "tags": [
+    "indiskt",
+    "kyckling",
+    "ris"
+   ],
+   "estimate": 30,
+   "address": "Bondegatan 3B",
+   "pos": {
+    "lat": 59.312618,
+    "lon": 18.076426
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Papa's Pizzeria",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/papas-pizzeria-enskede",
+   "rating": 8,
+   "tags": [
+    "kebab",
+    "mexikansk",
+    "pizza"
+   ],
+   "estimate": 30,
+   "address": "Skönviksvagen 281",
+   "pos": {
+    "lat": 59.2716747,
+    "lon": 18.0532647
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Liljeholmens Grill",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/liljeholmens-grill",
+   "rating": 7.8,
+   "tags": [
+    "grill"
+   ],
+   "estimate": 25,
+   "address": "Liljeholmstorget 7b",
+   "pos": {
+    "lat": 59.310003,
+    "lon": 18.021965
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Stuvsta Pizzeria & Thai Wok",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/stuvsta-pizzeria-thai-wok",
+   "rating": 7,
+   "tags": [
+    "kebab",
+    "pizza",
+    "thai"
+   ],
+   "estimate": 50,
+   "address": "Stationsvägen 27, 141 40",
+   "pos": {
+    "lat": 59.250284,
+    "lon": 17.9981388
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Jett'z Burger Enskede",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/jettz-burger-enskede",
+   "rating": 8.6,
+   "tags": [
+    "burger",
+    "vegetarisk"
+   ],
+   "estimate": 25,
+   "address": "Sockenvägen 370",
+   "pos": {
+    "lat": 59.283557,
+    "lon": 18.070475
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Sultan Restaurang",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/sultan-restaurang",
+   "rating": 8.4,
+   "tags": [
+    "burger",
+    "falafel",
+    "kebab"
+   ],
+   "estimate": 45,
+   "address": "Bogårdsvägen 29",
+   "pos": {
+    "lat": 59.2639054,
+    "lon": 18.1001508
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Högdalens Pizzeria & Thai Wok",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/hgdalens-pizzeria-thai-wok",
+   "rating": 4.6,
+   "tags": [
+    "hamburgare",
+    "italienskt",
+    "kebab"
+   ],
+   "estimate": 50,
+   "address": "Stallarholmsvägen 24",
+   "pos": {
+    "lat": 59.2614955,
+    "lon": 18.057741
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
   },
   {
    "name": "Slice & Smash - Stockholm",
@@ -243,13 +899,76 @@
     "amerikansk",
     "pizza"
    ],
-   "estimate": 30,
+   "estimate": 25,
    "address": "Medborgarplatsen 29, Stockholm, Sweden",
    "pos": {
     "lat": 59.3153568,
     "lon": 18.0720965
    },
-   "seen": "2026-10-05T21:31:43.042Z"
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Espresso House Götgatsbacken",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/espresso-house-gtgatsbacken",
+   "rating": 8.8,
+   "tags": [
+    "bagel",
+    "bowl",
+    "kaffe"
+   ],
+   "estimate": 25,
+   "address": "Götgatan 15",
+   "pos": {
+    "lat": 59.3181604,
+    "lon": 18.0714362
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Backstreet Persian Food",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/persian-food-gullmarsplan",
+   "rating": 6.2,
+   "tags": [
+    "mellanöstern",
+    "glass",
+    "snacks"
+   ],
+   "estimate": 25,
+   "pos": {
+    "lat": 59.294796,
+    "lon": 18.07375
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Premium Burger & Street Food",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/premium-burger-street-food",
+   "rating": null,
+   "tags": [
+    "burger",
+    "hamburgare",
+    "amerikansk"
+   ],
+   "estimate": 25,
+   "address": "Ringvägen 142",
+   "pos": {
+    "lat": 59.3087474,
+    "lon": 18.0833054
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Liljeholmens Hamburgare",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/liljeholmens-hamburgare",
+   "rating": 7.2,
+   "tags": [],
+   "estimate": 25,
+   "address": "Liljeholmstorget 7b",
+   "pos": {
+    "lat": 59.3097457,
+    "lon": 18.0218455
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
   },
   {
    "name": "Jerusalem Kebab",
@@ -266,23 +985,24 @@
     "lat": 59.3133347,
     "lon": 18.0740479
    },
-   "seen": "2026-10-05T21:31:43.042Z"
+   "seen": "2026-10-06T19:35:46.373Z"
   },
   {
-   "name": "Backstreet Persian Food",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/persian-food-gullmarsplan",
-   "rating": 6.2,
+   "name": "Stigbergets Fot",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/stigbergets-fot",
+   "rating": 8.6,
    "tags": [
-    "mellanöstern",
-    "glass",
-    "snacks"
+    "kyckling",
+    "hamburgare",
+    "mexikansk"
    ],
-   "estimate": 25,
+   "estimate": 30,
+   "address": "Götgatan 5",
    "pos": {
-    "lat": 59.294796,
-    "lon": 18.07375
+    "lat": 59.3191149,
+    "lon": 18.0710422
    },
-   "seen": "2026-10-05T21:31:43.042Z"
+   "seen": "2026-10-06T19:35:46.373Z"
   },
   {
    "name": "Kenzo Sushi & Wok",
@@ -299,52 +1019,293 @@
     "lat": 59.4308146,
     "lon": 17.9992238
    },
-   "seen": "2026-10-05T21:31:43.042Z"
+   "seen": "2026-10-06T19:35:46.373Z"
   },
   {
-   "name": "Gordo Foodtruck Rågsved",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/gordo-foodtruck-rgsved",
-   "rating": 9.2,
+   "name": "Haga Bistro",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/haga-bistro",
+   "rating": 8.2,
    "tags": [
     "kyckling",
-    "falafel",
-    "bowl"
+    "pizza",
+    "fisk"
    ],
    "estimate": 35,
-   "address": "Rågsvedsvägen 2",
+   "address": "Hagaesplanaden 55C",
    "pos": {
-    "lat": 59.2573905,
-    "lon": 18.0284653
+    "lat": 59.348353,
+    "lon": 18.0341865
    },
-   "seen": "2026-10-05T21:31:43.042Z"
+   "seen": "2026-10-06T19:35:46.373Z"
   },
   {
-   "name": "Liljeholmens Grill",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/liljeholmens-grill",
-   "rating": 7.8,
+   "name": "The Salt Indian Köket & Juice Bar",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/the-salt-indian-kket-juice-bar",
+   "rating": 8,
    "tags": [
-    "grill"
+    "indiskt",
+    "asiatiskt",
+    "vegetarisk"
+   ],
+   "estimate": 35,
+   "address": "Karmstolsvägen 2",
+   "pos": {
+    "lat": 59.2635368,
+    "lon": 18.0784047
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Bella Notte",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/bella-notte-tegelbruksvgen",
+   "rating": 8.6,
+   "tags": [
+    "burger",
+    "europeiskt",
+    "italienskt"
    ],
    "estimate": 30,
-   "address": "Liljeholmstorget 7b",
+   "address": "Tegelbruksvägen 3",
    "pos": {
-    "lat": 59.310003,
-    "lon": 18.021965
+    "lat": 59.3022988,
+    "lon": 18.01396
    },
-   "seen": "2026-10-05T21:31:43.042Z"
+   "seen": "2026-10-06T19:35:46.373Z"
   },
   {
-   "name": "Liljeholmens Hamburgare",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/liljeholmens-hamburgare",
-   "rating": 7.2,
-   "tags": [],
-   "estimate": 30,
-   "address": "Liljeholmstorget 7b",
+   "name": "Vedugnen i Alvik",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/vedugnen",
+   "rating": 8.4,
+   "tags": [
+    "italienskt",
+    "pizza",
+    "sallad"
+   ],
+   "estimate": 40,
+   "address": "Alviksvägen 1",
    "pos": {
-    "lat": 59.3097457,
-    "lon": 18.0218455
+    "lat": 59.332911,
+    "lon": 17.9764625
    },
-   "seen": "2026-10-05T21:31:43.042Z"
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Indian Lotus",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/indian-lotus",
+   "rating": 8.4,
+   "tags": [
+    "asiatiskt",
+    "curry",
+    "indiskt"
+   ],
+   "estimate": 40,
+   "address": "Riksdalervägen 9",
+   "pos": {
+    "lat": 59.2976085,
+    "lon": 17.9843929
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Indio Kitchen",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/indio-kitchen",
+   "rating": 8.4,
+   "tags": [
+    "sushi",
+    "Sashimi",
+    "fisk"
+   ],
+   "estimate": 30,
+   "address": "Kocksgatan 52",
+   "pos": {
+    "lat": 59.3145938,
+    "lon": 18.0833883
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Sando by Bird Söder",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/bird-sder",
+   "rating": 8.6,
+   "tags": [
+    "burger",
+    "kyckling",
+    "fried chicken"
+   ],
+   "estimate": 35,
+   "address": "Renstiernas gata 30",
+   "pos": {
+    "lat": 59.3134079,
+    "lon": 18.0846241
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Meatballs For The People",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/meatballs-for-the-people",
+   "rating": 7.6,
+   "tags": [
+    "europeiskt",
+    "fine-dining",
+    "vegetarisk"
+   ],
+   "estimate": 30,
+   "address": "Nytorgsgatan 30",
+   "pos": {
+    "lat": 59.3145967,
+    "lon": 18.0812583
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Hägersten Pizzeria",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/hgersten-pizzeria",
+   "rating": 6,
+   "tags": [
+    "pizza",
+    "vegetarisk",
+    "vegan"
+   ],
+   "estimate": 40,
+   "address": "Stövargatan 52",
+   "pos": {
+    "lat": 59.2553038,
+    "lon": 18.0315776
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Rasa - Hammarby",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/rasa-hammarby-1",
+   "rating": null,
+   "tags": [
+    "kyckling",
+    "indiskt",
+    "ris"
+   ],
+   "estimate": 35,
+   "pos": {
+    "lat": 59.30913,
+    "lon": 18.1037418
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Thai Bambu - Stockholm",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/thai-bambu-stockholm",
+   "rating": null,
+   "tags": [
+    "asiatiskt",
+    "thai",
+    "wok"
+   ],
+   "estimate": 25,
+   "address": "Ringvägen 127, 116 61, Stockholm, Sweden",
+   "pos": {
+    "lat": 59.3081975,
+    "lon": 18.0777767
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Muskot",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/muskot",
+   "rating": 6.6,
+   "tags": [
+    "kyckling",
+    "indiskt"
+   ],
+   "estimate": 30,
+   "address": "Hornsgatan 92",
+   "pos": {
+    "lat": 59.3178397,
+    "lon": 18.0527514
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Pizzadags",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/pizzadags",
+   "rating": 6.6,
+   "tags": [
+    "pizza",
+    "vegan",
+    "vegetarisk"
+   ],
+   "estimate": 30,
+   "address": "Stövargatan 52",
+   "pos": {
+    "lat": 59.255304,
+    "lon": 18.0315774
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Texas Longhorn Hornstull",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/texas-longhorn-hornstull",
+   "rating": null,
+   "tags": [
+    "steakhouse",
+    "grill",
+    "bbq"
+   ],
+   "estimate": 25,
+   "address": "Verkstadsgatan 3",
+   "pos": {
+    "lat": 59.3175969,
+    "lon": 18.0317137
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Tryffel Restaurang och Bar",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/tryffel-restaurang-och-bar",
+   "rating": null,
+   "tags": [
+    "pizza",
+    "glass",
+    "vegetarisk"
+   ],
+   "estimate": 45,
+   "address": "Porfyrvägen 25, 167 41 Bromma",
+   "pos": {
+    "lat": 59.3364268,
+    "lon": 17.9879136
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Chez Meza",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/chez-meza-org-2",
+   "rating": null,
+   "tags": [
+    "medelhavet",
+    "mellanöstern"
+   ],
+   "estimate": 30,
+   "address": "Gustav III:s Boulevard 16",
+   "pos": {
+    "lat": 59.3690469,
+    "lon": 18.016753
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Al Caminetto",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/al-caminetto",
+   "rating": 7.2,
+   "tags": [
+    "italienskt",
+    "pizza",
+    "pasta"
+   ],
+   "estimate": 35,
+   "address": "Gustavslundsvägen 173",
+   "pos": {
+    "lat": 59.3328654,
+    "lon": 17.9772728
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
   },
   {
    "name": "Tenzo Sushi Odenplan",
@@ -361,75 +1322,143 @@
     "lat": 59.3463457,
     "lon": 18.0402721
    },
-   "seen": "2026-10-05T21:31:43.042Z"
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Marina Tapas",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/marina-tapas",
+   "rating": null,
+   "tags": [
+    "tapas",
+    "spanska",
+    "europeiskt"
+   ],
+   "estimate": 35,
+   "address": "Jan Inghes Torg 10",
+   "pos": {
+    "lat": 59.3086441,
+    "lon": 18.1035118
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Samrat of India",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/samrat-of-india",
+   "rating": 7,
+   "tags": [
+    "indiskt",
+    "ris",
+    "vegetarisk"
+   ],
+   "estimate": 30,
+   "address": "Katarina Bangata 27",
+   "pos": {
+    "lat": 59.3117184,
+    "lon": 18.0792781
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Ghandi Folkungagatan",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/ghandi-folkkungatan",
+   "rating": 7.4,
+   "tags": [
+    "indiskt",
+    "vegetarisk",
+    "skaldjur"
+   ],
+   "estimate": 35,
+   "address": "Folkungagatan 95",
+   "pos": {
+    "lat": 59.31553101,
+    "lon": 18.08287114
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Ramblas Hornstull",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/ramblas-hornstull",
+   "rating": 7,
+   "tags": [
+    "skaldjur",
+    "spanska",
+    "tapas"
+   ],
+   "estimate": 25,
+   "address": "Långholmsgatan 3",
+   "pos": {
+    "lat": 59.3182441,
+    "lon": 18.0326306
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Pizza9 Hagsätra",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/pizza9-hagstra",
+   "rating": 7.8,
+   "tags": [
+    "pizza",
+    "kebab",
+    "italienskt"
+   ],
+   "estimate": 35,
+   "address": "Hagsätra torg 6",
+   "pos": {
+    "lat": 59.2628941,
+    "lon": 18.0135753
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Videogrillen Skarpnäck",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/videogrillen-skarpnack-2",
+   "rating": 6.6,
+   "tags": [
+    "burger",
+    "grill",
+    "hamburgare"
+   ],
+   "estimate": 45,
+   "address": "Skarpnäcks Allé 66",
+   "pos": {
+    "lat": 59.266099,
+    "lon": 18.1331159
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "MAX Stockholm - Hammarby",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/max-hamburgare-hammarby",
+   "rating": 8.2,
+   "tags": [
+    "burger",
+    "efterrätt",
+    "hamburgare"
+   ],
+   "estimate": 30,
+   "address": "Lugnets Allé 22",
+   "pos": {
+    "lat": 59.30212382,
+    "lon": 18.10332298
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
   },
   {
    "name": "McDonald's Götgatan",
    "url": "https://wolt.com/sv/swe/stockholm/restaurant/mcdonalds-gotgatan",
-   "rating": 7.2,
-   "tags": [
-    "burger",
-    "fried chicken",
-    "hamburgare"
-   ],
-   "estimate": 20,
-   "address": "Götgatan 91",
-   "pos": {
-    "lat": 59.309073,
-    "lon": 18.076607
-   },
-   "seen": "2026-10-05T21:31:43.042Z"
-  },
-  {
-   "name": "McDonald's Västberga",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/mcdonalds-vstberga",
-   "rating": 7.6,
+   "rating": 7,
    "tags": [
     "burger",
     "fried chicken",
     "hamburgare"
    ],
    "estimate": 25,
-   "address": "Kontrollvägen 17",
+   "address": "Götgatan 91",
    "pos": {
-    "lat": 59.293113,
-    "lon": 18.001191
+    "lat": 59.309073,
+    "lon": 18.076607
    },
-   "seen": "2026-10-05T21:31:43.042Z"
-  },
-  {
-   "name": "MAX Stockholm - Sergels Torg",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/max-stockholm-sergels-torg",
-   "rating": 5.8,
-   "tags": [
-    "burger",
-    "efterrätt",
-    "hamburgare"
-   ],
-   "estimate": 45,
-   "address": "Sergelgatan 1",
-   "pos": {
-    "lat": 59.332497,
-    "lon": 18.064216
-   },
-   "seen": "2026-10-05T21:31:43.042Z"
-  },
-  {
-   "name": "MAX Stockholm - Sköndal",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/max-stockholm-skndal",
-   "rating": 8,
-   "tags": [
-    "burger",
-    "efterrätt",
-    "hamburgare"
-   ],
-   "estimate": 35,
-   "address": "Sköndalsvägen 3",
-   "pos": {
-    "lat": 59.260222,
-    "lon": 18.103372
-   },
-   "seen": "2026-10-05T21:31:43.042Z"
+   "seen": "2026-10-06T19:35:46.373Z"
   },
   {
    "name": "MAX Stockholm - Rågsved",
@@ -446,75 +1475,74 @@
     "lat": 59.257302,
     "lon": 18.016071
    },
-   "seen": "2026-10-05T21:31:43.042Z"
+   "seen": "2026-10-06T19:35:46.373Z"
   },
   {
-   "name": "McDonald's Folkungagatan",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/mcdonalds-folkkungagatan",
-   "rating": 7.2,
+   "name": "McDonald's Västberga",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/mcdonalds-vstberga",
+   "rating": 7.6,
    "tags": [
     "burger",
     "fried chicken",
     "hamburgare"
    ],
-   "estimate": 25,
-   "address": "Folkkungagatan 50",
+   "estimate": 20,
+   "address": "Kontrollvägen 17",
    "pos": {
-    "lat": 59.31414396,
-    "lon": 18.07414055
+    "lat": 59.293113,
+    "lon": 18.001191
    },
-   "seen": "2026-10-05T21:31:43.042Z"
+   "seen": "2026-10-06T19:35:46.373Z"
   },
   {
-   "name": "McDonald's Älvsjö",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/mcdonalds-lvsj",
-   "rating": 7.4,
+   "name": "MAX Stockholm - Sergels Torg",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/max-stockholm-sergels-torg",
+   "rating": 6,
    "tags": [
     "burger",
-    "fried chicken",
-    "hamburgare"
-   ],
-   "estimate": 25,
-   "address": "Gamla Huddingevägen 500",
-   "pos": {
-    "lat": 59.27255,
-    "lon": 18.012745
-   },
-   "seen": "2026-10-05T21:31:43.042Z"
-  },
-  {
-   "name": "McDonald's Hornsgatan",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/mcdonalds-hornsgatan",
-   "rating": 7.2,
-   "tags": [
-    "burger",
-    "fried chicken",
-    "hamburgare"
-   ],
-   "estimate": 25,
-   "address": "Hornsgatan 88",
-   "pos": {
-    "lat": 59.31792,
-    "lon": 18.053803
-   },
-   "seen": "2026-10-05T21:31:43.042Z"
-  },
-  {
-   "name": "McDonald's Sköndal",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/mcdonalds-skndal",
-   "rating": 7.2,
-   "tags": [
-    "burger",
-    "fried chicken",
+    "efterrätt",
     "hamburgare"
    ],
    "estimate": 30,
-   "address": "Bogårdsvägen 30",
+   "address": "Sergelgatan 1",
    "pos": {
-    "lat": 59.2624733,
-    "lon": 18.1002504
+    "lat": 59.332497,
+    "lon": 18.064216
    },
-   "seen": "2026-10-05T21:31:43.042Z"
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Burger King Medborgarplatsen",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/burger-king-medborgarplatsen",
+   "rating": 8,
+   "tags": [
+    "burger",
+    "hamburgare"
+   ],
+   "estimate": 25,
+   "address": "Medborgarplatsen 9",
+   "pos": {
+    "lat": 59.3150634,
+    "lon": 18.0708378
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Mae Thai Mariatorget",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/mae-thai-mariatorget-1",
+   "rating": 7.4,
+   "tags": [
+    "asiatiskt",
+    "nudlar",
+    "thai"
+   ],
+   "estimate": 25,
+   "address": "Hornsgatan 31b",
+   "pos": {
+    "lat": 59.3186862,
+    "lon": 18.0624013
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
   },
   {
    "name": "McDonald's Liljeholmstorget",
@@ -531,7 +1559,92 @@
     "lat": 59.310336,
     "lon": 18.023125
    },
-   "seen": "2026-10-05T21:31:43.042Z"
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "MAX Stockholm - Sköndal",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/max-stockholm-skndal",
+   "rating": 8,
+   "tags": [
+    "burger",
+    "efterrätt",
+    "hamburgare"
+   ],
+   "estimate": 30,
+   "address": "Sköndalsvägen 3",
+   "pos": {
+    "lat": 59.260222,
+    "lon": 18.103372
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "Bastard Burgers Hötorget",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/bastard-burgers-htorget",
+   "rating": 7.8,
+   "tags": [
+    "amerikansk",
+    "bbq",
+    "burger"
+   ],
+   "estimate": 30,
+   "address": "Hötorget 2",
+   "pos": {
+    "lat": 59.334754,
+    "lon": 18.063708
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "McDonald's Folkungagatan",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/mcdonalds-folkkungagatan",
+   "rating": 7.2,
+   "tags": [
+    "burger",
+    "fried chicken",
+    "hamburgare"
+   ],
+   "estimate": 25,
+   "address": "Folkkungagatan 50",
+   "pos": {
+    "lat": 59.31414396,
+    "lon": 18.07414055
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "McDonald's Älvsjö",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/mcdonalds-lvsj",
+   "rating": 7.4,
+   "tags": [
+    "burger",
+    "fried chicken",
+    "hamburgare"
+   ],
+   "estimate": 25,
+   "address": "Gamla Huddingevägen 500",
+   "pos": {
+    "lat": 59.27255,
+    "lon": 18.012745
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "McDonald's Hornsgatan",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/mcdonalds-hornsgatan",
+   "rating": 7.2,
+   "tags": [
+    "burger",
+    "fried chicken",
+    "hamburgare"
+   ],
+   "estimate": 25,
+   "address": "Hornsgatan 88",
+   "pos": {
+    "lat": 59.31792,
+    "lon": 18.053803
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
   },
   {
    "name": "Burger King Odenplan",
@@ -547,7 +1660,109 @@
     "lat": 59.34322171,
     "lon": 18.05133104
    },
-   "seen": "2026-10-05T21:31:43.042Z"
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "McDonald's Sköndal",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/mcdonalds-skndal",
+   "rating": 7.2,
+   "tags": [
+    "burger",
+    "fried chicken",
+    "hamburgare"
+   ],
+   "estimate": 25,
+   "address": "Bogårdsvägen 30",
+   "pos": {
+    "lat": 59.2624733,
+    "lon": 18.1002504
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "McDonald's Torsplan",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/mcdonads-torsplan",
+   "rating": 6.8,
+   "tags": [
+    "burger",
+    "fried chicken",
+    "hamburgare"
+   ],
+   "estimate": 30,
+   "address": "Solnavägen 1A",
+   "pos": {
+    "lat": 59.346313,
+    "lon": 18.032548
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "McDonald's Brommaplan",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/mcdonalds-brommaplan",
+   "rating": 8.2,
+   "tags": [
+    "burger",
+    "fried chicken",
+    "hamburgare"
+   ],
+   "estimate": 35,
+   "address": "Tunnlandet 2",
+   "pos": {
+    "lat": 59.338775,
+    "lon": 17.938482
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "McDonald's Hötorget",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/mcdonalds-hotorget",
+   "rating": 7,
+   "tags": [
+    "burger",
+    "fried chicken",
+    "hamburgare"
+   ],
+   "estimate": 30,
+   "address": "Kungsgatan 50",
+   "pos": {
+    "lat": 59.3351022,
+    "lon": 18.0609767
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "McDonald's St Eriksgatan",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/mcdonalds-steriksgatan",
+   "rating": 7.2,
+   "tags": [
+    "burger",
+    "fried chicken",
+    "hamburgare"
+   ],
+   "estimate": 25,
+   "address": "St Eriksgatan 32",
+   "pos": {
+    "lat": 59.333541,
+    "lon": 18.0321
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
+  },
+  {
+   "name": "McDonald's Karlaplan",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/mcdonalds-karlaplan",
+   "rating": 7.8,
+   "tags": [
+    "burger",
+    "fried chicken",
+    "hamburgare"
+   ],
+   "estimate": 30,
+   "address": "Karlaplan 13",
+   "pos": {
+    "lat": 59.339098,
+    "lon": 18.090436
+   },
+   "seen": "2026-10-06T19:35:46.373Z"
   },
   {
    "name": "McDonald's Sveavägen",
@@ -564,39 +1779,22 @@
     "lat": 59.34329175,
     "lon": 18.05576205
    },
-   "seen": "2026-10-05T21:31:43.042Z"
+   "seen": "2026-10-06T19:35:46.373Z"
   },
   {
-   "name": "McDonald's St Eriksgatan",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/mcdonalds-steriksgatan",
-   "rating": 7.2,
+   "name": "Donna Bella",
+   "url": "https://wolt.com/sv/swe/stockholm/restaurant/donna-bella",
+   "rating": 8.4,
    "tags": [
-    "burger",
-    "fried chicken",
-    "hamburgare"
+    "pasta",
+    "pizza",
+    "sallad"
    ],
    "estimate": 30,
-   "address": "St Eriksgatan 32",
+   "address": "Fruängsgången 7",
    "pos": {
-    "lat": 59.333541,
-    "lon": 18.0321
-   },
-   "seen": "2026-10-05T21:31:43.042Z"
-  },
-  {
-   "name": "McDonald's Torsplan",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/mcdonads-torsplan",
-   "rating": 6.8,
-   "tags": [
-    "burger",
-    "fried chicken",
-    "hamburgare"
-   ],
-   "estimate": 35,
-   "address": "Solnavägen 1A",
-   "pos": {
-    "lat": 59.346313,
-    "lon": 18.032548
+    "lat": 59.2853937,
+    "lon": 17.9631207
    },
    "seen": "2026-10-05T21:31:43.042Z"
   },
@@ -617,69 +1815,6 @@
    }
   },
   {
-   "name": "Burger King Medborgarplatsen",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/burger-king-medborgarplatsen",
-   "rating": 8,
-   "tags": [
-    "burger",
-    "hamburgare"
-   ],
-   "estimate": 30,
-   "address": "Medborgarplatsen 9",
-   "pos": {
-    "lat": 59.3150634,
-    "lon": 18.0708378
-   }
-  },
-  {
-   "name": "Högdalens Pizzeria & Thai Wok",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/hgdalens-pizzeria-thai-wok",
-   "rating": 4.6,
-   "tags": [
-    "hamburgare",
-    "italienskt",
-    "kebab"
-   ],
-   "estimate": 50,
-   "address": "Stallarholmsvägen 24",
-   "pos": {
-    "lat": 59.2614955,
-    "lon": 18.057741
-   }
-  },
-  {
-   "name": "Grekisk Fastfood",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/grekisk-fastfood",
-   "rating": 7.8,
-   "tags": [
-    "grekisk",
-    "mellanöstern",
-    "kebab"
-   ],
-   "estimate": 25,
-   "address": "Medborgarplatsen 29",
-   "pos": {
-    "lat": 59.315078,
-    "lon": 18.072505
-   }
-  },
-  {
-   "name": "Stuvsta Pizzeria & Thai Wok",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/stuvsta-pizzeria-thai-wok",
-   "rating": 7,
-   "tags": [
-    "kebab",
-    "pizza",
-    "thai"
-   ],
-   "estimate": 50,
-   "address": "Stationsvägen 27, 141 40",
-   "pos": {
-    "lat": 59.250284,
-    "lon": 17.9981388
-   }
-  },
-  {
    "name": "Alviksgrillen",
    "url": "https://wolt.com/sv/swe/stockholm/restaurant/alviksgrillen",
    "rating": 8,
@@ -693,38 +1828,6 @@
    "pos": {
     "lat": 59.3329282,
     "lon": 17.9793691
-   }
-  },
-  {
-   "name": "McDonald's Hötorget",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/mcdonalds-hotorget",
-   "rating": 7,
-   "tags": [
-    "burger",
-    "fried chicken",
-    "hamburgare"
-   ],
-   "estimate": 35,
-   "address": "Kungsgatan 50",
-   "pos": {
-    "lat": 59.3351022,
-    "lon": 18.0609767
-   }
-  },
-  {
-   "name": "McDonald's Brommaplan",
-   "url": "https://wolt.com/sv/swe/stockholm/restaurant/mcdonalds-brommaplan",
-   "rating": 8.2,
-   "tags": [
-    "burger",
-    "fried chicken",
-    "hamburgare"
-   ],
-   "estimate": 40,
-   "address": "Tunnlandet 2",
-   "pos": {
-    "lat": 59.338775,
-    "lon": 17.938482
    }
   }
  ]
