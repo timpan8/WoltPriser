@@ -239,8 +239,8 @@
   "rating": 3.4,
   "count": 1383,
   "maps": "https://maps.google.com/?cid=17507829723877556519&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
-  "at": "2026-10-03T23:38:30.827Z",
-  "v": 2
+  "at": "2026-10-07T20:01:37.951Z",
+  "v": 3
  },
  "https://wolt.com/sv/swe/stockholm/restaurant/pizzeria-tropicana": {
   "id": "ChIJW6EXflh2X0YR5t72k_2sdQ8",
@@ -269,8 +269,8 @@
  },
  "https://wolt.com/sv/swe/stockholm/restaurant/hgdalens-pizzeria-thai-wok": {
   "miss": true,
-  "at": "2026-10-03T23:38:30.827Z",
-  "v": 2
+  "at": "2026-10-07T20:01:37.951Z",
+  "v": 3
  },
  "https://wolt.com/sv/swe/stockholm/restaurant/grekisk-fastfood": {
   "id": "ChIJrbccjvp3X0YRgciUyBB27q4",
@@ -278,8 +278,8 @@
   "rating": 3.7,
   "count": 142,
   "maps": "https://maps.google.com/?cid=12605142221513345153&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
-  "at": "2026-10-03T23:38:30.827Z",
-  "v": 2
+  "at": "2026-10-07T20:01:37.951Z",
+  "v": 3
  },
  "https://wolt.com/sv/swe/stockholm/restaurant/stuvsta-pizzeria-thai-wok": {
   "id": "ChIJl4C3MTZ3X0YRmyLynja6uOw",
@@ -287,8 +287,8 @@
   "rating": 3.3,
   "count": 338,
   "maps": "https://maps.google.com/?cid=17057588332423422619&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
-  "at": "2026-10-03T23:38:30.827Z",
-  "v": 2
+  "at": "2026-10-07T20:01:37.951Z",
+  "v": 3
  },
  "https://wolt.com/sv/swe/stockholm/restaurant/slice-smash-stockholm": {
   "id": "ChIJ3a2sSB93X0YR0OM0TCXMF2E",
@@ -438,19 +438,19 @@
   "id": "ChIJXRy4aWedX0YRG3gv9r8CkAc",
   "name": "McDonald's Hötorget",
   "rating": 3.5,
-  "count": 3627,
+  "count": 3629,
   "maps": "https://maps.google.com/?cid=544938578404145179&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
-  "at": "2026-10-03T23:38:30.827Z",
-  "v": 2
+  "at": "2026-10-07T20:01:37.951Z",
+  "v": 3
  },
  "https://wolt.com/sv/swe/stockholm/restaurant/mcdonalds-brommaplan": {
   "id": "ChIJnz3G4P11X0YRwyGjLBVgtDE",
   "name": "McDonald's",
   "rating": 2.8,
-  "count": 1392,
+  "count": 1395,
   "maps": "https://maps.google.com/?cid=3581593247725855171&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
-  "at": "2026-10-03T23:38:30.827Z",
-  "v": 2
+  "at": "2026-10-07T20:01:37.951Z",
+  "v": 3
  },
  "https://wolt.com/sv/swe/stockholm/restaurant/brod-salt-skanstull": {
   "id": "ChIJ4Y2JG2R3X0YRcYg8kTDxAww",
@@ -1059,6 +1059,47 @@
   "count": 1223,
   "maps": "https://maps.google.com/?cid=10094419536943536920&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
   "at": "2026-10-06T19:35:53.710Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/home-food-south": {
+  "id": "ChIJE7Jmifd3X0YR-SoniTztKwM",
+  "name": "HOME FOOD",
+  "rating": 4.4,
+  "count": 176,
+  "maps": "https://maps.google.com/?cid=228537050367208185&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-07T20:01:37.951Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/deglabbet-sodermalm": {
+  "id": "ChIJZzlPJNV3X0YRNmm8jlbexdE",
+  "name": "Deglabbet Södermalm",
+  "rating": 4.6,
+  "count": 176,
+  "maps": "https://maps.google.com/?cid=15115732187682203958&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-07T20:01:37.951Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/the-meeting": {
+  "miss": true,
+  "at": "2026-10-07T20:01:37.951Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/marino-pizzria": {
+  "id": "ChIJ-YBGjdV3X0YR7EM9sfM6lNk",
+  "name": "MARINO Mälarhöjden",
+  "rating": 4.2,
+  "count": 73,
+  "maps": "https://maps.google.com/?cid=15678221021108585452&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-07T20:01:37.951Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/texas-longhorn-st-paulsgatan": {
+  "id": "ChIJB_OMw-R3X0YR01kbnoowc3w",
+  "name": "Texas Longhorn",
+  "rating": 4.3,
+  "count": 722,
+  "maps": "https://maps.google.com/?cid=8967564654941002195&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-07T20:01:37.951Z",
   "v": 3
  }
 }
