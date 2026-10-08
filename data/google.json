@@ -1101,5 +1101,14 @@
   "maps": "https://maps.google.com/?cid=8967564654941002195&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
   "at": "2026-10-07T20:01:37.951Z",
   "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/sultanens-dner-kebab": {
+  "id": "ChIJlxy3YJ93X0YRnR5F78OyxF8",
+  "name": "Sultanens Döner Kebab skanstull",
+  "rating": 4.9,
+  "count": 208,
+  "maps": "https://maps.google.com/?cid=6900837083641093789&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-08T20:00:54.626Z",
+  "v": 3
  }
 }
