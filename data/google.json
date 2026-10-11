@@ -253,10 +253,12 @@
  },
  "https://wolt.com/sv/swe/stockholm/restaurant/downtown-hornstull": {
   "id": "ChIJt1ZuH0B3X0YRZwH0exOt194",
+  "name": "DOWNTOWN Hornstull",
   "rating": 4.6,
-  "count": 84,
-  "maps": "https://maps.google.com/?cid=16057493295608365415&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-  "at": "2026-10-03T23:03:12.400Z"
+  "count": 83,
+  "maps": "https://maps.google.com/?cid=16057493295608365415&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
  },
  "https://wolt.com/sv/swe/stockholm/restaurant/stora-t-kolgrill": {
   "id": "ChIJBzPnrMV3X0YReqWQk_VO9Xk",
@@ -1109,6 +1111,464 @@
   "count": 208,
   "maps": "https://maps.google.com/?cid=6900837083641093789&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
   "at": "2026-10-08T20:00:54.626Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/krubb-telefonplan": {
+  "id": "ChIJzZp8Bu13X0YR2OgzuWhNvXo",
+  "name": "KRUBB Telefonplan",
+  "rating": 4.4,
+  "count": 1521,
+  "maps": "https://maps.google.com/?cid=8844310355404646616&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/bengal-bites": {
+  "id": "ChIJ39TDJBp3X0YR0KlbiwQBfQM",
+  "name": "Bengal Bites - Indisk och Bengalisk Kök",
+  "rating": 4.5,
+  "count": 239,
+  "maps": "https://maps.google.com/?cid=251358273232153040&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/wong-kee": {
+  "id": "ChIJMce7lbh3X0YRC7gVyNCGFxo",
+  "name": "Wong Kee Restaurang",
+  "rating": 3.9,
+  "count": 397,
+  "maps": "https://maps.google.com/?cid=1880119600718657547&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/taco-bar-hammaryby-kaj": {
+  "id": "ChIJXSea9R54X0YRFMSx6a2nUYc",
+  "name": "Taco Bar",
+  "rating": 4.5,
+  "count": 914,
+  "maps": "https://maps.google.com/?cid=9750759033625756692&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/jettz-burger-rsta": {
+  "miss": true,
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/pong-henriksdal": {
+  "id": "ChIJ2x1UzRp4X0YRNZqxNPFHGNg",
+  "name": "PONG Henriksdal",
+  "rating": 4,
+  "count": 1024,
+  "maps": "https://maps.google.com/?cid=15571274812930234933&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/lemon-chili-sthlm": {
+  "id": "ChIJky5JBcV3X0YR4hA6b-WJ8js",
+  "name": "LEMON&CHILI (Wok & Dumpling)",
+  "rating": 4.1,
+  "count": 331,
+  "maps": "https://maps.google.com/?cid=4319666611108319458&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/mgl-sushi-liljeholmen": {
+  "id": "ChIJS96_irh3X0YRjlj3r-1XKQI",
+  "name": "MGL Sushi",
+  "rating": 4.2,
+  "count": 952,
+  "maps": "https://maps.google.com/?cid=155752340492081294&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/le-kebab-sdermalm": {
+  "id": "ChIJObD-CsZ3X0YRbUTAbuwuIMo",
+  "name": "Le Kebab Södermalm",
+  "rating": 4.1,
+  "count": 253,
+  "maps": "https://maps.google.com/?cid=14564692787921437805&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/din-din-club-liljeholmen": {
+  "id": "ChIJ0XHGw_53X0YRapKAFnKRF6M",
+  "name": "DIN-DIN CLUB LILJEHOLMEN",
+  "rating": 4.2,
+  "count": 213,
+  "maps": "https://maps.google.com/?cid=11752021671836422762&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/magic-masala": {
+  "id": "ChIJ-zJ2Dtl3X0YR8WD5m8p-ACE",
+  "name": "Magic Masala",
+  "rating": 4.6,
+  "count": 340,
+  "maps": "https://maps.google.com/?cid=2378040011916927217&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/restaurang-china1": {
+  "id": "ChIJI8S3h_Z3X0YRsdlaNGLqqls",
+  "name": "China!",
+  "rating": 4.2,
+  "count": 1634,
+  "maps": "https://maps.google.com/?cid=6605349510998317489&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/la-neta-sder": {
+  "id": "ChIJXb6yU_p3X0YRPF1IIPDoEoU",
+  "name": "La Neta",
+  "rating": 4.3,
+  "count": 3140,
+  "maps": "https://maps.google.com/?cid=9588982674656615740&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/rockin-grill-hammarby-sjstad": {
+  "id": "ChIJh1C0j1V5X0YRV9bMKFeuwAk",
+  "name": "Rockin Grill Hammarby Kaj",
+  "rating": 4,
+  "count": 573,
+  "maps": "https://maps.google.com/?cid=702753231239698007&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/pino-pizzeria": {
+  "id": "ChIJQ0SMiLB3X0YR5VhmZbDlZ0M",
+  "name": "Pizzeria Pino",
+  "rating": 4.1,
+  "count": 362,
+  "maps": "https://maps.google.com/?cid=4857103268920580325&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/enskede-thai-sushi": {
+  "id": "ChIJvRpOOsF5X0YRLJhd0EQ4g18",
+  "name": "Enskede Thai",
+  "rating": 4.1,
+  "count": 244,
+  "maps": "https://maps.google.com/?cid=6882406523756976172&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/pizzabagaren-telefonplan": {
+  "id": "ChIJ_enrAbB3X0YR_e5hmtKLOIw",
+  "name": "Pizzabagaren Telefonplan",
+  "rating": 3.5,
+  "count": 186,
+  "maps": "https://maps.google.com/?cid=10103979500655210237&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/enkai": {
+  "id": "ChIJEaKXC3N3X0YRRrgJkp9LWmA",
+  "name": "Enkai",
+  "rating": 4.6,
+  "count": 311,
+  "maps": "https://maps.google.com/?cid=6942944924267034694&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/laghman-master": {
+  "id": "ChIJuaIttp13X0YRXiE1ij0Wkdg",
+  "name": "Laghman Master Uyghur Restaurang - Södermalm",
+  "rating": 4.8,
+  "count": 524,
+  "maps": "https://maps.google.com/?cid=15605278637383033182&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/falloumis": {
+  "id": "ChIJzcfMj_Z3X0YRrDsuoRcvRko",
+  "name": "Falloumi",
+  "rating": 4.5,
+  "count": 1381,
+  "maps": "https://maps.google.com/?cid=5352016985711328172&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/lokanta-kolgrill-meze": {
+  "id": "ChIJnRZp6P53X0YR4yA7yc47FRg",
+  "name": "Lokanta Kolgrill & Meze",
+  "rating": 4.5,
+  "count": 208,
+  "maps": "https://maps.google.com/?cid=1735358990746591459&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/tellus-pizza": {
+  "id": "ChIJGzTbg7F3X0YRS-0ds-qjSMs",
+  "name": "Tellus Pizza",
+  "rating": 4.3,
+  "count": 774,
+  "maps": "https://maps.google.com/?cid=14648138016445295947&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/tbilisis-hrna": {
+  "id": "ChIJ923QPCJ4X0YR3CdwE8WrTJc",
+  "name": "Tbilisis Hörna",
+  "rating": 4.3,
+  "count": 1799,
+  "maps": "https://maps.google.com/?cid=10902277660880152540&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/pizzeria-langbro": {
+  "miss": true,
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/thongwiset": {
+  "id": "ChIJs4PNUQB3X0YRnSJOQeVEIlw",
+  "name": "Thongwiset Folkungagatan",
+  "rating": 4.8,
+  "count": 26,
+  "maps": "https://maps.google.com/?cid=6638944552131371677&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/grndal-sushi": {
+  "miss": true,
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/pizzeria-lorena-stockholm": {
+  "id": "ChIJs1qx0sR3X0YRr0vVoeFTavY",
+  "name": "Pizzeria Lorena",
+  "rating": 4,
+  "count": 136,
+  "maps": "https://maps.google.com/?cid=17756096709409459119&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/lets-eat-sushi": {
+  "id": "ChIJw11i7E13X0YRA93jA7iP0mQ",
+  "name": "Let's eat sushi - Liljeholmen",
+  "rating": 4.5,
+  "count": 71,
+  "maps": "https://maps.google.com/?cid=7265027169404050691&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/presto-grillen-vastberga": {
+  "id": "ChIJJ0C-ZQJ3X0YR26bytEXhyNU",
+  "name": "Presto Grillen Västberga",
+  "rating": 4.8,
+  "count": 31,
+  "maps": "https://maps.google.com/?cid=15404810214925575899&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/mums-burgers": {
+  "id": "ChIJxdiLorl3X0YRWLGpocAqaWg",
+  "name": "Mums Burgers",
+  "rating": 4.3,
+  "count": 239,
+  "maps": "https://maps.google.com/?cid=7523591659333464408&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/pizzeria-fratelloo": {
+  "id": "ChIJK2zfX8Z5X0YRsndi0KF96VY",
+  "name": "Pizzeria Fratello",
+  "rating": 3.7,
+  "count": 312,
+  "maps": "https://maps.google.com/?cid=6262674890774706098&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/pizzeria-sorrento-sthlm": {
+  "id": "ChIJRVoCdVh2X0YRE37nEUes7Kw",
+  "name": "Pizzeria Sorrento - Pizzeria Hägersten",
+  "rating": 3.7,
+  "count": 340,
+  "maps": "https://maps.google.com/?cid=12460523690270359059&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/noshi-sushi-wok-stlm": {
+  "id": "ChIJl0-IR7l5X0YRjvpff5mFoCQ",
+  "name": "Noshi Sushi Wok",
+  "rating": 4.8,
+  "count": 141,
+  "maps": "https://maps.google.com/?cid=2639256275952597646&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/bistro-vincent": {
+  "miss": true,
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/lax-and-sushi-pok": {
+  "id": "ChIJATvdpCt5X0YR-u7lqcvd5e8",
+  "name": "LAX - Sushi And Poké - Hammarby",
+  "rating": 4.2,
+  "count": 122,
+  "maps": "https://maps.google.com/?cid=17286466611530034938&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/pizzeria-spader-dam": {
+  "id": "ChIJA_BWC0yi7EMR8PiMaD8WdcE",
+  "name": "Spader Dam",
+  "rating": 3.9,
+  "count": 286,
+  "maps": "https://maps.google.com/?cid=13940072683188058352&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/happy-india": {
+  "id": "ChIJjSYgxOV3X0YRTyXcZYWHy3Y",
+  "name": "Happy India",
+  "rating": 3.9,
+  "count": 406,
+  "maps": "https://maps.google.com/?cid=8560084523757086031&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/la-pallas": {
+  "id": "ChIJJaSwsul5X0YROAaIDOVNK5Y",
+  "name": "La Pallas - Pizzeria Hammarby Sjöstad",
+  "rating": 4.5,
+  "count": 116,
+  "maps": "https://maps.google.com/?cid=10820828175840839224&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/nytorpet": {
+  "id": "ChIJ49SWZjh4X0YRHEhkxC8ysjA",
+  "name": "Nytorpet Bar & Bistro",
+  "rating": 4.4,
+  "count": 669,
+  "maps": "https://maps.google.com/?cid=3508922240414795804&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/ipin": {
+  "id": "ChIJd49tS8V3X0YRWTx-FTtoPNY",
+  "name": "IPIN",
+  "rating": 4.4,
+  "count": 85,
+  "maps": "https://maps.google.com/?cid=15437328225692171353&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/corella-persisk": {
+  "id": "ChIJoSHuvkx5X0YRU7Rbt7JEdoQ",
+  "name": "Corella Nacka",
+  "rating": 3.8,
+  "count": 78,
+  "maps": "https://maps.google.com/?cid=9544891994629452883&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/pattaya-restaurang": {
+  "id": "ChIJydMDqYZ5X0YR3QA-mUiH-Tc",
+  "name": "Pattaya Bar & Restaurang i Tallkrogen",
+  "rating": 4.4,
+  "count": 176,
+  "maps": "https://maps.google.com/?cid=4033403687165362397&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/chamin-gril": {
+  "id": "ChIJGQZlOnN3X0YRyEZ0Iadiphc",
+  "name": "Chamsin Grill",
+  "rating": 4.6,
+  "count": 558,
+  "maps": "https://maps.google.com/?cid=1704157978966640328&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/vegan-tasty-sthlm": {
+  "miss": true,
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/hokis-grill-kebab-2": {
+  "id": "ChIJeyNcJ8F5X0YR1epBgpnQbDw",
+  "name": "HÖKIS GRILL KEBAB",
+  "rating": 3.9,
+  "count": 78,
+  "maps": "https://maps.google.com/?cid=4354084297494358741&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/dalens-pizzeria": {
+  "id": "ChIJE1vAnjl4X0YRnjoSR5buss0",
+  "name": "Dalens Pizzeria",
+  "rating": 3.7,
+  "count": 292,
+  "maps": "https://maps.google.com/?cid=14822171652834605726&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/fast-tasty-sthlm": {
+  "miss": true,
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/globen-express": {
+  "miss": true,
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/mae-thai-gtgatan": {
+  "id": "ChIJQyCAz_Z3X0YRVzDARcQQx4U",
+  "name": "Mae Thai Skanstull",
+  "rating": 4.4,
+  "count": 1323,
+  "maps": "https://maps.google.com/?cid=9639691962579693655&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/sushi-yama-sl": {
+  "id": "ChIJVzhvHvF3X0YRbwfYrXg31bg",
+  "name": "Sushi Yama",
+  "rating": 3.1,
+  "count": 84,
+  "maps": "https://maps.google.com/?cid=13318612464470329199&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/shanti-classic": {
+  "id": "ChIJAcNCwfd3X0YRsfnoHF7CiOg",
+  "name": "Shanti Classic",
+  "rating": 4,
+  "count": 1124,
+  "maps": "https://maps.google.com/?cid=16755856123099675057&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/pizzeria-il-secondo": {
+  "id": "ChIJ_UmZpHt4X0YRlIkXZkZMNgI",
+  "name": "Pizzeria Il Secondo Nacka",
+  "rating": 3.3,
+  "count": 144,
+  "maps": "https://maps.google.com/?cid=159398702062471572&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/mcdonalds-karlaplan": {
+  "id": "ChIJQZBrVE6dX0YRD3b_ox4ya_Y",
+  "name": "McDonald's Karlaplan",
+  "rating": 3.5,
+  "count": 2022,
+  "maps": "https://maps.google.com/?cid=17756341063020148239&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
+  "v": 3
+ },
+ "https://wolt.com/sv/swe/stockholm/restaurant/corella-nacka": {
+  "id": "ChIJoSHuvkx5X0YRU7Rbt7JEdoQ",
+  "name": "Corella Nacka",
+  "rating": 3.8,
+  "count": 78,
+  "maps": "https://maps.google.com/?cid=9544891994629452883&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "at": "2026-10-11T19:11:07.886Z",
   "v": 3
  }
 }
