@@ -138,7 +138,7 @@ test('course: bakeries, dessert shops, drinks in generic categories and kids men
  // Frukost & mackor: pannkakor, croissant med pålägg, ostfralla, bagel i paket.
  for(const [n,k] of [['Amerikanska pannkakor bacon & sirap','Utvalt åt dig'],['Croissant Ost & Kalkon','Varm Mat'],['Ostfralla','Övriga Rätter'],['Bagel Combo','Paket']])assert.equal(c(n,k),'frukost',n);
  // Barn: Bamse och Kid's Menu.
- assert.equal(c('Skalmans Pannkakor Meny','Bamsepåsen',7500),'barn');assert.equal(c("Kid's Lasagne","Kid's Menu",14900),'barn');
+ assert.equal(c('Skalmans Pannkakor Meny','Bamsepåsen',7500),'barn');assert.equal(c("Kid's Lasagne","Kid's Menu",14900),'barn');assert.equal(c('Bambino (Barnpizza)','Pizza',13000),'barn');
 });
 test('course: café chains (focaccia, fika combo, matcha, hot chocolate, bread rolls)',()=>{
  const c=(name,category,price=5000)=>course({name,category,price,originalPrice:price});

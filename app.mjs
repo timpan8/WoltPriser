@@ -137,16 +137,19 @@ function render(){
  // Vid lika: dina restauranger först, sedan högst betyg (avgör vilken restaurang som visas när dubbletter slås ihop).
  const tie=(a,b)=>Number(mineUrls.has(b.s.url))-Number(mineUrls.has(a.s.url))||(ratingOf(b.s.url)??0)-(ratingOf(a.s.url)??0);
  const byDeal=(a,b)=>b.deal.level-a.deal.level||b.deal.save-a.deal.save||b.deal.pct-a.deal.pct||a.price-b.price||tie(a,b),perL=r=>r.item.ml?cmp(r)/r.item.ml:Infinity;
- // Betygssortering: högst först, restauranger utan betyg sist. Mest för pengarna: betyget (tioskala) minus 2 poäng per
+ // Betygssortering: högst först, restauranger utan betyg sist. Mest för pengarna: betyget (tioskala) minus 1,5 poäng per
  // fördubbling av priset jämfört med medianen för liknande rätter (samma snabbfilter, annars samma flik), så att en
- // pizza jämförs med pizzor och inte med en läsk. Kostar rätten ordinarie under halva medianen är den troligen en mindre
- // portion (en sushibit, en liten burgare) och får ingen prisbonus; kampanjpris på en vanlig rätt räknas fullt (ner till halva
- // medianen). Rätter under 15 kr och rätter utan betyg hamnar sist.
+ // pizza jämförs med pizzor och inte med en läsk. Drycker med känd volym jämförs per liter (en burk mot andra burkar och
+ // flaskor). Kostar rätten ordinarie under halva flikens median är den en mindre portion (korv med bröd, en sushibit) och
+ // får 1 poängs avdrag i stället för prisbonus; kampanjpris på en vanlig rätt räknas fullt (ner till halva medianen).
+ // Rätter under 15 kr och rätter utan betyg hamnar sist.
  const byR=f=>(a,b)=>(f(b.s.url)??-1)-(f(a.s.url)??-1)||cmp(a)-cmp(b)||tie(a,b);let value=null;
  if(mode==='value'){const pool=COURSES.some(([k])=>k===current)?pre.filter(r=>r.course===current):sorted,groups=new Map(),med=a=>{a.sort((x,y)=>x-y);return a[a.length>>1];};
-  for(const r of pool)for(const k of [r.item.subs[0]||'',r.course]){if(!groups.has(k))groups.set(k,[]);groups.get(k).push(cmp(r));}
-  const meds=new Map([...groups].map(([k,g])=>[k,{n:g.length,m:med(g)}])),ref=r=>{const g=r.item.subs[0]&&meds.get(r.item.subs[0]);return g&&g.n>=5?g.m:meds.get(r.course)?.m??cmp(r);},cache=new Map();
-  value=r=>{if(!cache.has(r)){const q=avgR(r.s.url);const m=Math.max(ref(r),1),small=r.item.originalPrice/m<0.5;cache.set(r,q==null||cmp(r)<1500?-Infinity:q-(small?0:2*Math.log2(Math.min(3,Math.max(0.5,cmp(r)/m)))));}return cache.get(r);};}
+  const perLiter=r=>r.course==='dryck'&&r.item.ml>0,unit=r=>perLiter(r)?cmp(r)*1000/r.item.ml:cmp(r),pre_=r=>perLiter(r)?'L:':'';
+  for(const r of pool){const u=unit(r);for(const k of [pre_(r)+(r.item.subs[0]||''),pre_(r)+r.course,'C:'+r.course]){if(!groups.has(k))groups.set(k,[]);groups.get(k).push(k[0]==='C'?r.item.originalPrice:u);}}
+  const meds=new Map([...groups].map(([k,g])=>[k,{n:g.length,m:med(g)}])),ref=r=>{const g=r.item.subs[0]&&meds.get(pre_(r)+r.item.subs[0]);return g&&g.n>=5?g.m:meds.get(pre_(r)+r.course)?.m??unit(r);},cache=new Map();
+  value=r=>{if(!cache.has(r)){const q=avgR(r.s.url),m=Math.max(ref(r),1),cm=meds.get('C:'+r.course)?.m,small=!perLiter(r)&&cm&&r.item.originalPrice/cm<0.5;
+   cache.set(r,q==null||cmp(r)<1500?-Infinity:small?q-1:q-1.5*Math.log2(Math.min(3,Math.max(0.5,unit(r)/m))));}return cache.get(r);};}
  sorted.sort(mode==='value'?(a,b)=>value(b)-value(a)||(avgR(b.s.url)??0)-(avgR(a.s.url)??0)||cmp(a)-cmp(b):mode==='rating'?byR(avgR):mode==='google'?byR(googR):mode==='wolt'?byR(woltR):mode==='name'?(a,b)=>a.s.name.localeCompare(b.s.name,'sv')||cmp(a)-cmp(b):mode==='price'?(a,b)=>cmp(a)-cmp(b)||tie(a,b):mode==='minorder'?(a,b)=>minGap(a.price,minOf(a))-minGap(b.price,minOf(b))||cmp(a)-cmp(b)||tie(a,b):mode==='liter'?(a,b)=>perL(a)-perL(b)||cmp(a)-cmp(b)||tie(a,b):byDeal);
  // Öppna restauranger före stängda (utom vid sortering på pris, namn och literpris). Bland erbjudandena får varje restaurang
  // högst två rätter innan nästa restaurang får plats (inom samma erbjudandenivå), så att en restaurang inte fyller listan.
