@@ -8,7 +8,7 @@ import {loadHistory,loadVenues,loadMember,saveSnapshots,loadCompare,saveCompare,
 import {scrapeAll,scrapeUberEats,isDue,unusualDeals,scrapeList,mergeDiscovered,DEFAULT_POS} from '../lib/scrape.mjs';
 import {defaultSource} from '../lib/sources/index.mjs';
 import {UBEREATS} from '../lib/foodora.mjs';
-import {money} from '../lib/prices.mjs';
+import {money,validateBatch} from '../lib/prices.mjs';
 import {updateGoogle,checkGoogle} from '../lib/sources/google.mjs';
 import {placeFromSearch,slugFromUrl} from '../lib/sources/wolt.mjs';
 
@@ -39,7 +39,9 @@ if(!venues.length){console.error('Inga restauranger att läsa.');process.exit(1)
 
 console.log(`Läser ${venues.length} restauranger…`);
 const member=await loadMember(root);
-const {ok,failed}=await scrapeAll({venues,history,member,lat,lon,concurrency:Number(process.env.SCRAPE_CONCURRENCY||2),log:m=>console.log('  '+m)});
+const scraped=await scrapeAll({venues,history,member,lat,lon,concurrency:Number(process.env.SCRAPE_CONCURRENCY||2),log:m=>console.log('  '+m)});
+// Varje restaurang valideras för sig: en ogiltig meny räknas som misslyckad (gamla data behålls) i stället för att stoppa hela sparandet.
+const failed=[...scraped.failed],ok=scraped.ok.filter(r=>{try{validateBatch({snapshots:[r.snapshot]});return true;}catch(e){failed.push({venue:r.venue,error:`ogiltig avläsning (${e.message})`});return false;}});
 
 // Uber Eats för samma restauranger; saknade länkar söks upp (UBEREATS_SEARCH_LIMIT per körning, 0 stänger av sökningen).
 const ue=process.env.SCRAPE_UBEREATS==='0'?{ok:[],failed:[],links:null,searched:0,found:0}:await scrapeUberEats({venues,store:await loadCompare(root,UBEREATS),links:await loadUberEatsLinks(root),lat,lon,searchLimit:Number(process.env.UBEREATS_SEARCH_LIMIT??80),log:m=>console.log('  '+m)});

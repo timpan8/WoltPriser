@@ -1,9 +1,8 @@
 name: Prisavläsning
-# Läser menyerna en gång per dag efter kl. 16 svensk tid. GitHubs schema är i UTC, därför två tider
-# (14:07 och 15:07 UTC); scriptets --if-due ser till att bara den första efter 16:00 lokal tid läser av.
+# Den dagliga avläsningen körs sedan 2026-11-22 på Tims dator (jobbköraren i C:\Users\TimLi\Dev\Automation,
+# jobs\woltpriser.json, scripts/scrape-local.ps1 -IfDue kl. 16:15). Här finns bara manuell körning som reserv
+# och provkörningen på pull requests.
 on:
-  schedule:
-    - cron: '7 14,15 * * *'
   workflow_dispatch: # manuell körning läser av direkt
   pull_request:
     paths: ['lib/sources/**', 'lib/scrape.mjs', 'lib/foodora.mjs', 'scripts/scrape.mjs', '.github/workflows/scrape.yml']
