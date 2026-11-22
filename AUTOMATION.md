@@ -1,6 +1,10 @@
 # Återkommande avläsning
 
-## Automatiskt (GitHub Actions)
+## På Tims dator (sedan 2026-11-22)
+
+Den dagliga avläsningen körs lokalt av den gemensamma jobbköraren (`C:UsersTimLiDevAutomation`, jobbfil `jobswoltpriser.json`): `scripts/scrape-local.ps1 -IfDue` kl. 16:15 (missad körning tas igen inom 6 timmar), i en egen klon under `AutomationeposWoltPriser`. Den pushar själv och push startar `pages.yml`. Logg: `Automationlogswoltpriser`. Google-betyg hämtas om hemligheten `GOOGLE_PLACES_KEY` sparats lokalt (`pwsh -File C:UsersTimLiDevAutomationset-secret.ps1 GOOGLE_PLACES_KEY`). GitHub-schemat är avstängt; arbetsflödet nedan finns kvar för manuell körning och provkörning på pull requests. Uber Eats svarar HTTP 403 även hemifrån, så webbläsarreserven nedan gäller fortfarande.
+
+## Automatiskt (GitHub Actions) – nu bara manuellt och på pull requests
 
 Arbetsflödet `Prisavläsning` (`.github/workflows/scrape.yml`) körs 14:07 och 15:07 UTC. `--if-due` gör att bara den första körningen efter kl. 16 svensk tid läser av, så schemat fungerar både sommar- och vintertid och tål att GitHub startar sent.
 
